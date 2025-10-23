@@ -6,11 +6,19 @@ const useUpdateImageScroll = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const images = useRef<HTMLImageElement[]>([]);
   const frameRequest = useRef<number | null>(null);
+  const currentFrame = useRef<number>(0);
+  const isDrawing = useRef<boolean>(false);
 
   useEffect(() => {
     let windowHeight = window.innerHeight;
     const docHeight = document.documentElement.scrollHeight;
-    const ctx = canvasRef.current?.getContext("2d");
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext("2d", {
+      alpha: false, // Mejor rendimiento si no necesitas transparencia
+      desynchronized: true, // Permite renderizado asíncrono
+    });
 
     if (images.current.length === 0) {
       images.current = new Array(FRAMES_COUNT);
@@ -24,13 +32,25 @@ const useUpdateImageScroll = () => {
       }
     };
 
-    preloadImages(1, 10);
-    setTimeout(() => preloadImages(11, FRAMES_COUNT), 100);
+    preloadImages(1, 20); // Precarga más frames iniciales
+    setTimeout(() => preloadImages(21, FRAMES_COUNT), 100);
 
     const drawFrame = (index: number) => {
+      if (isDrawing.current || index === currentFrame.current) return;
+      
       const img = images.current[index];
-      if (img && ctx) {
-        ctx.drawImage(img, 0, 0, ctx.canvas.width, ctx.canvas.height);
+      if (img && img.complete && ctx && canvas) {
+        isDrawing.current = true;
+        
+        // Usar imageSmoothingEnabled para mejor calidad
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        
+        currentFrame.current = index;
+        isDrawing.current = false;
       }
     };
 
@@ -51,10 +71,11 @@ const useUpdateImageScroll = () => {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener(
       "resize",
-      () => (windowHeight = window.innerHeight)
+      () => (windowHeight = window.innerHeight),
+      { passive: true }
     );
 
     images.current[0].onload = () => drawFrame(0);
