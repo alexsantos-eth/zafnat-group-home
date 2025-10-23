@@ -1,15 +1,15 @@
 import useUpdateImageScroll from "./hooks";
 
 const Background: React.FC = () => {
-  const { imageRef } = useUpdateImageScroll();
+  const { canvasRef } = useUpdateImageScroll();
 
   return (
     <div className="h-[800dvh]">
-      <img
-        ref={imageRef}
-        className="w-dvw h-dvh object-cover fixed"
-        src="/frames/frame_0001.webp"
-        alt="Background"
+      <canvas
+        ref={canvasRef}
+        className="w-dvw h-dvh fixed top-0 left-0 object-cover"
+        width={1920}
+        height={1080}
       />
     </div>
   );
