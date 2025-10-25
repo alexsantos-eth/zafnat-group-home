@@ -7,14 +7,16 @@ gsap.registerPlugin(ScrollTrigger);
 const frameCount = 1049;
 
 const currentFrame = (index: number): string =>
-  `/frames/frame_${String(index).padStart(4, "0")}.webp`;
+  `/frames/frame_${String(index + 1).padStart(4, "0")}.webp`;
 
 export default function ScrollImageSequence(): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
 
     const context = canvas.getContext("2d");
     if (!context) return;
@@ -59,11 +61,10 @@ export default function ScrollImageSequence(): JSX.Element {
       ease: "none",
       onUpdate: render,
       scrollTrigger: {
-        trigger: canvas,
+        trigger: container,
         start: "top top",
-        end: `+=${frameCount * 10}`, // Ajusta la duración del scroll
+        end: "bottom bottom",
         scrub: 0.5,
-        pin: true,
       },
     });
 
@@ -76,14 +77,17 @@ export default function ScrollImageSequence(): JSX.Element {
   }, []);
 
   return (
-    <div style={{ height: "100vh" }}>
+    <div ref={containerRef} style={{ height: "1800dvh" }}>
       <canvas
         ref={canvasRef}
         style={{
           width: "100%",
-          height: "100%",
+          height: "100dvh",
           display: "block",
           objectFit: "contain",
+          position: "fixed",
+          top: 0,
+          left: 0,
         }}
       />
     </div>
