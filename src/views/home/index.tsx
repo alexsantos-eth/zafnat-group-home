@@ -2,11 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import TorusKnotScene from "../../components/bgscene";
 
+import VariableProximity from "../../components/VariableProximity";
+import TextPressure from "@/components/TextPressure";
+
 const Home: React.FC = () => {
   const titleRef = useRef<HTMLParagraphElement>(null);
   const subtitle1Ref = useRef<HTMLParagraphElement>(null);
   const subtitle2Ref = useRef<HTMLParagraphElement>(null);
   const [blurValue, setBlurValue] = useState(1);
+
+  const containerRef: React.RefObject<HTMLDivElement | null> = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -76,12 +81,20 @@ const Home: React.FC = () => {
         </div>
 
         <div className="flex flex-col gap-2 items-center z-1 px-8 py-20">
-          <p
-            ref={titleRef}
-            className="text-white text-7xl font-medium uppercase"
-          >
-            De la Tierra al Futuro
-          </p>
+          <div ref={containerRef} style={{ position: "relative" }}>
+            <VariableProximity
+              label="De la Tierra al Futuro"
+              className={
+                "variable-proximity-demo text-white text-7xl font-medium uppercase"
+              }
+              fromFontVariationSettings="'wght' 400, 'opsz' 9"
+              toFontVariationSettings="'wght' 1000, 'opsz' 40"
+              containerRef={containerRef as React.RefObject<HTMLElement>}
+              radius={100}
+              falloff="linear"
+            />
+          </div>
+
           <div className="flex flex-row items-center gap-3">
             <p ref={subtitle1Ref} className="text-gray-200 font-light text-lg">
               Conectamos la agricultura con la innovación.
