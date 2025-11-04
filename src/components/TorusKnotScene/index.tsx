@@ -1,22 +1,23 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Stats } from "@react-three/drei";
-import { useRef, useMemo, useState } from "react";
+import { EffectComposer, DepthOfField } from "@react-three/postprocessing";
+import { useRef, useMemo, useState, useEffect } from "react";
 import * as THREE from "three";
 
 // Component for the Torus Knot
 function TorusKnot() {
-  const groupRef = useRef<THREE.Group>(null);
+  const instancedMeshRef = useRef<THREE.InstancedMesh>(null);
 
   // Default controls (we'll add Leva later if needed)
   const [controls] = useState({
     radius: 200,
     tube: 200,
-    radialSegments: 30, // Reducido de 600 para mayor distancia entre segmentos
+    radialSegments: 40, // Reducido de 600 para mayor distancia entre segmentos
     tubularSegments: 10,
     p: 5,
     q: 3,
     asParticles: true,
-    rotate: false,
+    rotate: true,
   });
 
   // Create pentagon geometry for each particle
@@ -73,21 +74,64 @@ function TorusKnot() {
     controls.q,
   ]);
 
+  // Initialize instances
+  useEffect(() => {
+    if (!instancedMeshRef.current) return;
+
+    const tempMatrix = new THREE.Matrix4();
+    positions.forEach((position, i) => {
+      tempMatrix.setPosition(position);
+      instancedMeshRef.current!.setMatrixAt(i, tempMatrix);
+    });
+    instancedMeshRef.current.instanceMatrix.needsUpdate = true;
+  }, [positions]);
+
   // Rotation animation
   useFrame((_state, delta) => {
-    if (groupRef.current && controls.rotate) {
-      groupRef.current.rotation.y += delta;
+    if (!instancedMeshRef.current) return;
+
+    const tempMatrix = new THREE.Matrix4();
+    const rotation = new THREE.Euler();
+    const position = new THREE.Vector3();
+    const scale = new THREE.Vector3(1, 1, 1);
+
+    positions.forEach((pos, i) => {
+      // Get current matrix
+      instancedMeshRef.current!.getMatrixAt(i, tempMatrix);
+      tempMatrix.decompose(position, new THREE.Quaternion(), scale);
+
+      // Update rotation
+      rotation.z += delta * 0.1;
+
+      // Set new matrix with rotation
+      tempMatrix.compose(
+        pos,
+        new THREE.Quaternion().setFromEuler(rotation),
+        scale
+      );
+      instancedMeshRef.current!.setMatrixAt(i, tempMatrix);
+    });
+
+    instancedMeshRef.current.instanceMatrix.needsUpdate = true;
+
+    // Rotate entire mesh if enabled
+    if (controls.rotate) {
+      instancedMeshRef.current.rotation.y -= delta * 0.01;
     }
   });
 
   return (
-    <group ref={groupRef}>
-      {positions.map((pos, index) => (
-        <mesh key={index} position={pos} geometry={pentagonGeometry}>
-          <meshBasicMaterial color="#66b99d" side={THREE.DoubleSide} />
-        </mesh>
-      ))}
-    </group>
+    <instancedMesh
+      ref={instancedMeshRef}
+      args={[pentagonGeometry, undefined, positions.length]}
+    >
+      <meshBasicMaterial
+        color="#66b99d"
+        side={THREE.DoubleSide}
+        transparent
+        opacity={0.1}
+      />
+    </instancedMesh>
   );
 }
 
@@ -97,10 +141,10 @@ export default function TorusKnotScene() {
     <div style={{ width: "100vw", height: "100vh" }}>
       <Canvas
         camera={{
-          position: [-30, 40, 50],
-          fov: 45,
+          position: [-150, 0, 350],
+          fov: 50,
           near: 0.1,
-          far: 1000,
+          far: 600,
         }}
         gl={{ antialias: true }}
       >
@@ -113,11 +157,18 @@ export default function TorusKnotScene() {
         {/* The Torus Knot */}
         <TorusKnot />
 
-        {/* Camera Controls */}
-        <OrbitControls target={[10, 0, 0]} enableDamping dampingFactor={0.05} />
-
         {/* Stats (FPS counter) */}
         <Stats />
+
+        {/* Post-processing: Depth of Field blur effect */}
+        <EffectComposer multisampling={0}>
+          <DepthOfField
+            focusDistance={0.02}
+            focalLength={0.5}
+            bokehScale={4}
+            height={240}
+          />
+        </EffectComposer>
       </Canvas>
     </div>
   );
