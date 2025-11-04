@@ -1,11 +1,5 @@
-import Background from "./components/background";
+import TorusKnotScene from "./components/TorusKnotScene";
 
-const App: React.FC = () => {
-  return (
-    <div>
-      <Background />
-    </div>
-  );
-};
-
-export default App;
+export default function App() {
+  return <TorusKnotScene />;
+}
