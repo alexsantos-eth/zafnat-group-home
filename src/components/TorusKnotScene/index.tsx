@@ -7,6 +7,9 @@ import * as THREE from "three";
 // Component for the Torus Knot
 function TorusKnot() {
   const instancedMeshRef = useRef<THREE.InstancedMesh>(null);
+  const mousePosition = useRef({ x: 0, y: 0 });
+  const targetPosition = useRef({ x: 0, y: 0 });
+  const baseRotation = useRef({ x: 0, y: 0 }); // Store base rotation
 
   // Default controls (we'll add Leva later if needed)
   const [controls] = useState({
@@ -19,6 +22,18 @@ function TorusKnot() {
     asParticles: true,
     rotate: true,
   });
+
+  // Track mouse movement
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      // Normalize mouse position to -1 to 1 range
+      mousePosition.current.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mousePosition.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   // Create pentagon geometry for each particle
   const pentagonGeometry = useMemo(() => {
@@ -74,9 +89,13 @@ function TorusKnot() {
     controls.q,
   ]);
 
-  // Initialize instances
+  // Initialize instances and base rotation
   useEffect(() => {
     if (!instancedMeshRef.current) return;
+
+    // Capture initial rotation as base
+    baseRotation.current.x = instancedMeshRef.current.rotation.x;
+    baseRotation.current.y = instancedMeshRef.current.rotation.y;
 
     const tempMatrix = new THREE.Matrix4();
     positions.forEach((position, i) => {
@@ -89,6 +108,22 @@ function TorusKnot() {
   // Rotation animation
   useFrame((_state, delta) => {
     if (!instancedMeshRef.current) return;
+
+    // Smooth lerp towards mouse rotation (relative, not absolute)
+    const lerpFactor = 0.03; // Más bajo para transición más suave
+    const targetRotationY = mousePosition.current.x * -Math.PI * 0.05; // Reducido el multiplicador
+    const targetRotationX = mousePosition.current.y * Math.PI * 0.05;
+
+    targetPosition.current.x +=
+      (targetRotationY - targetPosition.current.x) * lerpFactor;
+    targetPosition.current.y +=
+      (targetRotationX - targetPosition.current.y) * lerpFactor;
+
+    // Add to base rotation instead of replacing
+    instancedMeshRef.current.rotation.y =
+      baseRotation.current.y + targetPosition.current.x;
+    instancedMeshRef.current.rotation.x =
+      baseRotation.current.x + targetPosition.current.y;
 
     const tempMatrix = new THREE.Matrix4();
     const rotation = new THREE.Euler();
@@ -114,10 +149,10 @@ function TorusKnot() {
 
     instancedMeshRef.current.instanceMatrix.needsUpdate = true;
 
-    // Rotate entire mesh if enabled
-    if (controls.rotate) {
-      instancedMeshRef.current.rotation.y -= delta * 0.01;
-    }
+    // Auto-rotate is disabled since we're controlling rotation with mouse
+    // if (controls.rotate) {
+    //   instancedMeshRef.current.rotation.y -= delta * 0.01;
+    // }
   });
 
   return (
