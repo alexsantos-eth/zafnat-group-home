@@ -3,7 +3,6 @@ import { gsap } from "gsap";
 import TorusKnotScene from "../../components/bgscene";
 
 import VariableProximity from "../../components/VariableProximity";
-import TextPressure from "@/components/TextPressure";
 
 const Home: React.FC = () => {
   const titleRef = useRef<HTMLParagraphElement>(null);
