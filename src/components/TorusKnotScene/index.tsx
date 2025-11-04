@@ -10,6 +10,8 @@ function TorusKnot() {
   const mousePosition = useRef({ x: 0, y: 0 });
   const targetPosition = useRef({ x: 0, y: 0 });
   const baseRotation = useRef({ x: 0, y: 0 }); // Store base rotation
+  const lastMouseMove = useRef(Date.now()); // Track last mouse movement
+  const wasIdle = useRef(false); // Track if we were in idle mode
 
   // Default controls (we'll add Leva later if needed)
   const [controls] = useState({
@@ -29,6 +31,9 @@ function TorusKnot() {
       // Normalize mouse position to -1 to 1 range
       mousePosition.current.x = (event.clientX / window.innerWidth) * 2 - 1;
       mousePosition.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      // Update last mouse move time
+      lastMouseMove.current = Date.now();
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -109,43 +114,38 @@ function TorusKnot() {
   useFrame((_state, delta) => {
     if (!instancedMeshRef.current) return;
 
-    // Smooth lerp towards mouse rotation (relative, not absolute)
-    const lerpFactor = 0.03; // Más bajo para transición más suave
-    const targetRotationY = mousePosition.current.x * -Math.PI * 0.05; // Reducido el multiplicador
-    const targetRotationX = mousePosition.current.y * Math.PI * 0.05;
+    // Check if mouse is idle (no movement for 1 second)
+    const timeSinceLastMove = Date.now() - lastMouseMove.current;
+    const isMouseIdle = timeSinceLastMove > 1000;
 
-    targetPosition.current.x +=
-      (targetRotationY - targetPosition.current.x) * lerpFactor;
-    targetPosition.current.y +=
-      (targetRotationX - targetPosition.current.y) * lerpFactor;
+    if (isMouseIdle) {
+      if (!wasIdle.current) {
+        // Just mark that we're now idle, don't change position
+        wasIdle.current = true;
+      }
+
+      // Simply increment the current rotation continuously
+      // This rotates around Y axis slowly
+      targetPosition.current.x += delta * 0.004;
+    } else {
+      wasIdle.current = false;
+
+      // Follow mouse
+      const lerpFactor = 0.03;
+      const targetRotationY = mousePosition.current.x * -Math.PI * 0.05;
+      const targetRotationX = mousePosition.current.y * Math.PI * 0.05;
+
+      targetPosition.current.x +=
+        (targetRotationY - targetPosition.current.x) * lerpFactor;
+      targetPosition.current.y +=
+        (targetRotationX - targetPosition.current.y) * lerpFactor;
+    }
 
     // Add to base rotation instead of replacing
     instancedMeshRef.current.rotation.y =
       baseRotation.current.y + targetPosition.current.x;
     instancedMeshRef.current.rotation.x =
       baseRotation.current.x + targetPosition.current.y;
-
-    const tempMatrix = new THREE.Matrix4();
-    const rotation = new THREE.Euler();
-    const position = new THREE.Vector3();
-    const scale = new THREE.Vector3(1, 1, 1);
-
-    positions.forEach((pos, i) => {
-      // Get current matrix
-      instancedMeshRef.current!.getMatrixAt(i, tempMatrix);
-      tempMatrix.decompose(position, new THREE.Quaternion(), scale);
-
-      // Update rotation
-      rotation.z += delta * 0.1;
-
-      // Set new matrix with rotation
-      tempMatrix.compose(
-        pos,
-        new THREE.Quaternion().setFromEuler(rotation),
-        scale
-      );
-      instancedMeshRef.current!.setMatrixAt(i, tempMatrix);
-    });
 
     instancedMeshRef.current.instanceMatrix.needsUpdate = true;
 
@@ -164,7 +164,7 @@ function TorusKnot() {
         color="#66b99d"
         side={THREE.DoubleSide}
         transparent
-        opacity={0.1}
+        opacity={0.03}
       />
     </instancedMesh>
   );
@@ -183,8 +183,6 @@ export default function TorusKnotScene() {
         }}
         gl={{ antialias: true }}
       >
-        <color attach="background" args={[0x000000]} />
-
         {/* Lights */}
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
@@ -198,10 +196,10 @@ export default function TorusKnotScene() {
         {/* Post-processing: Depth of Field blur effect */}
         <EffectComposer multisampling={0}>
           <DepthOfField
-            focusDistance={0.02}
+            focusDistance={0.05}
             focalLength={0.5}
-            bokehScale={4}
-            height={240}
+            bokehScale={10}
+            height={200}
           />
         </EffectComposer>
       </Canvas>
