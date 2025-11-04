@@ -6,19 +6,10 @@ const Home: React.FC = () => {
   const titleRef = useRef<HTMLParagraphElement>(null);
   const subtitle1Ref = useRef<HTMLParagraphElement>(null);
   const subtitle2Ref = useRef<HTMLParagraphElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
   const [blurValue, setBlurValue] = useState(1);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(imageRef.current, {
-        duration: 1.5,
-        scale: 0.8,
-        opacity: 0,
-        ease: "back.out(1.2)",
-        delay: 0.1,
-      });
-
       gsap.from(titleRef.current, {
         duration: 1.2,
         y: 50,
@@ -76,7 +67,6 @@ const Home: React.FC = () => {
       <div className="absolute top-0 left-0 w-full h-full z-1 flex flex-row items-center justify-center">
         <div className="absolute top-[50%] left-[50%] transform-[translate(-50%,-40%)]">
           <img
-            ref={imageRef}
             src="/images/home/hero.png"
             className="h-xl w-xl transition-all duration-200"
             style={{
