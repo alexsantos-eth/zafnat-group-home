@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import TorusKnotScene from "../../components/bgscene";
 
 import VariableProximity from "../../components/VariableProximity";
 
@@ -65,8 +64,6 @@ const Home: React.FC = () => {
         className="w-full h-dvh bg-[url(/images/noise.png)] bg-repeat fixed top-0 left-0 z-1000 mix-blend-multiply pointer-events-none"
         style={{ backgroundSize: "120px 120px" }}
       />
-
-      <TorusKnotScene />
 
       <div className="absolute top-0 left-0 w-full h-full z-1 flex flex-row items-center justify-center">
         <div className="absolute top-[50%] left-[50%] transform-[translate(-50%,-40%)]">

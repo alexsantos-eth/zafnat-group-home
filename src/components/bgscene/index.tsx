@@ -6,7 +6,7 @@ import type { TorusKnotSceneProps } from "./types";
 
 const TorusKnotScene: React.FC<TorusKnotSceneProps> = ({ particleColor }) => {
   return (
-    <div className="w-dvw h-dvh absolute top-0 left-0 pointer-events-none z-0">
+    <div className="w-dvw h-dvh fixed top-0 left-0 pointer-events-none z-0">
       <Canvas
         camera={{
           position: [-50, 0, 350],
