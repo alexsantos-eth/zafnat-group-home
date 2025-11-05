@@ -8,6 +8,7 @@ import StructurePage from "./views/structure";
 import ModulesPage from "./views/modules";
 import ImpactPage from "./views/impact";
 import WorldPage from "./views/world";
+import Footer from "./layout/footer";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
       <ModulesPage />
       <ImpactPage />
       <WorldPage />
+      <Footer />
       <GradualBlurMemo
         target="page"
         position="bottom"
