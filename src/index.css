@@ -54,6 +54,20 @@
   background-repeat: no-repeat;
 }
 
+.bg-blue {
+  background-color: #020609;
+
+  background-image: radial-gradient(
+      ellipse 70% 70% at 100% 0%,
+      #1a4563 0%,
+      transparent 100%
+    ),
+    radial-gradient(ellipse 50% 60% at 20% 40%, #031318 0%, transparent 100%);
+
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
 @theme {
   --default-font-family: "Sora", sans-serif;
 }

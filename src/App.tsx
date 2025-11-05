@@ -4,15 +4,17 @@ import TorusKnotScene from "./components/bgscene";
 import Navbar from "./layout/navbar";
 import GradualBlurMemo from "./components/GradualBlur";
 import AboutPage from "./views/about";
+import StructurePage from "./views/structure";
 
 export default function App() {
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative w-full overflow-hidden snap-y snap-mandatory">
       <Navbar />
       <TorusKnotScene />
       <SplashCursor />
       <Home />
       <AboutPage />
+      <StructurePage />
       <GradualBlurMemo
         target="page"
         position="bottom"

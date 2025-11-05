@@ -35,7 +35,7 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-home h-[130dvh] w-full relative">
+    <div className="bg-home h-[130dvh] w-full relative snap-center">
       <div className="absolute top-0 left-0 w-full h-full z-1 flex flex-row items-center justify-center">
         <div className="absolute top-[50%] left-[50%] md:transform-[translate(-50%,-20%)]">
           <img
@@ -51,8 +51,8 @@ const Home: React.FC = () => {
               className={
                 "variable-proximity-demo text-white text-6xl sm:text-8xl font-medium"
               }
-              fromFontVariationSettings="'wght' 400, 'opsz' 9"
-              toFontVariationSettings="'wght' 1000, 'opsz' 40"
+              fromFontVariationSettings="'wght' 700, 'opsz' 9"
+              toFontVariationSettings="'wght' 2000, 'opsz' 40"
               containerRef={containerRef as React.RefObject<HTMLElement>}
               radius={100}
               falloff="linear"
