@@ -8,7 +8,7 @@ const AboutPage = () => {
             ¿Quiénes Somos?
           </h2>
 
-          <p className="text-white text-lg max-w-xl">
+          <p className="text-gray-400 text-lg max-w-xl ">
             Zafnat Group Es un grupo empresarial internacional con operaciones
             en Guatemala, República Dominicana, Estados Unidos e Italia.
           </p>

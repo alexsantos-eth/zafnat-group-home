@@ -37,14 +37,14 @@ const Home: React.FC = () => {
   return (
     <div className="bg-home h-[130dvh] w-full relative">
       <div className="absolute top-0 left-0 w-full h-full z-1 flex flex-row items-center justify-center">
-        <div className="absolute top-[50%] left-[50%] md:transform-[translate(-50%,-40%)]">
+        <div className="absolute top-[50%] left-[50%] md:transform-[translate(-50%,-20%)]">
           <img
             src="/images/home/hero.png"
-            className="w-[120dvw] sm:w-[50dvw] max-w-dvw"
+            className="w-[120dvw] sm:w-[45dvw] max-w-dvw"
           />
         </div>
 
-        <div className="flex flex-col gap-2 items-center z-1 translate-y-[-15dvh] px-8">
+        <div className="flex flex-col gap-2 items-center z-1  translate-y-[-20dvh] sm:translate-y-[-30dvh] px-8">
           <div ref={containerRef} style={{ position: "relative" }}>
             <VariableProximity
               label="De la tierra al futuro"
