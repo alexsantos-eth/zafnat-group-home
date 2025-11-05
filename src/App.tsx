@@ -5,6 +5,7 @@ import Navbar from "./layout/navbar";
 import GradualBlurMemo from "./components/GradualBlur";
 import AboutPage from "./views/about";
 import StructurePage from "./views/structure";
+import ModulesPage from "./views/modules";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
       <Home />
       <AboutPage />
       <StructurePage />
+      <ModulesPage />
       <GradualBlurMemo
         target="page"
         position="bottom"

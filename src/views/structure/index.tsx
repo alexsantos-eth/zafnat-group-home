@@ -2,10 +2,10 @@ import CircularGallery from "@/components/CircularGallery";
 
 const StructurePage = () => {
   return (
-    <div className="h-dvh w-full relative z-2 -top-20 snap-center">
+    <div className="h-[70dvh] w-full relative -top-20 snap-center">
       <div className="bg-blue absolute w-full h-full pointer-events-none -rotate-5 sm:-rotate-10 scale-130" />
 
-      <div className="relative -top-100 h-full">
+      <div className="relative -top-100 h-dvh">
         <CircularGallery
           bend={3}
           textColor="#ffffff"
