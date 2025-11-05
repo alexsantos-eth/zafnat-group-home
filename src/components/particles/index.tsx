@@ -113,7 +113,7 @@ const TorusKnot: React.FC<TorusKnotProps> = ({ particleColor = "#66b99d" }) => {
         wasIdle.current = true;
       }
 
-      targetPosition.current.x += delta * 0.004;
+      targetPosition.current.x += delta * 0.05;
     } else {
       wasIdle.current = false;
 
