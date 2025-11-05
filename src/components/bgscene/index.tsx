@@ -41,7 +41,7 @@ const TorusKnotScene: React.FC<TorusKnotSceneProps> = ({ particleColor }) => {
       <Canvas
         camera={{
           position: [-50, 0, 350],
-          fov: 50,
+          fov: 70,
           near: 0.1,
           far: 600,
         }}
