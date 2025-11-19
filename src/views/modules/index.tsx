@@ -101,7 +101,7 @@ const ModulesPage = () => {
             <Heading
               titleSize="text-4xl"
               title="De la Innovación a la Productividad"
-              description="Los productores que implementan InnoVAgro han logrado"
+              description="Los productores que implementan InnoVAgro pueden esperar"
             />
           </div>
 
