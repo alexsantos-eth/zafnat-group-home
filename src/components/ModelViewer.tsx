@@ -1,23 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { type FC, Suspense, useRef, useLayoutEffect, useEffect } from "react";
-import { Canvas, useFrame, useThree, invalidate } from "@react-three/fiber";
-import {
-  OrbitControls,
-  useGLTF,
-  useProgress,
-  Html,
-  Environment,
-  ContactShadows,
-} from "@react-three/drei";
+import { type FC, Suspense, useEffect, useLayoutEffect, useRef } from "react";
 
 import * as THREE from "three";
 
+import {
+  ContactShadows,
+  Environment,
+  Html,
+  OrbitControls,
+  useGLTF,
+  useProgress,
+} from "@react-three/drei";
+import { Canvas, invalidate, useFrame, useThree } from "@react-three/fiber";
+
 const isMeshObject = (object: THREE.Object3D): object is THREE.Mesh => {
   return "isMesh" in object && object.isMesh === true;
-};
-
-const isLightObject = (object: THREE.Object3D): object is THREE.Light => {
-  return "isLight" in object && object.isLight === true;
 };
 
 export interface ViewerProps {
@@ -447,11 +445,10 @@ const ModelViewer: FC<ViewerProps> = ({
   rimLightIntensity = 0.8,
   environmentPreset = "forest",
   autoFrame = false,
-  placeholderSrc,
-  showScreenshotButton = true,
   fadeIn = false,
   autoRotate = false,
   autoRotateSpeed = 0.35,
+  placeholderSrc,
   onModelLoaded,
 }) => {
   useEffect(() => void useGLTF.preload(url), [url]);
@@ -468,32 +465,6 @@ const ModelViewer: FC<ViewerProps> = ({
     maxZoomDistance
   );
 
-  const capture = () => {
-    const g = rendererRef.current,
-      s = sceneRef.current,
-      c = cameraRef.current;
-    if (!g || !s || !c) return;
-    g.shadowMap.enabled = false;
-    const tmp: { l: THREE.Light; cast: boolean }[] = [];
-    s.traverse((o: THREE.Object3D) => {
-      if (isLightObject(o)) {
-        tmp.push({ l: o, cast: o.castShadow });
-        o.castShadow = false;
-      }
-    });
-    if (contactRef.current) contactRef.current.visible = false;
-    g.render(s, c);
-    const urlPNG = g.domElement.toDataURL("image/png");
-    const a = document.createElement("a");
-    a.download = "model.png";
-    a.href = urlPNG;
-    a.click();
-    g.shadowMap.enabled = true;
-    tmp.forEach(({ l, cast }) => (l.castShadow = cast));
-    if (contactRef.current) contactRef.current.visible = true;
-    invalidate();
-  };
-
   return (
     <div
       style={{
@@ -503,24 +474,6 @@ const ModelViewer: FC<ViewerProps> = ({
         touchAction: "pan-y pinch-zoom",
       }}
     >
-      {showScreenshotButton && (
-        <button
-          onClick={capture}
-          style={{
-            position: "absolute",
-            border: "1px solid #fff",
-            right: 16,
-            top: 16,
-            zIndex: 10,
-            cursor: "pointer",
-            padding: "8px 16px",
-            borderRadius: 10,
-          }}
-        >
-          Take Screenshot
-        </button>
-      )}
-
       <Canvas
         shadows
         frameloop="demand"

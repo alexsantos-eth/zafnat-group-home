@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <div className="h-[25dvh] bg-black w-full relative top-20 p-8 z-10000">
+    <div className="h-[20dvh] bg-black w-full relative p-8 z-10">
       <div className="flex flex-row items-center gap-8">
         <img src="/images/logo.png" alt="Zafnat Logo" className="h-8 w-auto" />
         <div>

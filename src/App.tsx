@@ -1,38 +1,25 @@
-import Home from "./views/home";
-import SplashCursor from "./components/SplashCursor";
-import TorusKnotScene from "./components/bgscene";
-import Navbar from "./layout/navbar";
-import GradualBlurMemo from "./components/GradualBlur";
+import Layout from "./layout";
+import Footer from "./layout/components/footer";
 import AboutPage from "./views/about";
-import StructurePage from "./views/structure";
+import Home from "./views/home";
 import ModulesPage from "./views/modules";
-import ImpactPage from "./views/impact";
+import StructurePage from "./views/structure";
 import WorldPage from "./views/world";
-import Footer from "./layout/footer";
 
-export default function App() {
+const App: React.FC = () => {
   return (
-    <div className="relative w-full overflow-hidden snap-y snap-mandatory">
-      <Navbar />
-      <TorusKnotScene />
-      <SplashCursor />
+    <Layout>
       <Home />
+      <div className="h-screen w-full relative bg-transparent pointer-events-none"></div>
+
       <AboutPage />
+
       <StructurePage />
       <ModulesPage />
-      <ImpactPage />
       <WorldPage />
       <Footer />
-      <GradualBlurMemo
-        target="page"
-        position="bottom"
-        height="6rem"
-        strength={2}
-        divCount={5}
-        curve="bezier"
-        exponential={true}
-        opacity={1}
-      />
-    </div>
+    </Layout>
   );
-}
+};
+
+export default App;

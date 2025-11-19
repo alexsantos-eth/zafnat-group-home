@@ -1,44 +1,48 @@
-import ShapeBlur from "../../components/ShapeBlur";
+import LiquidEther from "@/components/LiquidEther";
+import Heading from "@/layout/components/heading";
 
 const AboutPage = () => {
   return (
-    <div className="h-[150dvh] w-full relative snap-center">
-      <div className="bg-about absolute w-full h-full pointer-events-none -rotate-5 sm:-rotate-10 scale-130" />
+    <div className="h-[85vh] w-full sticky top-0 flex flex-row items-center justify-between overflow-hidden">
+      <div className="bg-about absolute w-full h-full pointer-events-none" />
 
-      <div className="flex flex-col gap-4 items-start w-full z-1 px-8 absolute top-[50%] translate-y-[-75dvh] sm:-translate-y-full left-0">
-        <h2 className="text-white text-5xl sm:text-6xl font-bold">
-          ¿Quiénes Somos?
-        </h2>
-
-        <p className="text-gray-300 text-md sm:text-lg max-w-xl">
-          Zafnat Group Es un grupo empresarial internacional con operaciones en
-          Guatemala, República Dominicana, Estados Unidos e Italia.
-        </p>
-
-        <p className="text-gray-400 text-sm sm:text-md max-w-xl">
-          Nacimos de la experiencia directa en la producción agrícola y del
-          compromiso de elevar la productividad del campo a través de la
-          innovación tecnológica, el desarrollo humano y la infraestructura
-          sostenible.
-        </p>
-      </div>
-
-      <div className="h-[600px] w-2xl absolute top-[50%] sm:top-[50%] translate-y-[-50%] sm:translate-y-[-70%] -right-30 sm:-right-30 pointer-events-none z-0">
-        <div className="relative w-full h-full">
-          <ShapeBlur
-            variation={0}
-            pixelRatioProp={window.devicePixelRatio || 1}
-            shapeSize={0.9}
-            roundness={0.2}
-            borderSize={0.5}
-            circleSize={0.3}
-            circleEdge={1}
+      <div className="flex flex-col gap-12 relative z-1 items-start max-w-2xl pl-6">
+        <div className="flex flex-col gap-4">
+          <Heading
+            titleSize="text-6xl"
+            title="¿Quiénes Somos?"
+            description="Zafnat Group Es un grupo empresarial internacional con operaciones en Guatemala, República Dominicana, Estados Unidos e Italia."
           />
         </div>
 
+        <p className="text-gray-300 w-md text-md p-6 border border-white rounded-2xl leading-8">
+          Con experiencia agrícola, impulsamos la productividad mediante
+          tecnología, desarrollo humano e infraestructura sostenible.
+        </p>
+      </div>
+
+      <div className="w-[400px] h-full relative flex flex-row items-center z-1">
+        <LiquidEther
+          colors={["#FFD700", "#FFD700", "#FFD700"]}
+          mouseForce={20}
+          cursorSize={40}
+          isViscous={false}
+          viscous={30}
+          iterationsViscous={32}
+          iterationsPoisson={32}
+          resolution={0.5}
+          isBounce={false}
+          autoDemo={true}
+          autoSpeed={0.5}
+          autoIntensity={2.2}
+          takeoverDuration={0.25}
+          autoResumeDelay={0}
+          autoRampDuration={0.6}
+        />
+
         <img
           src="/images/about/hero.png"
-          className="absolute top-0 sm:top-[5%] right-40 w-lg rounded-4xl"
+          className="absolute right-40 rounded-4xl min-w-[450px]"
         />
       </div>
     </div>

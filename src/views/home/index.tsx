@@ -1,73 +1,52 @@
-import { useEffect, useRef } from "react";
-
-import { gsap } from "gsap";
-
-import VariableProximity from "../../components/VariableProximity";
+import ModelViewer from "@/components/ModelViewer";
+import { useScroll } from "@/hooks/useScroll";
+import { GridBackground } from "@/layout/components/background";
+import Heading from "@/layout/components/heading";
 
 const Home: React.FC = () => {
-  const titleRef = useRef<HTMLParagraphElement>(null);
-  const subtitle1Ref = useRef<HTMLParagraphElement>(null);
-  const subtitle2Ref = useRef<HTMLParagraphElement>(null);
-
-  const containerRef: React.RefObject<HTMLDivElement | null> = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(titleRef.current, {
-        duration: 1.2,
-        y: 50,
-        opacity: 0,
-        ease: "power3.out",
-        delay: 0.3,
-      });
-
-      gsap.from([subtitle1Ref.current, subtitle2Ref.current], {
-        duration: 1,
-        y: 30,
-        opacity: 0,
-        ease: "power2.out",
-        stagger: 0.2,
-        delay: 0.8,
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
+  const scrollValue = useScroll();
+  const width = window.innerWidth;
+  const height = window.innerHeight;
 
   return (
-    <div className="bg-home h-[130dvh] w-full relative snap-center">
-      <div className="absolute top-0 left-0 w-full h-full z-1 flex flex-row items-center justify-center">
-        <div className="absolute top-[50%] left-[50%] md:transform-[translate(-50%,-20%)]">
-          <img
-            src="/images/home/hero.png"
-            className="w-[120dvw] sm:w-[45dvw] max-w-dvw"
+    <>
+      <div
+        style={{
+          transform: `translateY(${scrollValue * -1}px)`,
+        }}
+        className="bg-home w-full h-screen fixed top-0 flex flex-row p-6 justify-start items-center"
+      >
+        <GridBackground />
+
+        <div className="flex flex-col gap-10 relative z-2 max-w-md">
+          <Heading
+            title="De la tierra al futuro"
+            description="Conectamos la agricultura con la innovación. Tecnología, Sostenibilidad, Precisión."
           />
-        </div>
 
-        <div className="flex flex-col gap-2 items-center z-1  translate-y-[-20dvh] sm:translate-y-[-30dvh] px-8">
-          <div ref={containerRef} style={{ position: "relative" }}>
-            <VariableProximity
-              label="De la tierra al futuro"
-              className={
-                "variable-proximity-demo text-white text-6xl sm:text-8xl font-medium"
-              }
-              fromFontVariationSettings="'wght' 700, 'opsz' 9"
-              toFontVariationSettings="'wght' 2000, 'opsz' 40"
-              containerRef={containerRef as React.RefObject<HTMLElement>}
-              radius={100}
-              falloff="linear"
-            />
-          </div>
-
-          <div className="flex flex-row items-center gap-3">
-            <p ref={subtitle1Ref} className="text-gray-200 font-light text-lg">
-              Conectamos la agricultura con la innovación. Tecnología,
-              Sostenibilidad, Precisión.
-            </p>
-          </div>
+          <button className="border font-[Geist] border-white text-white overflow-hidden rounded-lg w-max px-6 py-2 cursor-pointer">
+            Experiencia inmersiva
+          </button>
         </div>
       </div>
-    </div>
+
+      <div className="fixed w-max h-max top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0">
+        <ModelViewer
+          width={width}
+          height={height}
+          fadeIn
+          defaultZoom={0.7}
+          enableManualRotation={false}
+          enableManualZoom={false}
+          autoRotate
+          defaultRotationY={1}
+          autoRotateSpeed={0.03}
+          defaultRotationX={50}
+          showScreenshotButton={false}
+          url="/models/pineapple/scene.glb"
+        />
+      </div>
+    </>
   );
 };
 

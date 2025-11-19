@@ -30,7 +30,7 @@
   background-color: #020a07;
 
   background-image: radial-gradient(
-      ellipse 70% 70% at 100% 0%,
+      ellipse 70% 70% at 0% 0%,
       #12632c 0%,
       transparent 100%
     ),
@@ -44,7 +44,7 @@
   background-color: #0a0502;
 
   background-image: radial-gradient(
-      ellipse 70% 70% at 100% 0%,
+      ellipse 70% 70% at 0% 0%,
       #63341a 0%,
       transparent 100%
     ),
