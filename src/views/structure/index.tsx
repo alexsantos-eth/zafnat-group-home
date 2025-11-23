@@ -3,7 +3,7 @@ import Heading from "@/layout/components/heading";
 
 const StructurePage = () => {
   return (
-    <div className="min-h-vh w-full sticky -top-100">
+    <div className="min-h-vh w-full sticky -top-100 snap-center">
       <div className="bg-blue absolute w-full h-full pointer-events-none" />
 
       <div className="absolute top-0 w-full h-full z-2">

@@ -8,10 +8,10 @@ const ParticleBackground = ({ disableHover }: ParticleBackgroundProps) => {
   return (
     <Particles
       particleColors={["#ffffff", "#ffffff"]}
-      particleCount={300}
-      particleSpread={20}
-      speed={0.6}
-      particleBaseSize={500}
+      particleCount={100}
+      particleSpread={10}
+      speed={0.2}
+      particleBaseSize={300}
       moveParticlesOnHover={!disableHover}
       alphaParticles={true}
       disableRotation={true}
@@ -26,6 +26,7 @@ export const GridBackground = ({
   style = {
     position: "fixed",
     opacity: 0.6,
+    left: 0,
   },
 }: GridBackgroundProps) => {
   return (

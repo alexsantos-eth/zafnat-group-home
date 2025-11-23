@@ -5,7 +5,7 @@ import Heading from "@/layout/components/heading";
 
 const ModulesPage = () => {
   return (
-    <div className="min-h-[220vh] sticky w-full -top-350">
+    <div className="min-h-[220vh] sticky w-full -top-350 snap-center">
       <div className="absolute top-0 w-full h-full z-4">
         <ParticleBackground />
       </div>

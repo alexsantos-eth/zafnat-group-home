@@ -3,9 +3,7 @@ import Heading from "@/layout/components/heading";
 
 const AboutPage = () => {
   return (
-    <div className="h-[85vh] w-full sticky top-0 flex flex-row items-center justify-between overflow-hidden">
-      <div className="bg-about absolute w-full h-full pointer-events-none" />
-
+    <div className="relative h-[85vh] w-full flex flex-row items-center justify-between overflow-hidden">
       <div className="flex flex-col gap-12 relative z-1 items-start max-w-2xl pl-6">
         <div className="flex flex-col gap-4">
           <Heading

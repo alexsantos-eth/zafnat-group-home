@@ -68,11 +68,75 @@
   background-repeat: no-repeat;
 }
 
+/* Fondo completo con gradientes de todas las secciones */
+.bg-transition {
+  background-color: #040705;
+  background-image: 
+    /* Sección 1: Verde esmeralda y verde oscuro (0-20%) */ radial-gradient(
+      ellipse 80% 15% at 0% 10%,
+      rgb(18, 99, 44) 0%,
+      transparent 100%
+    ),
+    radial-gradient(ellipse 60% 12% at 100% 15%, #0a3d1c 0%, transparent 100%),
+    /* Sección 2: Verde-azul y turquesa oscuro (20-40%) */
+      radial-gradient(
+        ellipse 70% 15% at 20% 30%,
+        rgb(13, 77, 63) 0%,
+        transparent 100%
+      ),
+    radial-gradient(
+      ellipse 65% 12% at 80% 35%,
+      rgb(26, 92, 82) 0%,
+      transparent 100%
+    ),
+    /* Sección 3: Azul profundo y azul medio (40-60%) */
+      radial-gradient(
+        ellipse 75% 15% at 100% 50%,
+        rgb(26, 69, 99) 0%,
+        transparent 100%
+      ),
+    radial-gradient(
+      ellipse 60% 12% at 0% 55%,
+      rgb(15, 45, 66) 0%,
+      transparent 100%
+    ),
+    /* Sección 4: Azul-púrpura y índigo (60-80%) */
+      radial-gradient(
+        ellipse 70% 15% at 50% 70%,
+        rgb(45, 26, 77) 0%,
+        transparent 100%
+      ),
+    radial-gradient(
+      ellipse 65% 12% at 20% 75%,
+      rgb(26, 45, 82) 0%,
+      transparent 100%
+    ),
+    /* Sección 5: Púrpura profundo y violeta (80-100%) */
+      radial-gradient(
+        ellipse 75% 15% at 80% 90%,
+        rgb(61, 26, 82) 0%,
+        transparent 100%
+      ),
+    radial-gradient(
+      ellipse 60% 12% at 10% 95%,
+      rgb(18, 10, 29) 0%,
+      transparent 100%
+    );
+
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
 @theme {
   --default-font-family: "Sora", sans-serif;
 }
 
 @theme inline {
+  --animate-first: moveVertical 30s ease infinite;
+  --animate-second: moveInCircle 20s reverse infinite;
+  --animate-third: moveInCircle 40s linear infinite;
+  --animate-fourth: moveHorizontal 40s ease infinite;
+  --animate-fifth: moveInCircle 20s ease infinite;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -185,5 +249,29 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@keyframes moveHorizontal {
+  0% {
+    transform: translateX(-50%) translateY(-10%);
+  }
+  50% {
+    transform: translateX(50%) translateY(10%);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-10%);
+  }
+}
+
+@keyframes moveInCircle {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

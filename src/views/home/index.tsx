@@ -1,23 +1,13 @@
 import ModelViewer from "@/components/ModelViewer";
-import { useScroll } from "@/hooks/useScroll";
-import { GridBackground } from "@/layout/components/background";
 import Heading from "@/layout/components/heading";
 
 const Home: React.FC = () => {
-  const scrollValue = useScroll();
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+  const width = typeof window !== "undefined" ? window.innerWidth : 800;
+  const height = typeof window !== "undefined" ? window.innerHeight : 600;
 
   return (
     <>
-      <div
-        style={{
-          transform: `translateY(${scrollValue * -1}px)`,
-        }}
-        className="bg-home w-full h-screen fixed top-0 flex flex-row p-6 justify-start items-center"
-      >
-        <GridBackground />
-
+      <div className="w-full h-screen flex flex-row p-6 px-28 justify-start items-center relative z-1">
         <div className="flex flex-col gap-10 relative z-2 max-w-md">
           <Heading
             title="De la tierra al futuro"
@@ -38,10 +28,9 @@ const Home: React.FC = () => {
           defaultZoom={0.7}
           enableManualRotation={false}
           enableManualZoom={false}
-          autoRotate
-          defaultRotationY={1}
-          autoRotateSpeed={0.03}
-          defaultRotationX={50}
+          autoRotate={false}
+          defaultRotationY={0}
+          defaultRotationX={0}
           showScreenshotButton={false}
           url="/models/pineapple/scene.glb"
         />

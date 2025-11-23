@@ -14,11 +14,12 @@ const Layout = ({ children }: React.PropsWithChildren) => {
         curve="bezier"
         exponential={true}
         opacity={1}
-        zIndex={0}
+        zIndex={0} // Z 100
       />
+      {/* Z 101 */}
       <Navbar />
       {children}
-      <SplashCursor />
+      {/* <SplashCursor /> */}
       <GradualBlurMemo
         target="page"
         position="bottom"
@@ -28,6 +29,7 @@ const Layout = ({ children }: React.PropsWithChildren) => {
         curve="bezier"
         exponential={true}
         opacity={1}
+        zIndex={0} // Z 100
       />
     </>
   );
