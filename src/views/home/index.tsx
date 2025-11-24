@@ -2,11 +2,14 @@ import ModelViewer from "@/components/ModelViewer";
 import Heading from "@/layout/components/heading";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Home: React.FC = () => {
-  const width = typeof window !== "undefined" ? window.innerWidth : 800;
   const height = typeof window !== "undefined" ? window.innerHeight : 600;
   const modelRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (modelRef.current) {
@@ -25,9 +28,31 @@ const Home: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    // Animación de parallax con scroll usando GSAP
+    gsap.to(containerRef.current, {
+      x: 100, // Movimiento hacia abajo (parallax)
+      scale: 0.9, // Escala final
+      opacity: 0, // Opacidad final
+      ease: "none",
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: 1, // Suaviza la animación con el scroll
+      },
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+  }, []);
+
   return (
-    <>
-      <div ref={modelRef} className="absolute w-max h-max top-0 right-30 z-0">
+    <div ref={containerRef} style={{ transformOrigin: "center top" }}>
+      <div ref={modelRef} className="absolute w-max h-max top-0 right-30">
         <ModelViewer
           modelXOffset={0}
           modelYOffset={-15000}
@@ -35,7 +60,7 @@ const Home: React.FC = () => {
           height={height * 1.2}
           fadeIn
           autoFrame
-          defaultZoom={30}
+          defaultZoom={27}
           maxZoomDistance={10000}
           enableManualRotation={false}
           enableManualZoom={false}
@@ -48,7 +73,7 @@ const Home: React.FC = () => {
         />
       </div>
 
-      <div className="w-full h-screen flex flex-row py-6 px-12 sm:px-28 justify-start items-center relative z-1">
+      <div className="w-full h-[90vh] flex flex-row py-6 px-12 sm:px-28 justify-start items-center relative z-1">
         <div className="flex flex-col gap-4 relative z-2 w-2xs sm:w-auto sm:max-w-md">
           <Heading
             title="De la tierra al futuro"
@@ -56,7 +81,7 @@ const Home: React.FC = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

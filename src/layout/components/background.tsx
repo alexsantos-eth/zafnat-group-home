@@ -25,7 +25,7 @@ const ParticleBackground = ({ disableHover }: ParticleBackgroundProps) => {
       gsap.fromTo(
         particlesRef.current,
         { opacity: 0 },
-        { opacity: 1, duration: 10, ease: "power1.out" }
+        { opacity: 0.4, duration: 10, ease: "power1.out" }
       );
     }
   }, [showParticles]);
@@ -39,7 +39,7 @@ const ParticleBackground = ({ disableHover }: ParticleBackgroundProps) => {
         >
           <Suspense fallback={null}>
             <LazyParticleBackground
-              particleColors={["#ffffff", "#ffffff"]}
+              particleColors={["#ffffff"]}
               particleCount={300}
               particleSpread={10}
               speed={0.2}

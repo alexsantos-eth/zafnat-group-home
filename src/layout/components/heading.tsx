@@ -7,6 +7,7 @@ interface HeadingProps {
   title?: string;
   description?: string;
   titleSize?: string;
+  delay?: number;
   descriptionSize?: string;
 }
 
@@ -14,6 +15,7 @@ const Heading = ({
   title,
   description,
   titleSize = "text-5xl sm:text-7xl",
+  delay,
   descriptionSize = "text-lg",
 }: HeadingProps) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -51,7 +53,7 @@ const Heading = ({
       {(description?.length ?? 0) > 0 && (
         <BlurText
           text={description}
-          delay={300}
+          delay={delay ?? 300}
           animateBy="words"
           direction="top"
           className={cn("text-gray-200 font-medium", descriptionSize)}

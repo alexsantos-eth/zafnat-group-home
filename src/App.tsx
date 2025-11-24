@@ -10,15 +10,12 @@ const App: React.FC = () => {
     <Layout>
       <GradientBackground />
       <ParticleBackground />
+      <ParticleBackground disableHover />
 
-      <div className="relative z-1 snap-y snap-mandatory">
-        <div className="panel snap-center">
-          <Home />
-        </div>
-        <div className="panel snap-center">
-          <AboutPage />
-        </div>
-      </div>
+      <Home />
+      <AboutPage />
+      <div className="w-full h-[16vh] sm:h-[7.5vh]" />
+      <AboutPage />
 
       {/*
       <AboutPage />

@@ -304,3 +304,6 @@
     transform: rotate(360deg);
   }
 }
+html {
+  overflow-x: hidden;
+}
