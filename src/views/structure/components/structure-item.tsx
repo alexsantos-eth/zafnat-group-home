@@ -1,18 +1,50 @@
 import { CometCard } from "@/components/ui/comet-card";
 import Heading from "@/layout/components/heading";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
+import { useEffect, useRef } from "react";
 
 interface StructureItemProps {
   title?: string;
   description?: string;
   imageSrc?: string;
 }
+
+gsap.registerPlugin(ScrollTrigger);
 const StructureItem: React.FC<StructureItemProps> = ({
   title,
   description,
   imageSrc,
 }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    gsap.to(containerRef.current, {
+      x: 100,
+      y: 100,
+      scale: 0.9,
+      opacity: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+  }, []);
+
   return (
-    <div className="relative h-[90vh] w-full flex flex-row items-center justify-between">
+    <div
+      className="relative h-[90vh] w-full flex flex-row items-center justify-between"
+      ref={containerRef}
+    >
       {/* BACKGROUND */}
       <div
         className="absolute top-0 left-0 w-full h-full scale-120 sm:scale-110 -skew-6 z-2 overflow-hidden"
@@ -33,7 +65,7 @@ const StructureItem: React.FC<StructureItemProps> = ({
         </CometCard>
 
         <div
-          className="absolute w-full h-full pointer-events-none top-0 z-3 left-0"
+          className="absolute w-full h-full pointer-events-none top-0 z-3 left-0 bg-black/40"
           style={{
             boxShadow:
               "inset 0 100px 100px rgba(0,0,0,0.6), inset 300px 0px 100px rgba(0,0,0,0.5)",

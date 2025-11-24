@@ -2,7 +2,7 @@ import StructureItem from "./components/structure-item";
 
 const StructurePage = () => {
   return (
-    <div>
+    <div className="relative top-15">
       <StructureItem
         title="InnoVagro"
         description="Agricultura de precisión y trazabilidad Digital. Plataforma que optimiza la comercialización agrícola usando inteligencia artificial."

@@ -35,6 +35,7 @@ const Home: React.FC = () => {
 
     // Animación de parallax con scroll usando GSAP
     gsap.to(containerRef.current, {
+      y: 100,
       x: 100, // Movimiento hacia abajo (parallax)
       scale: 0.9, // Escala final
       opacity: 0, // Opacidad final
