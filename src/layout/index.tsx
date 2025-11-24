@@ -1,5 +1,5 @@
+import SplashCursor from "@/components/SplashCursor";
 import GradualBlurMemo from "../components/GradualBlur";
-import SplashCursor from "../components/SplashCursor";
 import Navbar from "./components/navbar";
 
 const Layout = ({ children }: React.PropsWithChildren) => {
@@ -19,6 +19,7 @@ const Layout = ({ children }: React.PropsWithChildren) => {
       {/* Z 101 */}
       <Navbar />
       {children}
+
       {/* <SplashCursor /> */}
       <GradualBlurMemo
         target="page"

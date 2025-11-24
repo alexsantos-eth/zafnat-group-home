@@ -12,7 +12,7 @@ const Navbar = () => {
       <Menu open={openMenu} onDismiss={handleMenuToggle(false)} />
       <div
         className={cn(
-          "fixed top-0 left-0 w-full flex justify-start flex-row items-center z-101 h-24 py-2 px-8"
+          "fixed top-0 left-0 w-full flex justify-start flex-row items-center z-101 h-24 py-2 px-4 sm:px-8"
         )}
       >
         {!openMenu && (
