@@ -1,4 +1,3 @@
-import SplashCursor from "@/components/SplashCursor";
 import GradualBlurMemo from "../components/GradualBlur";
 import Navbar from "./components/navbar";
 

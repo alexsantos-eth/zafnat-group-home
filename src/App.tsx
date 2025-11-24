@@ -4,19 +4,22 @@ import ParticleBackground, {
 } from "./layout/components/background";
 import AboutPage from "./views/about";
 import Home from "./views/home";
+import StructurePage from "./views/structure";
 
 const App: React.FC = () => {
   return (
     <Layout>
       <GradientBackground />
-      <ParticleBackground />
       <ParticleBackground disableHover />
 
       <Home />
       <AboutPage />
-      <div className="w-full h-[22.5vh] sm:h-[11.5vh] md:h-[8vh]" />
-      <AboutPage />
 
+      <StructurePage />
+
+      <div className="absolute top-0 w-full h-full z-2">
+        <ParticleBackground />
+      </div>
       {/*
       <AboutPage />
 

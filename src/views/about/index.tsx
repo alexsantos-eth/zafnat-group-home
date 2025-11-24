@@ -133,10 +133,10 @@ const AboutPage = () => {
   }, []);
 
   return (
-    <div className="relative lg:h-[90vh] h-[120vh] sm:h-[130vh] w-full flex flex-row items-start justify-between">
+    <div className="relative lg:h-[90vh] h-[105vh] sm:h-[95vh] w-full flex flex-row items-start justify-between z-2">
       {/* BACKGROUND */}
       <div
-        className="absolute top-0 left-0 w-full h-full backdrop-hue-rotate-30 scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"
+        className="absolute top-0 left-0 w-full h-full bg-about scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"
         style={{
           boxShadow:
             "0 -50px 100px rgba(0,0,0,.6), inset 0 100px 100px rgba(0,0,0,0.6)",
@@ -144,7 +144,7 @@ const AboutPage = () => {
       />
 
       <div
-        className="relative z-1 w-full px-12 sm:px-28 py-6 sm:py-16 lg:py-36 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10"
+        className="relative z-1 w-full px-12 sm:px-28 py-6 sm:py-16 lg:py-36 flex flex-col lg:flex-row items-start lg:items-center justify-start gap-10 lg:gap-30"
         ref={containerRef}
       >
         <div className="flex flex-col gap-12 items-start">
@@ -171,7 +171,7 @@ const AboutPage = () => {
             ref={imageRef}
             src="/images/about/hero.png"
             alt="About Hero"
-            className="rounded-xl w-md absolute -bottom-70 lg:-bottom-10 h-auto z-0"
+            className="rounded-xl w-sm absolute -bottom-20 lg:bottom-10 h-auto z-0"
           />
 
           {/* Card 1 */}

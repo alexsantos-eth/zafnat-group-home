@@ -35,19 +35,19 @@ const ParticleBackground = ({ disableHover }: ParticleBackgroundProps) => {
       {showParticles && (
         <div
           ref={particlesRef}
-          className="h-[200vh] absolute top-0 z-0 w-full pointer-events-none opacity-0"
+          className="h-[500vh] absolute top-0 z-0 w-full pointer-events-none opacity-0"
         >
           <Suspense fallback={null}>
             <LazyParticleBackground
               particleColors={["#ffffff"]}
-              particleCount={300}
-              particleSpread={10}
-              speed={0.2}
-              particleBaseSize={300}
+              particleCount={500}
+              particleSpread={3}
+              speed={0.05}
+              particleBaseSize={200}
               moveParticlesOnHover={!disableHover}
               alphaParticles={true}
               disableRotation={true}
-              particleHoverFactor={0.2}
+              particleHoverFactor={0.05}
             />
           </Suspense>
         </div>

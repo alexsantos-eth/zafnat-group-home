@@ -5,6 +5,7 @@ type BlurTextProps = {
   text?: string;
   delay?: number;
   className?: string;
+  style?: React.CSSProperties;
   animateBy?: "words" | "letters";
   direction?: "top" | "bottom";
   threshold?: number;
@@ -36,6 +37,7 @@ const BlurText: React.FC<BlurTextProps> = ({
   text = "",
   delay = 200,
   className = "",
+  style,
   animateBy = "words",
   direction = "top",
   threshold = 0.1,
@@ -98,7 +100,7 @@ const BlurText: React.FC<BlurTextProps> = ({
     <p
       ref={ref}
       className={className}
-      style={{ display: "flex", flexWrap: "wrap" }}
+      style={{ display: "flex", flexWrap: "wrap", ...style }}
     >
       {elements.map((segment, index) => {
         const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);

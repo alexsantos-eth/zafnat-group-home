@@ -9,6 +9,7 @@ interface HeadingProps {
   titleSize?: string;
   delay?: number;
   descriptionSize?: string;
+  textShadow?: string; // e.g. "0 4px 12px rgba(0,0,0,0.45)"
 }
 
 const Heading = ({
@@ -17,6 +18,7 @@ const Heading = ({
   titleSize = "text-5xl sm:text-7xl",
   delay,
   descriptionSize = "text-lg",
+  textShadow,
 }: HeadingProps) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const descriptionRef = useRef<HTMLParagraphElement>(null);
@@ -48,6 +50,7 @@ const Heading = ({
         animateBy="letters"
         direction="top"
         className={cn("text-white mb-0 sm:mb-8 font-bold", titleSize)}
+        style={textShadow ? { textShadow } : undefined}
       />
 
       {(description?.length ?? 0) > 0 && (
@@ -57,6 +60,7 @@ const Heading = ({
           animateBy="words"
           direction="top"
           className={cn("text-gray-200 font-medium", descriptionSize)}
+          style={textShadow ? { textShadow } : undefined}
         />
       )}
     </>

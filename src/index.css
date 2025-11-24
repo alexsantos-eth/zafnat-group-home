@@ -41,14 +41,47 @@
 }
 
 .bg-about {
-  background-color: #0a0502;
+  background-color: rgba(19, 95, 85, 0.55);
 
   background-image: radial-gradient(
-      ellipse 70% 70% at 0% 0%,
-      #63341a 0%,
-      transparent 100%
+      ellipse 60% 50% at 15% 48%,
+      rgba(14, 88, 105, 0.7) 0%,
+      transparent 55%
     ),
-    radial-gradient(ellipse 50% 60% at 20% 40%, #1a0d03 0%, transparent 100%);
+    radial-gradient(
+      circle at 55% 52%,
+      rgba(18, 102, 118, 0.65) 0%,
+      transparent 42%
+    ),
+    radial-gradient(
+      ellipse 52% 42% at 88% 55%,
+      rgba(22, 115, 130, 0.6) 0%,
+      transparent 48%
+    );
+
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+/* Paleta naranja: fondo con gradientes cálidos análogos al estilo existente */
+.bg-orange {
+  background-color: rgba(95, 45, 19, 0.55);
+
+  background-image: radial-gradient(
+      ellipse 60% 50% at 15% 48%,
+      rgba(180, 85, 10, 0.7) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 55% 52%,
+      rgba(205, 105, 20, 0.65) 0%,
+      transparent 42%
+    ),
+    radial-gradient(
+      ellipse 52% 42% at 88% 55%,
+      rgba(230, 125, 35, 0.6) 0%,
+      transparent 48%
+    );
 
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -306,4 +339,25 @@
 }
 html {
   overflow-x: hidden;
+}
+
+.diagonal-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.diagonal-bg {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+  pointer-events: none;
+  z-index: 1;
+  top: 0;
+  margin-top: -200px;
+}
+
+@media (min-width: 1024px) {
+  .diagonal-bg {
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 0 85%);
+  }
 }
