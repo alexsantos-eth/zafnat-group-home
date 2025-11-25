@@ -1,7 +1,12 @@
-import Heading from "@/layout/components/heading";
+import { useEffect, useRef } from "react";
+
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
-import { useEffect, useRef } from "react";
+
+import Heading from "@/layout/components/heading";
+
+import AboutUserItem from "./components/about-user-item";
+import MetaBalls from "@/components/MetaBalls";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -94,7 +99,7 @@ const AboutPage = () => {
               opacity: 1,
               y: 0,
               duration: 1,
-              delay: 1.5,
+              delay: 1,
               ease: "power2.out",
             });
             imageObserver.unobserve(entry.target);
@@ -114,7 +119,7 @@ const AboutPage = () => {
               y: 0,
               duration: 0.8,
               stagger: 0.15,
-              delay: 2,
+              delay: 1.5,
               ease: "power2.out",
             });
             cardsObserver.unobserve(entry.target);
@@ -134,7 +139,7 @@ const AboutPage = () => {
   }, []);
 
   return (
-    <div className="relative lg:h-[90vh] h-[105vh] sm:h-[95vh] w-full flex flex-row items-start justify-between z-2">
+    <div className="relative h-max pb-14 w-full flex flex-row items-start justify-between z-2">
       {/* BACKGROUND */}
       <div
         className="absolute top-0 left-0 w-full h-full bg-about scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"
@@ -145,7 +150,7 @@ const AboutPage = () => {
       />
 
       <div
-        className="relative z-1 w-full px-12 sm:px-28 py-6 sm:py-16 lg:py-36 flex flex-col lg:flex-row items-start lg:items-center justify-start gap-10 lg:gap-30"
+        className="relative z-1 w-full px-12 sm:px-28 py-6 sm:py-16 lg:py-36 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10"
         ref={containerRef}
       >
         <div className="flex flex-col gap-12 items-start">
@@ -167,51 +172,51 @@ const AboutPage = () => {
           </p>
         </div>
 
-        <div className="flex items-start justify-center w-full lg:w-auto h-[30vh] lg:h-auto">
+        <div className="flex items-start justify-center h-[30vh] lg:h-auto pr-20">
+          <div className="absolute w-full h-full top-0 z-0 opacity-20">
+            <MetaBalls
+              color="#FFFFFF"
+              cursorBallSize={2}
+              ballCount={15}
+              animationSize={30}
+              enableMouseInteraction={true}
+              enableTransparency
+              hoverSmoothness={0.05}
+              clumpFactor={1}
+              speed={0.3}
+            />
+          </div>
+
+          <div
+            ref={cardsRef}
+            className="relative z-2 w-full flex flex-col gap-6 top-0 lg:-top-15"
+          >
+            <AboutUserItem
+              name="Juan Pérez"
+              position="Director General"
+              team="Equipo Ejecutivo"
+            />
+
+            <AboutUserItem
+              name="María González"
+              position="Gerente de Operaciones"
+              team="Equipo de Operaciones"
+              className="relative -left-4"
+            />
+
+            <AboutUserItem
+              name="Carlos Rodríguez"
+              position="Director de Tecnología"
+              team="Equipo de Innovación"
+            />
+          </div>
+
           <img
             ref={imageRef}
             src="/images/about/hero.png"
             alt="About Hero"
-            className="rounded-xl w-sm absolute -bottom-20 lg:bottom-10 h-auto z-0"
+            className="rounded-xl w-sm absolute -bottom-20 lg:bottom-8 h-auto z-1"
           />
-
-          {/* Card 1 */}
-          <div
-            ref={cardsRef}
-            className="relative z-1 w-full grid grid-cols-[1fr_1fr] lg:grid-cols-[auto_auto] gap-6 top-0 lg:-top-20"
-          >
-            <div className="card-item border border-white rounded-xl px-4 py-4 w-full">
-              <h3 className="text-white text-lg font-semibold mb-2">
-                Juan Pérez
-              </h3>
-              <p className="text-gray-300 text-sm mb-1">Director General</p>
-              <p className="text-gray-400 text-xs">Equipo Ejecutivo</p>
-            </div>
-
-            {/* Card 2 */}
-            <div className="card-item border border-white rounded-xl px-4 py-4 w-full">
-              <h3 className="text-white text-lg font-semibold mb-2">
-                María González
-              </h3>
-              <p className="text-gray-300 text-sm mb-1">
-                Gerente de Operaciones
-              </p>
-              <p className="text-gray-400 text-xs">Equipo de Operaciones</p>
-            </div>
-
-            {/* Card 3 */}
-            <div className="w-full col-span-2 flex justify-center">
-              <div className="card-item border border-white rounded-xl px-4 py-4 w-full max-w-[200px]">
-                <h3 className="text-white text-lg font-semibold mb-2">
-                  Carlos Rodríguez
-                </h3>
-                <p className="text-gray-300 text-sm mb-1">
-                  Director de Tecnología
-                </p>
-                <p className="text-gray-400 text-xs">Equipo de Innovación</p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

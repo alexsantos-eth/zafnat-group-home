@@ -198,7 +198,8 @@ const ModelViewer: FC<ViewerProps> = ({
     const loadModel = async () => {
       try {
         // Configure Draco decoder for compressed models
-        GLTFLoader.setDracoManager(new DracoManager("/draco/DracoWorker.js"));
+        const dracoPath = `${import.meta.env.BASE_URL}draco/DracoWorker.js`;
+        GLTFLoader.setDracoManager(new DracoManager(dracoPath));
 
         const gltf = await GLTFLoader.load(gl, url);
 

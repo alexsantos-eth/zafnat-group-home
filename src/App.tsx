@@ -4,6 +4,7 @@ import ParticleBackground, {
 } from "./layout/components/background";
 import AboutPage from "./views/about";
 import Home from "./views/home";
+import ModulesPage from "./views/modules";
 import StructurePage from "./views/structure";
 
 const App: React.FC = () => {
@@ -14,8 +15,8 @@ const App: React.FC = () => {
 
       <Home />
       <AboutPage />
-
       <StructurePage />
+      <ModulesPage />
 
       <div className="absolute top-0 w-full h-full z-2">
         <ParticleBackground />

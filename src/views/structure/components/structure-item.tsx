@@ -24,7 +24,6 @@ const StructureItem: React.FC<StructureItemProps> = ({
     gsap.to(containerRef.current, {
       x: 100,
       y: 100,
-      scale: 0.9,
       opacity: 0,
       ease: "none",
       scrollTrigger: {
@@ -42,8 +41,8 @@ const StructureItem: React.FC<StructureItemProps> = ({
 
   return (
     <div
-      className="relative h-[90vh] w-full flex flex-row items-center justify-between"
       ref={containerRef}
+      className="relative h-[90vh] w-full flex flex-row items-center justify-between"
     >
       {/* BACKGROUND */}
       <div
