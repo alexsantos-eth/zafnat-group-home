@@ -61,7 +61,7 @@ const Home: React.FC = () => {
       >
         <ModelViewer
           modelXOffset={0}
-          modelYOffset={-50}
+          modelYOffset={200}
           width={minBound}
           height={minBound * 1.2}
           fadeIn
