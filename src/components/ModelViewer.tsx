@@ -181,6 +181,20 @@ const ModelViewer: FC<ViewerProps> = ({
     worldOffsetRef.current.x = modelXOffset * pixelToWorldX;
     worldOffsetRef.current.y = modelYOffset * pixelToWorldY;
 
+    console.log("World space conversion:", {
+      viewWidth,
+      viewHeight,
+      camZ,
+      worldWidth,
+      worldHeight,
+      pixelToWorldX,
+      pixelToWorldY,
+      modelXOffset,
+      modelYOffset,
+      worldOffsetX: worldOffsetRef.current.x,
+      worldOffsetY: worldOffsetRef.current.y,
+    });
+
     // Initialize scene
     const scene = new Transform();
     sceneRef.current = scene;
