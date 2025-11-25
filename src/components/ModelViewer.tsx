@@ -199,9 +199,17 @@ const ModelViewer: FC<ViewerProps> = ({
       try {
         // Configure Draco decoder for compressed models
         const dracoPath = `${import.meta.env.BASE_URL}draco/DracoWorker.js`;
+        console.log("Draco path:", dracoPath);
         GLTFLoader.setDracoManager(new DracoManager(dracoPath));
 
-        const gltf = await GLTFLoader.load(gl, url);
+        // Construct full model URL with base path
+        const modelUrl =
+          url.startsWith("http") || url.startsWith("data:")
+            ? url
+            : `${import.meta.env.BASE_URL}${url.replace(/^\//, "")}`;
+        console.log("Loading model from:", modelUrl);
+
+        const gltf = await GLTFLoader.load(gl, modelUrl);
 
         if (!modelRef.current) return;
 
@@ -396,6 +404,12 @@ const ModelViewer: FC<ViewerProps> = ({
         });
       } catch (error: any) {
         console.error("Error loading GLTF model:", error);
+        console.error("Model URL:", url);
+        console.error("Error details:", {
+          message: error.message,
+          stack: error.stack,
+          name: error.name,
+        });
         loadingRef.current = false;
       }
     };
