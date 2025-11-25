@@ -66,7 +66,7 @@ const Home: React.FC = () => {
           height={minBound * 1.2}
           fadeIn
           autoFrame
-          defaultZoom={10}
+          defaultZoom={5}
           maxZoomDistance={10000}
           enableManualRotation={false}
           enableManualZoom={false}
