@@ -152,11 +152,13 @@ const ModelViewer: FC<ViewerProps> = ({
 
     // Initialize camera
     const fov = 50;
+    // Set far plane to accommodate extreme zoom distances
+    const farPlane = Math.max(100, maxZoomDistance * 2);
     const camera = new Camera(gl, {
       fov: fov,
       aspect: viewWidth / viewHeight,
       near: 0.01,
-      far: 100,
+      far: farPlane,
     });
     camera.position.set(0, 0, camZ);
     cameraRef.current = camera;
@@ -365,13 +367,15 @@ const ModelViewer: FC<ViewerProps> = ({
           }
         });
 
-        // Wait for next frame, then mark as ready BEFORE adding to scene
+        // Wait for next frame, then mark as ready and update scene
         requestAnimationFrame(() => {
-          // Mark as ready FIRST (before adding to scene)
+          // Mark as ready FIRST
           modelReadyRef.current = true;
 
-          // Outer is already added to scene, no need to add again
-          // (it was added during initialization)
+          // Force update of all matrices to ensure proper rendering
+          if (sceneRef.current) {
+            sceneRef.current.updateMatrixWorld(true);
+          }
 
           // Start fade in animation
           if (meshes.length > 0) {
