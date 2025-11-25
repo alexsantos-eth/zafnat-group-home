@@ -152,7 +152,7 @@ const AboutPage = () => {
       />
 
       <div
-        className="relative z-1 w-full px-12 sm:px-28 py-32 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10"
+        className="relative z-1 w-full px-12 sm:px-28 py-32 flex flex-col lg:flex-row items-start lg:items-center justify-start gap-30"
         ref={containerRef}
       >
         <div className="flex flex-col gap-12 items-start">

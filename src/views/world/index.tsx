@@ -4,6 +4,7 @@ import gsap from "gsap";
 
 import { World } from "@/components/ui/globe";
 import Heading from "@/layout/components/heading";
+import { ScrollTrigger } from "gsap/all";
 
 const WorldPage: React.FC = () => {
   const textRef = useRef<HTMLDivElement>(null);
@@ -445,10 +446,33 @@ const WorldPage: React.FC = () => {
     },
   ];
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    gsap.to(containerRef.current, {
+      x: 100,
+      y: 100,
+      opacity: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+  }, []);
+
   return (
     <div
       id="world"
-      className="relative h-max w-full flex flex-row items-start justify-between z-3 top-44 py-32"
+      className="relative h-max w-full flex flex-row items-start justify-between z-3 top-43 py-32"
     >
       {/* BACKGROUND */}
       <div
@@ -458,11 +482,15 @@ const WorldPage: React.FC = () => {
         }}
       />
 
-      <div className="relative w-full px-12 sm:px-28 pb-0 gap-30 flex flex-row z-2">
+      <div
+        ref={containerRef}
+        className="relative w-full px-12 sm:px-28 pb-0 gap-30 flex flex-row z-2"
+      >
         <div className="flex flex-col gap-8">
-          <div className="flex flex-col gap-4 relative z-2 max-w-full sm:max-w-[500px]">
+          <div className="flex flex-col gap-4 relative z-2 max-w-full sm:max-w-[340px]">
             <Heading
-              title="Alianzas y      expansión      internacional"
+              titleSize="max-w-3xs sm:max-w-md text-5xl"
+              title="Alianzas y       expansión       internacional"
               description="Zafnat Group establece alianzas estratégicas con instituciones académicas, gobiernos y empresas internacionales para expandir la agricultura inteligente."
             />
           </div>

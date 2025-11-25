@@ -63,7 +63,7 @@ const ModulesPage = () => {
         });
       },
       {
-        threshold: 0.4, // Activar cuando el 20% del elemento sea visible
+        threshold: 0.2, // Activar cuando el 20% del elemento sea visible
       }
     );
 
