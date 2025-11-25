@@ -35,7 +35,7 @@ const ParticleBackground = ({ disableHover }: ParticleBackgroundProps) => {
       {showParticles && (
         <div
           ref={particlesRef}
-          className="h-[900vh] absolute top-0 z-0 w-full pointer-events-none opacity-0"
+          className="h-[820vh] absolute top-0 z-0 w-full pointer-events-none opacity-0"
         >
           <Suspense fallback={null}>
             <LazyParticleBackground
