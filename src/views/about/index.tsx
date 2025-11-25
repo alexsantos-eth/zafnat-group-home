@@ -139,7 +139,10 @@ const AboutPage = () => {
   }, []);
 
   return (
-    <div className="relative h-auto w-full flex flex-row items-start justify-between z-2">
+    <div
+      id="about"
+      className="relative h-auto w-full flex flex-row items-start justify-between z-2"
+    >
       {/* BACKGROUND */}
       <div
         className="absolute top-0 left-0 w-full h-full backdrop-hue-rotate-30 scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"

@@ -54,7 +54,7 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <div ref={containerRef} style={{ transformOrigin: "center top" }}>
+    <div id="home" ref={containerRef} style={{ transformOrigin: "center top" }}>
       <div
         ref={modelRef}
         className="absolute w-max h-max top-0 -right-50 lg:right-30"

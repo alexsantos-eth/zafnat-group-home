@@ -3,6 +3,7 @@ import ParticleBackground, {
   GradientBackground,
 } from "./layout/components/background";
 import AboutPage from "./views/about";
+import ContactPage from "./views/contact";
 import Home from "./views/home";
 import ModulesPage from "./views/modules";
 import StructurePage from "./views/structure";
@@ -19,6 +20,7 @@ const App: React.FC = () => {
       <StructurePage />
       <ModulesPage />
       <WorldPage />
+      <ContactPage />
 
       <div className="absolute top-0 w-full h-full z-3">
         <ParticleBackground />

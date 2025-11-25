@@ -155,12 +155,6 @@ const ModelViewer: FC<ViewerProps> = ({
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
 
-    console.log("Renderer initialized:", {
-      viewWidth,
-      viewHeight,
-      dpr: window.devicePixelRatio,
-    });
-
     // Initialize camera
     const fov = 50;
     // Set far plane to accommodate extreme zoom distances
@@ -185,20 +179,6 @@ const ModelViewer: FC<ViewerProps> = ({
     // Store world offsets in ref so they're accessible in animation loop
     worldOffsetRef.current.x = modelXOffset * pixelToWorldX;
     worldOffsetRef.current.y = modelYOffset * pixelToWorldY;
-
-    console.log("World space conversion:", {
-      viewWidth,
-      viewHeight,
-      camZ,
-      worldWidth,
-      worldHeight,
-      pixelToWorldX,
-      pixelToWorldY,
-      modelXOffset,
-      modelYOffset,
-      worldOffsetX: worldOffsetRef.current.x,
-      worldOffsetY: worldOffsetRef.current.y,
-    });
 
     // Initialize scene
     const scene = new Transform();
@@ -226,7 +206,7 @@ const ModelViewer: FC<ViewerProps> = ({
       try {
         // Configure Draco decoder for compressed models
         const dracoPath = `${import.meta.env.BASE_URL}draco/DracoWorker.js`;
-        console.log("Draco path:", dracoPath);
+
         GLTFLoader.setDracoManager(new DracoManager(dracoPath));
 
         // Construct full model URL with base path
@@ -234,27 +214,10 @@ const ModelViewer: FC<ViewerProps> = ({
           url.startsWith("http") || url.startsWith("data:")
             ? url
             : `${import.meta.env.BASE_URL}${url.replace(/^\//, "")}`;
-        console.log("Loading model from:", modelUrl);
 
         const gltf = await GLTFLoader.load(gl, modelUrl);
 
         if (!modelRef.current) return;
-
-        // Debug: Log GLTF materials and textures
-        console.log("GLTF loaded:", gltf);
-        if (gltf.meshes) {
-          gltf.meshes.forEach((mesh: any, i: number) => {
-            console.log(`Mesh ${i}:`, mesh);
-            mesh.primitives?.forEach((prim: any, j: number) => {
-              if (prim.program?.gltfMaterial) {
-                console.log(
-                  `  Primitive ${j} material:`,
-                  prim.program.gltfMaterial
-                );
-              }
-            });
-          });
-        }
 
         // Get the scene from GLTF
         const s = gltf.scene || gltf.scenes[0];
@@ -404,7 +367,6 @@ const ModelViewer: FC<ViewerProps> = ({
 
           // Force an immediate render to ensure model is visible
           if (rendererRef.current && sceneRef.current && cameraRef.current) {
-            console.log("Forcing initial render");
             rendererRef.current.render({
               scene: sceneRef.current,
               camera: cameraRef.current,

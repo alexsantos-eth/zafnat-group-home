@@ -446,7 +446,10 @@ const WorldPage: React.FC = () => {
   ];
 
   return (
-    <div className="relative h-max w-full flex flex-row items-start justify-between z-3 top-44 py-32">
+    <div
+      id="world"
+      className="relative h-max w-full flex flex-row items-start justify-between z-3 top-44 py-32"
+    >
       {/* BACKGROUND */}
       <div
         className="absolute top-0 brightness-80 left-0 w-full h-full scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"

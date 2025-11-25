@@ -76,7 +76,10 @@ const ModulesPage = () => {
 
   return (
     <>
-      <div className="relative h-[125vh] pb-14 w-full flex flex-row items-start justify-between z-3 top-24 py-32">
+      <div
+        id="modules"
+        className="relative h-[125vh] pb-14 w-full flex flex-row items-start justify-between z-3 top-24 py-32"
+      >
         {/* BACKGROUND */}
         <div
           className="absolute top-0 bg-about brightness-80 left-0 w-full h-full scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"

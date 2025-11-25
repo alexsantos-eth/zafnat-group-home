@@ -30,7 +30,10 @@ const StructurePage = () => {
 
   return (
     <>
-      <div className="relative h-max w-full flex flex-row items-start justify-between z-2 top-10">
+      <div
+        id="structure"
+        className="relative h-max w-full flex flex-row items-start justify-between z-2 top-10"
+      >
         {/* BACKGROUND */}
         <div
           className="absolute backdrop-saturate-100 top-0 left-0 w-full h-full scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"
