@@ -2,7 +2,7 @@ const Footer = () => {
   return (
     <div
       id="footer"
-      className="relative outline h-max w-full px-12 sm:px-28 flex flex-col items-center justify-center z-3 top-50 pt-32"
+      className="relative h-max w-full px-12 sm:px-28 flex flex-col items-center justify-center z-5 top-50 pt-32"
     >
       {/* BACKGROUND */}
       <div

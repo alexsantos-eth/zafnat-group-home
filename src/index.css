@@ -367,6 +367,7 @@ html {
 }
 html {
   width: 100dvw;
+  height: max-content;
   overflow-x: hidden;
 }
 

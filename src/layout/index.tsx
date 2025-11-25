@@ -1,5 +1,7 @@
+import SplashCursor from "@/components/SplashCursor";
 import GradualBlurMemo from "../components/GradualBlur";
 import Navbar from "./components/navbar";
+import SideNav from "./components/SideNav";
 
 const Layout = ({ children }: React.PropsWithChildren) => {
   return (
@@ -17,9 +19,10 @@ const Layout = ({ children }: React.PropsWithChildren) => {
       />
       {/* Z 101 */}
       <Navbar />
+      <SideNav />
       {children}
 
-      {/* <SplashCursor /> */}
+      <SplashCursor />
       <GradualBlurMemo
         target="page"
         position="bottom"
