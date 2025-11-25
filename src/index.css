@@ -41,7 +41,7 @@
 }
 
 .bg-about {
-  background-color: rgba(19, 95, 85, 0.55);
+  background-color: rgba(19, 95, 85, 1);
 
   background-image: radial-gradient(
       ellipse 60% 50% at 15% 48%,
@@ -63,9 +63,33 @@
   background-repeat: no-repeat;
 }
 
+/* Fondo verde con luces azules */
+.bg-green-blue {
+  background-color: rgba(10, 50, 35, 1);
+
+  background-image: radial-gradient(
+      ellipse 55% 45% at 85% 15%,
+      rgba(20, 90, 120, 0.7) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(15, 105, 135, 0.65) 0%,
+      transparent 42%
+    ),
+    radial-gradient(
+      ellipse 52% 42% at 15% 85%,
+      rgba(25, 115, 145, 0.6) 0%,
+      transparent 48%
+    );
+
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
 /* Paleta naranja: fondo con gradientes cálidos análogos al estilo existente */
 .bg-orange {
-  background-color: rgba(95, 45, 19, 0.55);
+  background-color: rgba(95, 45, 19, 0.1);
 
   background-image: radial-gradient(
       ellipse 60% 50% at 15% 48%,

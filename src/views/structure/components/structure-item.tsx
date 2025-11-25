@@ -48,7 +48,8 @@ const StructureItem: React.FC<StructureItemProps> = ({
       <div
         className="absolute top-0 left-0 w-full h-full scale-120 sm:scale-110 -skew-6 z-2 overflow-hidden"
         style={{
-          boxShadow: "0 -50px 100px rgba(0,0,0,.5)",
+          boxShadow:
+            "0 -50px 100px rgba(0,0,0,.3), inset 0 100px 100px rgba(0,0,0,0.1)",
         }}
       >
         <CometCard

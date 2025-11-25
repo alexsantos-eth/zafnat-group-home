@@ -139,18 +139,17 @@ const AboutPage = () => {
   }, []);
 
   return (
-    <div className="relative h-max pb-14 w-full flex flex-row items-start justify-between z-2">
+    <div className="relative h-auto w-full flex flex-row items-start justify-between z-2">
       {/* BACKGROUND */}
       <div
-        className="absolute top-0 left-0 w-full h-full bg-about scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"
+        className="absolute top-0 left-0 w-full h-full backdrop-hue-rotate-30 scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"
         style={{
-          boxShadow:
-            "0 -50px 100px rgba(0,0,0,.6), inset 0 100px 100px rgba(0,0,0,0.6)",
+          boxShadow: "0 -50px 100px rgba(0,0,0,.3)",
         }}
       />
 
       <div
-        className="relative z-1 w-full px-12 sm:px-28 py-6 sm:py-16 lg:py-36 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10"
+        className="relative z-1 w-full px-12 sm:px-28 py-32 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10"
         ref={containerRef}
       >
         <div className="flex flex-col gap-12 items-start">
@@ -172,10 +171,13 @@ const AboutPage = () => {
           </p>
         </div>
 
-        <div className="flex items-start justify-center h-[30vh] lg:h-auto pr-20">
-          <div className="absolute w-full h-full top-0 z-0 opacity-20">
+        <div
+          ref={imageRef}
+          className="relative not-last:flex items-start h-[330px] justify-center"
+        >
+          <div className="absolute w-full h-full top-0 z-0 opacity-50">
             <MetaBalls
-              color="#FFFFFF"
+              color="#eeb200"
               cursorBallSize={2}
               ballCount={15}
               animationSize={30}
@@ -189,33 +191,36 @@ const AboutPage = () => {
 
           <div
             ref={cardsRef}
-            className="relative z-2 w-full flex flex-col gap-6 top-0 lg:-top-15"
+            className="relative z-2 w-full flex flex-col gap-4 items-center"
           >
-            <AboutUserItem
-              name="Juan Pérez"
-              position="Director General"
-              team="Equipo Ejecutivo"
-            />
+            <div className="flex flex-row gap-4 items-start">
+              <AboutUserItem
+                name="Juan Pérez"
+                position="Director General"
+                team="Equipo Ejecutivo"
+                className="w-max"
+              />
 
-            <AboutUserItem
-              name="María González"
-              position="Gerente de Operaciones"
-              team="Equipo de Operaciones"
-              className="relative -left-4"
-            />
+              <AboutUserItem
+                name="María González"
+                position="Gerente de Operaciones"
+                team="Equipo de Operaciones"
+                className="w-max"
+              />
+            </div>
 
             <AboutUserItem
               name="Carlos Rodríguez"
               position="Director de Tecnología"
               team="Equipo de Innovación"
+              className="w-max"
             />
           </div>
 
           <img
-            ref={imageRef}
             src="/images/about/hero.png"
             alt="About Hero"
-            className="rounded-xl w-sm absolute -bottom-20 lg:bottom-8 h-auto z-1"
+            className="rounded-xl w-full absolute bottom-0 right-0 h-auto z-1"
           />
         </div>
       </div>

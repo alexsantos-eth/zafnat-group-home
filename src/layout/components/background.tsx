@@ -35,7 +35,7 @@ const ParticleBackground = ({ disableHover }: ParticleBackgroundProps) => {
       {showParticles && (
         <div
           ref={particlesRef}
-          className="h-[500vh] absolute top-0 z-0 w-full pointer-events-none opacity-0"
+          className="h-[700vh] absolute top-0 z-0 w-full pointer-events-none opacity-0"
         >
           <Suspense fallback={null}>
             <LazyParticleBackground
@@ -77,7 +77,7 @@ export const GradientBackground = () => {
   return (
     <div
       ref={bgRef}
-      className="h-[350vh] fixed top-0 w-full z-0 pointer-events-none bg-transition"
+      className="h-[400vh] fixed top-0 w-full z-0 pointer-events-none bg-transition"
     />
   );
 };

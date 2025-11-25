@@ -46,6 +46,8 @@ export interface ViewerProps {
   fadeIn?: boolean;
   autoRotate?: boolean;
   autoRotateSpeed?: number;
+  scrollRotate?: boolean;
+  scrollRotateSpeed?: number;
   onModelLoaded?: () => void;
 }
 
@@ -82,6 +84,8 @@ const ModelViewer: FC<ViewerProps> = ({
   enableManualZoom = true,
   autoRotate = false,
   autoRotateSpeed = 0.35,
+  scrollRotate = false,
+  scrollRotateSpeed = 0.001,
   fadeIn = false,
   placeholderSrc,
   onModelLoaded,
@@ -96,6 +100,7 @@ const ModelViewer: FC<ViewerProps> = ({
   const animFrameRef = useRef<number | null>(null);
   const loadingRef = useRef<boolean>(true);
   const modelReadyRef = useRef<boolean>(false);
+  const scrollYRef = useRef<number>(0);
 
   // Animation state
   const vel = useRef({ x: 0, y: 0 });
@@ -491,6 +496,12 @@ const ModelViewer: FC<ViewerProps> = ({
         outerRef.current.rotation.y += autoRotateSpeed * dt;
       }
 
+      // Scroll rotation - only when model is ready
+      if (scrollRotate && modelReadyRef.current) {
+        outerRef.current.rotation.y =
+          initYaw + scrollYRef.current * scrollRotateSpeed;
+      }
+
       // Apply velocity with inertia - only when model is ready
       if (modelReadyRef.current) {
         outerRef.current.rotation.y += vel.current.x;
@@ -639,6 +650,13 @@ const ModelViewer: FC<ViewerProps> = ({
       );
     };
 
+    // Scroll handler for rotation
+    const handleScroll = () => {
+      if (scrollRotate) {
+        scrollYRef.current = window.scrollY;
+      }
+    };
+
     // Add event listeners
     canvas.addEventListener(
       "pointerdown",
@@ -657,6 +675,9 @@ const ModelViewer: FC<ViewerProps> = ({
       isTouch ? handleTouchEnd : handlePointerUp
     );
     canvas.addEventListener("wheel", handleWheel, { passive: false });
+    if (scrollRotate) {
+      window.addEventListener("scroll", handleScroll, { passive: true });
+    }
 
     // Cleanup
     return () => {
@@ -680,6 +701,9 @@ const ModelViewer: FC<ViewerProps> = ({
         isTouch ? handleTouchEnd : handlePointerUp
       );
       canvas.removeEventListener("wheel", handleWheel);
+      if (scrollRotate) {
+        window.removeEventListener("scroll", handleScroll);
+      }
     };
   }, [
     url,
@@ -696,6 +720,8 @@ const ModelViewer: FC<ViewerProps> = ({
     enableManualZoom,
     autoRotate,
     autoRotateSpeed,
+    scrollRotate,
+    scrollRotateSpeed,
     fadeIn,
     initYaw,
     initPitch,

@@ -6,6 +6,7 @@ import AboutPage from "./views/about";
 import Home from "./views/home";
 import ModulesPage from "./views/modules";
 import StructurePage from "./views/structure";
+import WorldPage from "./views/world";
 
 const App: React.FC = () => {
   return (
@@ -17,8 +18,9 @@ const App: React.FC = () => {
       <AboutPage />
       <StructurePage />
       <ModulesPage />
+      <WorldPage />
 
-      <div className="absolute top-0 w-full h-full z-2">
+      <div className="absolute top-0 w-full h-full z-3">
         <ParticleBackground />
       </div>
       {/*

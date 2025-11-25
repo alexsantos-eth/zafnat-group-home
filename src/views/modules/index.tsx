@@ -1,127 +1,185 @@
-import LightRays from "@/components/LightRays";
+import { useEffect, useRef } from "react";
+
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
+
 import { Timeline } from "@/components/ui/timeline";
-import ParticleBackground from "@/layout/components/background";
 import Heading from "@/layout/components/heading";
+import ModelViewer from "@/components/ModelViewer";
 
 const ModulesPage = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const width = typeof window !== "undefined" ? window.innerWidth : 800;
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    gsap.to(containerRef.current, {
+      x: 100,
+      y: 100,
+      opacity: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+  }, []);
+
+  const timelineRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!timelineRef.current) return;
+
+    const element = timelineRef.current;
+
+    // Configurar estado inicial
+    gsap.set(element, {
+      opacity: 0,
+      y: 30,
+    });
+
+    // Crear IntersectionObserver
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Animar cuando el elemento es visible
+            gsap.to(element, {
+              opacity: 1,
+              y: 0,
+              duration: 1,
+              delay: 1,
+              ease: "power2.out",
+            });
+            // Dejar de observar después de la animación
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.4, // Activar cuando el 20% del elemento sea visible
+      }
+    );
+
+    observer.observe(element);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
-    <div className="min-h-[220vh] sticky w-full -top-350 snap-center">
-      <div className="absolute top-0 w-full h-full z-4">
-        <ParticleBackground />
-      </div>
-
-      <div className="absolute top-0 w-full">
-        <LightRays
-          raysOrigin="top-center"
-          raysColor="#fff"
-          raysSpeed={1.5}
-          lightSpread={0.8}
-          rayLength={1.2}
-          followMouse={true}
-          mouseInfluence={0.1}
-          noiseAmount={0.1}
-          distortion={0.05}
-        />
-      </div>
-
-      <div className="bg-home absolute w-full h-full pointer-events-none" />
-
-      <div className="flex flex-col relative items-center z-3 top-50">
-        <div className="relative flex flex-col gap-4 items-start w-max z-1 px-6">
-          <div className="flex flex-col gap-4 text-center">
-            <Heading
-              title="InnoVAgro"
-              description="La plataforma que conecta el campo con la ciencia"
-            />
-          </div>
-
-          <p className="text-gray-300 text-md leading-6 max-w-md text-center">
-            Plataforma de agricultura de precisión que combina datos, IA para
-            transformar la producción de alimentos.
-          </p>
-        </div>
-
-        <Timeline
-          data={[
-            {
-              title: "Análisis de Terreno y Recursos",
-              content: (
-                <div>
-                  <p className="font-normal text-md text-gray-300">
-                    Diagnóstico inteligente del suelo y clima.
-                  </p>
-                </div>
-              ),
-            },
-            {
-              title: "Planificación Productiva",
-              content: (
-                <div>
-                  <p className="font-normal text-md text-gray-300">
-                    Estrategias agrícolas personalizadas.
-                  </p>
-                </div>
-              ),
-            },
-            {
-              title: "Gestión de Operaciones",
-              content: (
-                <div>
-                  <p className="font-normal text-md text-gray-300">
-                    Control total de maquinaria, insumos y personal.
-                  </p>
-                </div>
-              ),
-            },
-            {
-              title: "Trazabilidad y Certificaciones",
-              content: (
-                <div>
-                  <p className="font-normal text-lg text-gray-300">
-                    Cumpla normas internacionales con facilidad.
-                  </p>
-                </div>
-              ),
-            },
-            {
-              title: "Comercialización Inteligente",
-              content: (
-                <div>
-                  <p className="font-normal text-lg text-gray-300">
-                    Datos de mercado, precios y oportunidades en tiempo real.
-                  </p>
-                </div>
-              ),
-            },
-          ]}
+    <>
+      <div className="relative h-[125vh] pb-14 w-full flex flex-row items-start justify-between z-3 top-24 py-32">
+        {/* BACKGROUND */}
+        <div
+          className="absolute top-0 bg-about brightness-80 left-0 w-full h-full scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"
+          style={{
+            boxShadow: "0 -50px 100px rgba(0,0,0,.3)",
+          }}
         />
 
-        <div className="pt-20 flex flex-col gap-14">
-          <div className="max-w-xl flex flex-col gap-4">
-            <Heading
-              titleSize="text-4xl"
-              title="De la Innovación a la Productividad"
-              description="Los productores que implementan InnoVAgro pueden esperar"
-            />
+        <div ref={containerRef} className="w-full relative top-0 h-full">
+          <div className="absolute z-1 w-full px-12 sm:px-28 flex flex-col items-start justify-between gap-18">
+            <div className="flex flex-col gap-12 items-start">
+              <div className="flex flex-col gap-4 relative z-2 max-w-full sm:max-w-[450px]">
+                <Heading
+                  title="InnoVAgro"
+                  delay={100}
+                  titleSize="max-w-3xs sm:max-w-[710px] text-7xl"
+                  description="Plataforma de agricultura de precisión que combina datos, IA para transformar la producción de alimentos."
+                />
+              </div>
+            </div>
+
+            <div ref={timelineRef}>
+              <Timeline
+                data={[
+                  {
+                    title: "Análisis de Terreno y Recursos",
+                    content: (
+                      <div>
+                        <p className="font-normal text-md text-gray-300">
+                          Diagnóstico inteligente del suelo y clima.
+                        </p>
+                      </div>
+                    ),
+                  },
+                  {
+                    title: "Planificación Productiva",
+                    content: (
+                      <div>
+                        <p className="font-normal text-md text-gray-300">
+                          Estrategias agrícolas personalizadas.
+                        </p>
+                      </div>
+                    ),
+                  },
+                  {
+                    title: "Gestión de Operaciones",
+                    content: (
+                      <div>
+                        <p className="font-normal text-md text-gray-300">
+                          Control total de maquinaria, insumos y personal.
+                        </p>
+                      </div>
+                    ),
+                  },
+                  {
+                    title: "Trazabilidad y Certificaciones",
+                    content: (
+                      <div>
+                        <p className="font-normal text-lg text-gray-300">
+                          Cumpla normas internacionales con facilidad.
+                        </p>
+                      </div>
+                    ),
+                  },
+                  {
+                    title: "Comercialización Inteligente",
+                    content: (
+                      <div>
+                        <p className="font-normal text-lg text-gray-300">
+                          Datos de mercado, precios y oportunidades en tiempo
+                          real.
+                        </p>
+                      </div>
+                    ),
+                  },
+                ]}
+              />
+            </div>
           </div>
 
-          <ul className="flex flex-col gap-4">
-            <li className="text-white">
-              ● Incrementar su productividad hasta un 30 %.
-            </li>
-            <li className="text-white">
-              ● Reducir el desperdicio de recursos y fertilizantes.
-            </li>
-            <li className="text-white">
-              ● Acceder a certificaciones internacionales.
-            </li>
-            <li className="text-white">
-              ● Mejorar la trazabilidad y transparencia en sus exportaciones.
-            </li>
-          </ul>
+          <div className="sticky flex justify-end px-12 sm:px-28 h-max top-20 z-3 w-full">
+            <ModelViewer
+              scrollRotate
+              modelXOffset={0}
+              modelYOffset={0}
+              width={width * 0.5}
+              height={400}
+              fadeIn
+              autoFrame
+              defaultZoom={0.8}
+              maxZoomDistance={10000}
+              enableManualRotation={false}
+              enableManualZoom={false}
+              autoRotateSpeed={0.05}
+              defaultRotationY={30}
+              defaultRotationX={100}
+              showScreenshotButton={false}
+              url="/models/dron/scene.glb"
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

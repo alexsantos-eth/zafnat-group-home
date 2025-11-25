@@ -1,10 +1,64 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
 
 import { World } from "@/components/ui/globe";
-import ParticleBackground from "@/layout/components/background";
+import Heading from "@/layout/components/heading";
 
 const WorldPage: React.FC = () => {
+  const textRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const worldRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const elements = [
+      textRef.current,
+      listRef.current,
+      worldRef.current,
+    ].filter(Boolean);
+
+    // Configurar estado inicial
+    gsap.set(elements, {
+      opacity: 0,
+      y: 30,
+    });
+
+    // Crear IntersectionObserver
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Encontrar el índice del elemento para el stagger
+            const index = elements.indexOf(entry.target as HTMLDivElement);
+
+            gsap.to(entry.target, {
+              opacity: 1,
+              y: 0,
+              duration: 1,
+              delay: (index + 1) * 0.8,
+              ease: "power2.out",
+            });
+
+            // Dejar de observar después de la animación
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+      }
+    );
+
+    // Observar todos los elementos
+    elements.forEach((element) => {
+      if (element) observer.observe(element);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   const globeConfig = {
     pointSize: 4,
     globeColor: "#062056",
@@ -392,31 +446,34 @@ const WorldPage: React.FC = () => {
   ];
 
   return (
-    <div className="h-screen overflow-hidden w-full relative">
-      <div className="absolute top-0 w-full h-full z-2">
-        <ParticleBackground />
-      </div>
-      <div className="bg-blue absolute w-full h-full pointer-events-none" />
+    <div className="relative h-max w-full flex flex-row items-start justify-between z-3 top-44 py-32">
+      {/* BACKGROUND */}
+      <div
+        className="absolute top-0 brightness-80 left-0 w-full h-full scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"
+        style={{
+          boxShadow: "0 -50px 100px rgba(0,0,0,.3)",
+        }}
+      />
 
-      <div className="relative flex flex-row px-8 top-30 gap-8">
-        <div className="flex flex-col gap-4 w-full z-1 relative max-w-2xl">
-          <h2 className="text-white text-5xl sm:text-6xl font-bold">
-            Alianzas y Expansión Internacional
-          </h2>
+      <div className="relative w-full px-12 sm:px-28 pb-0 gap-30 flex flex-row z-2">
+        <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-4 relative z-2 max-w-full sm:max-w-[500px]">
+            <Heading
+              title="Alianzas y      expansión      internacional"
+              description="Zafnat Group establece alianzas estratégicas con instituciones académicas, gobiernos y empresas internacionales para expandir la agricultura inteligente."
+            />
+          </div>
 
-          <p className="text-gray-300 text-md sm:text-lg max-w-xl">
-            Zafnat Group establece alianzas estratégicas con instituciones
-            académicas, gobiernos y empresas internacionales para expandir la
-            agricultura inteligente.
-          </p>
-
-          <p className="text-gray-400 text-sm sm:text-md max-w-xl">
+          <p
+            ref={textRef}
+            className="text-gray-300/80 w-full sm:w-sm text-sm p-6 border border-white/80 rounded-2xl leading-6"
+          >
             Estamos construyendo puentes tecnológicos y humanos para una
             agroindustria global más eficiente, justa y sostenible.
           </p>
         </div>
 
-        <div className="relative top-10">
+        <div ref={listRef} className="relative">
           <ul className="flex flex-col gap-4">
             <li className="text-white">🇬🇹 Guatemala (S.A.)</li>
             <li className="text-white">🇩🇴 República Dominicana (SRL)</li>
@@ -424,9 +481,14 @@ const WorldPage: React.FC = () => {
             <li className="text-white">🇮🇹 Italia (SRL)</li>
           </ul>
         </div>
-      </div>
 
-      <World data={sampleArcs} globeConfig={globeConfig} />
+        <div
+          ref={worldRef}
+          className="absolute -bottom-80 w-full h-[700px] z-1"
+        >
+          <World data={sampleArcs} globeConfig={globeConfig} />
+        </div>
+      </div>
     </div>
   );
 };
