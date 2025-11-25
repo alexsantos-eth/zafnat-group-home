@@ -150,6 +150,12 @@ const ModelViewer: FC<ViewerProps> = ({
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
 
+    console.log("Renderer initialized:", {
+      viewWidth,
+      viewHeight,
+      dpr: window.devicePixelRatio,
+    });
+
     // Initialize camera
     const fov = 50;
     // Set far plane to accommodate extreme zoom distances
@@ -284,7 +290,7 @@ const ModelViewer: FC<ViewerProps> = ({
                   }
                 `,
                 uniforms: {
-                  uAlpha: { value: 0 },
+                  uAlpha: { value: fadeIn ? 0 : 1 },
                   uColor: {
                     value: gltfMaterial.baseColorFactor
                       ? [
@@ -375,6 +381,15 @@ const ModelViewer: FC<ViewerProps> = ({
           // Force update of all matrices to ensure proper rendering
           if (sceneRef.current) {
             sceneRef.current.updateMatrixWorld(true);
+          }
+
+          // Force an immediate render to ensure model is visible
+          if (rendererRef.current && sceneRef.current && cameraRef.current) {
+            console.log("Forcing initial render");
+            rendererRef.current.render({
+              scene: sceneRef.current,
+              camera: cameraRef.current,
+            });
           }
 
           // Start fade in animation
@@ -478,10 +493,8 @@ const ModelViewer: FC<ViewerProps> = ({
       vel.current.x *= INERTIA;
       vel.current.y *= INERTIA;
 
-      // Only render when model is ready
-      if (modelReadyRef.current) {
-        renderer.render({ scene, camera });
-      }
+      // Always render to keep canvas updating
+      renderer.render({ scene, camera });
     };
 
     animFrameRef.current = requestAnimationFrame(animate);
