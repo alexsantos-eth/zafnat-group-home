@@ -106,6 +106,7 @@ const FitotecniaPage = () => {
   return (
     <div id="fitotecnia" className="relative w-full min-h-screen flex items-center justify-center pt-10 pb-40 z-2">
       <div
+ref={bgRef}
         className="absolute top-0 left-0 w-full h-full scale-110 skew-y-3 z-0 pointer-events-none bg-gradient-to-br from-lime-900/30 to-green-950/40"
 
       />
