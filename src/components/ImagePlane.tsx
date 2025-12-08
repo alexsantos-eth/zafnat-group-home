@@ -240,7 +240,7 @@ const ImagePlane = ({
       ref={containerRef}
       className={
         fullViewport
-          ? "fixed top-0 left-0 w-screen h-screen pointer-events-none z-0"
+          ? "fixed top-0 left-0 w-full h-screen pointer-events-none z-0"
           : "absolute top-0 left-0 w-full pointer-events-none z-0"
       }
       style={

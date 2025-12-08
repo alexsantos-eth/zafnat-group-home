@@ -26,6 +26,211 @@
   margin: 0;
 }
 
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: auto;
+}
+
+body {
+  will-change: scroll-position;
+  overscroll-behavior: none;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img, video, canvas, svg {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+html {
+  scroll-behavior: auto; /* Lenis maneja el smooth scroll */
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Aceleración por hardware para elementos animados */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[data-animate] {
+  will-change: transform, opacity;
+}
+
+/* Optimización de repintado */
+canvas {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Optimizaciones específicas para móvil */
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+  }
+  
+  /* Mejorar el rendimiento en móvil */
+  * {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  
+  /* Evitar zoom en inputs en iOS */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+  
+  /* Mejorar el tap en móvil */
+  button, a {
+    touch-action: manipulation;
+  }
+}
+
+/* Touch optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Dispositivos táctiles */
+  .hover\:scale-105:hover,
+  .hover\:scale-110:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Reducir animaciones complejas en móvil */
+  .backdrop-blur-xl {
+    backdrop-filter: blur(8px);
+  }
+  
+  .backdrop-blur-md {
+    backdrop-filter: blur(6px);
+  }
+}
+
+/* Transiciones ultra suaves globales */
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Optimizar animaciones para 60fps */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Optimizar scroll momentum en Safari/iOS */
+html {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Reducir carga de animaciones durante scroll */
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  [data-animate] {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.2s !important;
+  }
+}
+
+/* Suavizar todas las transiciones */
+.transition-all {
+  transition-duration: 200ms;
+}
+
+.transition-colors {
+  transition-duration: 150ms;
+}
+
+.transition-transform {
+  transition-duration: 200ms;
+}
+
+/* Mejorar performance de hover */
+@media (hover: hover) and (pointer: fine) {
+  button:hover,
+  a:hover {
+    transition-duration: 150ms;
+  }
+  
+  button:active,
+  a:active {
+    transition-duration: 50ms;
+    transform: scale(0.98);
+  }
+}
+
+/* Reducir motion para usuarios con preferencia */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Optimización para elementos con scroll */
+[data-scroll] {
+  contain: layout style paint;
+}
+
+/* Optimización para elementos que se animan */
+.animate-on-scroll {
+  content-visibility: auto;
+  contain-intrinsic-size: 500px;
+}
+
 .bg-home {
   background-color: #020a07;
 
@@ -389,5 +594,23 @@ html {
 @media (min-width: 1024px) {
   .diagonal-bg {
     clip-path: polygon(0 0, 100% 0, 100% 70%, 0 85%);
+  }
+}
+
+/* Animación para partículas flotantes */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-100px) translateX(50px);
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.5;
   }
 }

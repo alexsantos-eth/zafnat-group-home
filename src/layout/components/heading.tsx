@@ -1,6 +1,4 @@
 import { cn } from "@/lib/utils";
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
 import BlurText from "@/components/BlurText";
 
 interface HeadingProps {
@@ -10,6 +8,7 @@ interface HeadingProps {
   delay?: number;
   descriptionSize?: string;
   textShadow?: string; // e.g. "0 4px 12px rgba(0,0,0,0.45)"
+  readyForAnimations?:boolean;
 }
 
 const Heading = ({
@@ -17,50 +16,33 @@ const Heading = ({
   description,
   titleSize = "text-5xl sm:text-7xl",
   delay,
-  descriptionSize = "text-lg",
+  descriptionSize = "text-sm sm:text-base lg:text-lg",
   textShadow,
+  readyForAnimations
 }: HeadingProps) => {
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const descriptionRef = useRef<HTMLParagraphElement>(null);
-
-  useEffect(() => {
-    const elements = [titleRef.current, descriptionRef.current].filter(Boolean);
-
-    gsap.fromTo(
-      elements,
-      {
-        opacity: 0,
-        y: -50,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        stagger: 0.2,
-        ease: "power3.out",
-      }
-    );
-  }, [title, description]);
-
   return (
     <>
       <BlurText
         text={title}
-        delay={50}
+        delay={30}
         animateBy="letters"
         direction="top"
-        className={cn("text-white mb-0 sm:mb-8 font-bold", titleSize)}
-        style={textShadow ? { textShadow } : undefined}
+        stepDuration={0.2}
+        className={cn("text-white mb-0 sm:mb-4 lg:mb-8 font-bold", titleSize)}
+        style={textShadow ? { textShadow, position: 'relative' } : { position: 'relative' }}
+        readyForAnimations={readyForAnimations}
       />
 
       {(description?.length ?? 0) > 0 && (
         <BlurText
           text={description}
-          delay={delay ?? 300}
+          delay={delay ?? 150}
           animateBy="words"
           direction="top"
+          stepDuration={0.2}
           className={cn("text-gray-200 font-medium", descriptionSize)}
-          style={textShadow ? { textShadow } : undefined}
+          style={textShadow ? { textShadow, position: 'relative' } : { position: 'relative' }}
+          readyForAnimations={readyForAnimations}
         />
       )}
     </>

@@ -1,5 +1,9 @@
-import { motion, type Transition } from "motion/react";
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useRef } from "react";
+import { gsap } from "gsap";
+import SplitText from "gsap/SplitText";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(SplitText, useGSAP);
 
 type BlurTextProps = {
   text?: string;
@@ -10,129 +14,101 @@ type BlurTextProps = {
   direction?: "top" | "bottom";
   threshold?: number;
   rootMargin?: string;
-  animationFrom?: Record<string, string | number>;
-  animationTo?: Array<Record<string, string | number>>;
-  easing?: (t: number) => number;
   onAnimationComplete?: () => void;
   stepDuration?: number;
+  readyForAnimations?: boolean;
 };
 
-const buildKeyframes = (
-  from: Record<string, string | number>,
-  steps: Array<Record<string, string | number>>
-): Record<string, Array<string | number>> => {
-  const keys = new Set<string>([
-    ...Object.keys(from),
-    ...steps.flatMap((s) => Object.keys(s)),
-  ]);
-
-  const keyframes: Record<string, Array<string | number>> = {};
-  keys.forEach((k) => {
-    keyframes[k] = [from[k], ...steps.map((s) => s[k])];
-  });
-  return keyframes;
-};
-
-const BlurText: React.FC<BlurTextProps> = ({
+export default function BlurTextGSAP({
   text = "",
   delay = 200,
   className = "",
   style,
   animateBy = "words",
   direction = "top",
-  threshold = 0.1,
+  threshold = 0.05,
   rootMargin = "0px",
-  animationFrom,
-  animationTo,
-  easing = (t: number) => t,
   onAnimationComplete,
-  stepDuration = 0.35,
-}) => {
-  const elements = animateBy === "words" ? text.split(" ") : text.split("");
-  const [inView, setInView] = useState(false);
+  stepDuration = 0.25,
+  readyForAnimations = true
+}: BlurTextProps) {
   const ref = useRef<HTMLParagraphElement>(null);
+  const triggered = useRef(false); // Para evitar animar más de una vez
 
-  useEffect(() => {
+  // Intersection + GSAP
+  useGSAP(
+    () => {
+      if (!ref.current) return;
+      if (!readyForAnimations) return; // ⬅️ aquí respetamos tu overlay
+      if (triggered.current) return;
+
+      const el = ref.current;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            triggered.current = true;
+            observer.unobserve(el);
+            animateGSAP();
+          }
+        },
+        { threshold, rootMargin }
+      );
+
+      observer.observe(el);
+
+      return () => observer.disconnect();
+    },
+    { dependencies: [readyForAnimations] } // Reintenta cuando cambia
+  );
+
+  /** 🔥 Animación GSAP real */
+  const animateGSAP = () => {
     if (!ref.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          observer.unobserve(ref.current as Element);
-        }
-      },
-      { threshold, rootMargin }
-    );
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [threshold, rootMargin]);
 
-  const defaultFrom = useMemo(
-    () =>
-      direction === "top"
-        ? { filter: "blur(10px)", opacity: 0, y: -50 }
-        : { filter: "blur(10px)", opacity: 0, y: 50 },
-    [direction]
-  );
+    const split = new SplitText(ref.current, {
+      type: animateBy === "words" ? "words" : "chars",
+    });
 
-  const defaultTo = useMemo(
-    () => [
-      {
-        filter: "blur(5px)",
-        opacity: 0.5,
-        y: direction === "top" ? 5 : -5,
-      },
-      { filter: "blur(0px)", opacity: 1, y: 0 },
-    ],
-    [direction]
-  );
+    const targets =
+      animateBy === "words" ? split.words : split.chars;
 
-  const fromSnapshot = animationFrom ?? defaultFrom;
-  const toSnapshots = animationTo ?? defaultTo;
+    gsap.set(targets, {
+      opacity: 0,
+      filter: "blur(6px)",
+      y: direction === "top" ? -25 : 25,
+    });
 
-  const stepCount = toSnapshots.length + 1;
-  const totalDuration = stepDuration * (stepCount - 1);
-  const times = Array.from({ length: stepCount }, (_, i) =>
-    stepCount === 1 ? 0 : i / (stepCount - 1)
-  );
+    const tl = gsap.timeline({
+      onComplete: onAnimationComplete,
+    });
+
+    tl.to(targets, {
+      opacity: 0.7,
+      filter: "blur(1px)",
+      y: direction === "top" ? 3 : -3,
+      duration: stepDuration,
+      stagger: delay / 1000,
+      ease: "power2.out",
+    }).to(targets, {
+      opacity: 1,
+      filter: "blur(0px)",
+      y: 0,
+      duration: stepDuration,
+      ease: "power2.out",
+    });
+  };
 
   return (
     <p
       ref={ref}
       className={className}
-      style={{ display: "flex", flexWrap: "wrap", ...style }}
+      style={{
+        display: "inline-block",
+        ...style,
+      }}
     >
-      {elements.map((segment, index) => {
-        const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
-
-        const spanTransition: Transition = {
-          duration: totalDuration,
-          times,
-          delay: (index * delay) / 1000,
-          ease: easing,
-        };
-
-        return (
-          <motion.span
-            key={index}
-            initial={fromSnapshot}
-            animate={inView ? animateKeyframes : fromSnapshot}
-            transition={spanTransition}
-            onAnimationComplete={
-              index === elements.length - 1 ? onAnimationComplete : undefined
-            }
-            style={{
-              display: "inline-block",
-              willChange: "transform, filter, opacity",
-            }}
-          >
-            {segment === " " ? "\u00A0" : segment}
-            {animateBy === "words" && index < elements.length - 1 && "\u00A0"}
-          </motion.span>
-        );
-      })}
+      {text}
     </p>
   );
-};
-
-export default BlurText;
+}

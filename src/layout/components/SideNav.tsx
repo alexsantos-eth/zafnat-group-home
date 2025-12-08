@@ -1,146 +1,172 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+gsap.registerPlugin(ScrollToPlugin, useGSAP);
 
 interface NavItem {
   id: string;
   hash: string;
+  name: string;
 }
 
 const navItems: NavItem[] = [
-  { id: "about", hash: "#about" },
-  { id: "structure", hash: "#structure" },
-  { id: "modules", hash: "#modules" },
-  { id: "world", hash: "#world" },
-  { id: "contact", hash: "#contact" },
+  { id: "home", hash: "#home", name: 'Inicio' },
+  { id: "about", hash: "#about",  name: 'Sobre nosotros' },
+  { id: "structure", hash: "#structure",  name: 'Estructura' },
+  { id: "modules", hash: "#modules",  name: 'InnoVAgro' },
+  { id: "producers", hash: "#producers",  name: 'Productores' },
+  { id: "cooperation", hash: "#cooperation",  name: 'Cooperación' },
+  { id: "contact", hash: "#contact",  name: 'Contáctanos' },
 ];
 
 const SideNav = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const dotsRef = useRef<(HTMLAnchorElement | null)[]>([]);
-  const orbitsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const dotsRef = useRef<(HTMLAnchorElement)[]>([]);
+  const orbitsRef = useRef<(HTMLDivElement)[]>([]);
+  const labelsRef = useRef<(HTMLSpanElement)[]>([]);
+  const sectionsRef = useRef<HTMLElement[]>([]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = navItems.map((item) =>
-        document.querySelector(item.hash)
-      );
-
-      const scrollPosition = window.scrollY + window.innerHeight / 2;
-
-      let currentIndex = 0;
-      sections.forEach((section, index) => {
-        if (section) {
-          const sectionTop = (section as HTMLElement).offsetTop;
-          if (scrollPosition >= sectionTop) {
-            currentIndex = index;
-          }
-        }
-      });
-
-      setActiveIndex(currentIndex);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-
-    return () => window.removeEventListener("scroll", handleScroll);
+  // Registrar secciones una sola vez
+  useGSAP(() => {
+    sectionsRef.current = navItems
+      .map((i) => document.querySelector(i.hash) as HTMLElement)
+      .filter(Boolean);
   }, []);
 
-  useEffect(() => {
-    dotsRef.current.forEach((dot, index) => {
-      if (!dot) return;
+  // Detectar sección activa al hacer scroll
+  useGSAP(() => {
+    const updateActiveSection = () => {
+      const middle = window.scrollY + window.innerHeight / 2;
 
-      const distance = Math.abs(index - activeIndex);
-      let opacity = 1;
-      let scale = 1;
-
-      if (distance === 0) {
-        opacity = 1;
-        scale = 1;
-      } else if (distance <= 1) {
-        opacity = 0.8;
-        scale = 0.9;
-      } else {
-        opacity = 0.3;
-        scale = 0.7;
-      }
-
-      gsap.to(dot, {
-        opacity,
-        scale,
-        duration: 0.5,
-        ease: "power2.out",
+      let newIndex = 0;
+      sectionsRef.current.forEach((section, i) => {
+        if (middle >= section.offsetTop) newIndex = i;
       });
-    });
 
-    // Animar las órbitas - primero ocultar todas, luego mostrar la activa
-    orbitsRef.current.forEach((orbit, index) => {
-      if (!orbit) return;
+      setActiveIndex(newIndex);
+    };
 
-      if (index === activeIndex) {
-        // Primero asegurarse de que está oculta
-        gsap.set(orbit, { scale: 0, opacity: 0 });
-        // Luego animarla para aparecer
-        gsap.to(orbit, {
-          scale: 1,
-          opacity: 1,
-          duration: 0.5,
+    window.addEventListener("scroll", updateActiveSection);
+    updateActiveSection();
+
+    return () => window.removeEventListener("scroll", updateActiveSection);
+  }, []);
+
+  // Animación: dots, orbits y labels
+  useGSAP(
+    () => {
+      dotsRef.current.forEach((dot, i) => {
+        if (!dot) return;
+        const dist = Math.abs(i - activeIndex);
+
+        gsap.to(dot, {
+          opacity: dist === 0 ? 1 : dist <= 1 ? 0.8 : 0.3,
+          scale: dist === 0 ? 1 : dist <= 1 ? 0.9 : 0.7,
+          duration: 0.4,
           ease: "power2.out",
-          overwrite: true, // Sobrescribir cualquier animación previa
         });
-      } else {
-        // Ocultar inmediatamente las demás
-        gsap.to(orbit, {
-          scale: 0,
-          opacity: 0,
-          duration: 0.2,
-          ease: "power2.in",
-          overwrite: true, // Sobrescribir cualquier animación previa
-        });
-      }
-    });
-  }, [activeIndex]);
+      });
 
-  const handleClick = (index: number, hash: string) => {
-    setActiveIndex(index);
-    const element = document.querySelector(hash);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+      orbitsRef.current.forEach((orbit, i) => {
+        if (!orbit) return;
+
+        gsap.to(orbit, {
+          scale: i === activeIndex ? 1 : 0,
+          opacity: i === activeIndex ? 1 : 0,
+          duration: 0.35,
+          ease: "power2.out",
+          overwrite: true,
+        });
+      });
+
+      labelsRef.current.forEach((label, i) => {
+        if (!label) return;
+
+        if (i === activeIndex) {
+          gsap.to(label, {
+            opacity: 1,
+            x: 0,
+            duration: 0.4,
+            display: "block",
+            ease: "power2.out",
+            overwrite: true,
+          });
+        } else {
+          gsap.to(label, {
+            opacity: 0,
+            x: 20,
+            duration: 0.3,
+            display: "none",
+            ease: "power2.in",
+            overwrite: true,
+          });
+        }
+      });
+    },
+    { dependencies: [activeIndex] }
+  );
+
+  // CLICK scroll con GSAP
+  const handleClick = (hash: string) => {
+    gsap.to(window, {
+      duration: 1,
+      scrollTo: {
+        y: hash,
+        offsetY: 40,
+      },
+      ease: "power3.inOut",
+    });
   };
 
   return (
     <nav
-      className="fixed right-28 top-1/2 -translate-y-1/2 z-4 flex flex-col gap-6"
-      aria-label="Navegación lateral"
+      className="hidden lg:flex fixed right-6 lg:right-12 xl:right-16 top-1/2 -translate-y-1/2 z-4 flex flex-col gap-4 lg:gap-6"
+      aria-label="Side Navigation"
     >
-      {navItems.map((item, index) => (
+      {navItems.map((item, i) => (
         <a
           key={item.id}
-          ref={(el) => {
-            dotsRef.current[index] = el;
-          }}
           href={item.hash}
+          ref={(el) => {
+            if (el) dotsRef.current[i] = el;
+          }}
           onClick={(e) => {
             e.preventDefault();
-            handleClick(index, item.hash);
+            handleClick(item.hash);
           }}
-          className="relative w-3 h-3 flex items-center justify-center cursor-pointer transition-transform"
-          aria-label={`Ir a ${item.id}`}
+          className="relative flex items-center cursor-pointer"
           style={{ transformOrigin: "center" }}
         >
-          <div
-            ref={(el) => {
-              orbitsRef.current[index] = el;
-            }}
-            className="absolute w-8 h-8 border-2 border-white rounded-full pointer-events-none"
-            style={{
-              opacity: 0,
-              transform: "scale(0)",
-            }}
-          />
 
-          <div className="w-full h-full bg-white rounded-full" />
+          {/* LABEL (fuera del flujo, no afecta la posición del dot) */}
+          <span
+            ref={(el) => {if (el) labelsRef.current[i] = el}}
+            className="absolute right-8 text-white text-sm font-medium pointer-events-none opacity-0"
+            style={{
+              display: "none",
+              transform: "translateX(20px)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {item.name.toUpperCase()}
+          </span>
+
+          {/* CONTENEDOR DEL DOT + ORBIT */}
+          <div className="relative flex items-center justify-center w-3 h-3">
+
+            {/* ORBIT (centrada porque está dentro de un contenedor flex centrado) */}
+            <div
+              ref={(el) => {if (el) orbitsRef.current[i] = el}}
+              className="absolute w-8 h-8 border-2 border-white rounded-full pointer-events-none"
+              style={{ opacity: 0, transform: "scale(0)" }}
+            />
+
+            {/* DOT */}
+            <div className="w-3 h-3 bg-white rounded-full" />
+
+          </div>
         </a>
       ))}
     </nav>

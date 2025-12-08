@@ -26,9 +26,20 @@ const LazySection: React.FC<Props> = ({
   useEffect(() => {
     if (isIntersecting && !Component) {
       let mounted = true;
-      loader().then((mod) => {
-        if (mounted) setComponent(() => mod.default);
-      });
+      
+      // Usar requestIdleCallback para no bloquear el hilo principal
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => {
+          loader().then((mod) => {
+            if (mounted) setComponent(() => mod.default);
+          });
+        }, { timeout: 500 });
+      } else {
+        loader().then((mod) => {
+          if (mounted) setComponent(() => mod.default);
+        });
+      }
+      
       return () => {
         mounted = false;
       };
@@ -36,7 +47,11 @@ const LazySection: React.FC<Props> = ({
   }, [isIntersecting, loader, Component]);
 
   return (
-    <div ref={ref as any} className={className}>
+    <div 
+      ref={ref as any} 
+      className={`${className} animate-on-scroll`}
+      data-scroll
+    >
       {Component ? <Component {...componentProps} /> : fallback}
     </div>
   );

@@ -1,57 +1,50 @@
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useRef } from "react";
 
 import DotGrid from "@/components/DotGrid";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 
-interface ParticleBackgroundProps {
-  disableHover?: boolean;
-}
+import { useGSAP } from "@gsap/react";
+
 const LazyParticleBackground = lazy(() => import("@/components/Particles"));
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ParticleBackground = ({ disableHover }: ParticleBackgroundProps) => {
+const ParticleBackground = () => {
   const particlesRef = useRef<HTMLDivElement>(null);
-  const [showParticles, setShowParticles] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setShowParticles(true), 2000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    if (showParticles && particlesRef.current) {
+  useGSAP(() => {
+    if (particlesRef.current) {
       gsap.fromTo(
         particlesRef.current,
         { opacity: 0 },
-        { opacity: 0.4, duration: 10, ease: "power1.out" }
+        { opacity: 0.4, duration: 10, ease: "back.inOut" }
       );
     }
-  }, [showParticles]);
+  });
 
   return (
     <>
-      {showParticles && (
+      {
         <div
           ref={particlesRef}
-          className="h-[820vh] absolute top-0 z-0 w-full pointer-events-none opacity-0"
+          className="h-[820vh] absolute top-0 z-0 w-full opacity-0"
         >
           <Suspense fallback={null}>
             <LazyParticleBackground
-              particleColors={["#ffffff"]}
-              particleCount={500}
-              particleSpread={3}
-              speed={0.05}
-              particleBaseSize={200}
-              moveParticlesOnHover={!disableHover}
+              particleColors={["#706b6b7a"]}
+              particleCount={800}
+              particleSpread={4}
+              speed={0.06}
+              particleBaseSize={100}
+              moveParticlesOnHover={false}
               alphaParticles={true}
               disableRotation={true}
-              particleHoverFactor={0.05}
+              particleHoverFactor={1}
             />
           </Suspense>
         </div>
-      )}
+      }
     </>
   );
 };
@@ -59,11 +52,11 @@ const ParticleBackground = ({ disableHover }: ParticleBackgroundProps) => {
 export const GradientBackground = () => {
   const bgRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useGSAP(() => {
     if (!bgRef.current) return;
 
     gsap.to(bgRef.current, {
-      y: "-75%",
+      y: "-10%",
       ease: "none",
       scrollTrigger: {
         trigger: bgRef.current,
@@ -72,12 +65,12 @@ export const GradientBackground = () => {
         scrub: 1,
       },
     });
-  }, []);
+  });
 
   return (
     <div
       ref={bgRef}
-      className="h-[400vh] fixed top-0 w-full z-0 pointer-events-none bg-transition"
+      className="h-[2000vh] fixed top-0 w-full z-0 pointer-events-none bg-transition"
     />
   );
 };
@@ -85,6 +78,7 @@ export const GradientBackground = () => {
 interface GridBackgroundProps {
   style?: React.CSSProperties;
 }
+
 export const GridBackground = ({
   style = {
     position: "fixed",

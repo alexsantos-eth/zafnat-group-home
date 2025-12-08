@@ -1,23 +1,29 @@
-import { useEffect, useRef } from "react";
+"use client";
 
+import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
+import { useGSAP } from "@gsap/react";
 
 import { Timeline } from "@/components/ui/timeline";
 import Heading from "@/layout/components/heading";
-import ModelViewer from "@/components/ModelViewer";
 
-const ModulesPage = () => {
+gsap.registerPlugin(ScrollTrigger);
+
+export default function ModulesPage() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const width = typeof window !== "undefined" ? window.innerWidth : 800;
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const imageCardRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!containerRef.current) return;
-
+  // ==========================
+  // ANIMACIONES
+  // ==========================
+  useGSAP(() => {
+    // ANIMACIÓN DEL CONTENEDOR (fondo/heading)
     gsap.to(containerRef.current, {
-      x: 100,
+      x: 80,
       y: 100,
-      opacity: 0,
+      opacity: 0.25,
       ease: "none",
       scrollTrigger: {
         trigger: containerRef.current,
@@ -27,163 +33,114 @@ const ModulesPage = () => {
       },
     });
 
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
-  }, []);
-
-  const timelineRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (!timelineRef.current) return;
-
-    const element = timelineRef.current;
-
-    // Configurar estado inicial
-    gsap.set(element, {
-      opacity: 0,
-      y: 30,
-    });
-
-    // Crear IntersectionObserver
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Animar cuando el elemento es visible
-            gsap.to(element, {
-              opacity: 1,
-              y: 0,
-              duration: 1,
-              delay: 1,
-              ease: "power2.out",
-            });
-            // Dejar de observar después de la animación
-            observer.unobserve(entry.target);
-          }
-        });
-      },
+    // APARICIÓN DEL TIMELINE
+    gsap.fromTo(
+      timelineRef.current,
+      { opacity: 0, y: 30 },
       {
-        threshold: 0.2, // Activar cuando el 20% del elemento sea visible
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        scrollTrigger: {
+          trigger: timelineRef.current,
+          start: "top center",
+          once: true,
+        },
+        ease: "power3.out",
       }
     );
+  });
 
-    observer.observe(element);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
+  // ==========================
+  // RENDER
+  // ==========================
   return (
-    <>
+    <section
+      id="modules"
+      className="relative h-[140vh] w-full flex flex-row items-start justify-between z-3 top-[-80px] pt-20 pb-32"
+    >
+      {/* BACKGROUND */}
       <div
-        id="modules"
-        className="relative h-[125vh] pb-14 w-full flex flex-row items-start justify-between z-3 top-24 py-32"
-      >
-        {/* BACKGROUND */}
-        <div
-          className="absolute top-0 bg-about brightness-80 left-0 w-full h-full scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"
-          style={{
-            boxShadow: "0 -50px 100px rgba(0,0,0,.3)",
-          }}
-        />
+        className="absolute top-0 bg-about brightness-80 left-0 w-full h-full scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"
+        style={{ boxShadow: "0 -50px 100px rgba(0,0,0,.3)" }}
+      />
 
-        <div ref={containerRef} className="w-full relative top-0 h-full">
-          <div className="absolute z-1 w-full px-12 sm:px-28 flex flex-col items-start justify-between gap-18">
-            <div className="flex flex-col gap-12 items-start">
-              <div className="flex flex-col gap-4 relative z-2 max-w-full sm:max-w-[450px]">
-                <Heading
-                  title="InnoVAgro"
-                  delay={100}
-                  titleSize="max-w-3xs sm:max-w-[710px] text-7xl"
-                  description="Plataforma de agricultura de precisión que combina datos, IA para transformar la producción de alimentos."
-                />
-              </div>
-            </div>
-
-            <div ref={timelineRef}>
-              <Timeline
-                data={[
-                  {
-                    title: "Análisis de Terreno y Recursos",
-                    content: (
-                      <div>
-                        <p className="font-normal text-md text-gray-300">
-                          Diagnóstico inteligente del suelo y clima.
-                        </p>
-                      </div>
-                    ),
-                  },
-                  {
-                    title: "Planificación Productiva",
-                    content: (
-                      <div>
-                        <p className="font-normal text-md text-gray-300">
-                          Estrategias agrícolas personalizadas.
-                        </p>
-                      </div>
-                    ),
-                  },
-                  {
-                    title: "Gestión de Operaciones",
-                    content: (
-                      <div>
-                        <p className="font-normal text-md text-gray-300">
-                          Control total de maquinaria, insumos y personal.
-                        </p>
-                      </div>
-                    ),
-                  },
-                  {
-                    title: "Trazabilidad y Certificaciones",
-                    content: (
-                      <div>
-                        <p className="font-normal text-lg text-gray-300">
-                          Cumpla normas internacionales con facilidad.
-                        </p>
-                      </div>
-                    ),
-                  },
-                  {
-                    title: "Comercialización Inteligente",
-                    content: (
-                      <div>
-                        <p className="font-normal text-lg text-gray-300">
-                          Datos de mercado, precios y oportunidades en tiempo
-                          real.
-                        </p>
-                      </div>
-                    ),
-                  },
-                ]}
-              />
-            </div>
+      {/* CONTENEDOR PRINCIPAL */}
+      <div ref={containerRef} className="w-full relative h-full">
+        <div className="absolute z-1 w-full px-6 sm:px-12 lg:px-28 flex flex-col items-start gap-14">
+          {/* HEADER */}
+          <div className="flex flex-col gap-4 relative z-2 max-w-full sm:max-w-[600px] pt-12">
+            <Heading
+              title="InnoVAgro"
+              delay={100}
+              titleSize="max-w-3xs sm:max-w-[710px] text-7xl"
+              description="Nuestro pilar fundamental. Monitorea, planifica y gestiona tu finca con datos en tiempo real, inteligencia artificial y herramientas diseñadas para productores y agroempresas."
+            />
           </div>
 
-          <div className="sticky flex justify-end px-12 sm:px-28 h-max top-20 z-3 w-full">
-            <ModelViewer
-              scrollRotate
-              modelXOffset={0}
-              modelYOffset={0}
-              width={width * 0.5}
-              height={400}
-              fadeIn
-              autoFrame
-              defaultZoom={0.8}
-              maxZoomDistance={10000}
-              enableManualRotation={false}
-              enableManualZoom={false}
-              autoRotateSpeed={0.05}
-              defaultRotationY={30}
-              defaultRotationX={100}
-              showScreenshotButton={false}
-              url="/models/dron/scene.glb"
+          {/* TIMELINE */}
+          <div ref={timelineRef} className="relative z-2">
+            <Timeline
+              data={[
+                {
+                  title: "Análisis de Terreno y Recursos",
+                  content: (
+                    <p className="font-normal text-md text-gray-300">
+                      Diagnóstico inteligente del suelo y clima.
+                    </p>
+                  ),
+                },
+                {
+                  title: "Planificación Productiva",
+                  content: (
+                    <p className="font-normal text-md text-gray-300">
+                      Estrategias agrícolas personalizadas.
+                    </p>
+                  ),
+                },
+                {
+                  title: "Gestión de Operaciones",
+                  content: (
+                    <p className="font-normal text-md text-gray-300">
+                      Control total de maquinaria, insumos y personal.
+                    </p>
+                  ),
+                },
+                {
+                  title: "Trazabilidad y Certificaciones",
+                  content: (
+                    <p className="font-normal text-lg text-gray-300">
+                      Cumpla normas internacionales con facilidad.
+                    </p>
+                  ),
+                },
+                {
+                  title: "Comercialización Inteligente",
+                  content: (
+                    <p className="font-normal text-lg text-gray-300">
+                      Datos de mercado, precios y oportunidades en tiempo real.
+                    </p>
+                  ),
+                },
+              ]}
+            />
+          </div>
+        </div>
+
+        {/* IMAGEN STICKY A LA DERECHA */}
+        <div className="sticky top-24 flex justify-end px-12 sm:px-50 w-full z-3">
+          <div
+            ref={imageCardRef}
+            className="w-[50%] max-w-md  rounded-2xl overflow-hidden shadow-xl border border-white/10 bg-white/5 backdrop-blur-md"
+          >
+            <img
+              src="/images/modules/innovagro.png"
+              alt="module-image"
+              className="w-full h-full object-cover"
             />
           </div>
         </div>
       </div>
-    </>
+    </section>
   );
-};
-
-export default ModulesPage;
+}

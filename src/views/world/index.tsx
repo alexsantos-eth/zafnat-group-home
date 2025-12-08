@@ -1,64 +1,50 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
+import { useGSAP } from "@gsap/react";
 
 import { World } from "@/components/ui/globe";
-import Heading from "@/layout/components/heading";
-import { ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const WorldPage: React.FC = () => {
   const textRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const worldRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const elements = [
-      textRef.current,
-      listRef.current,
-      worldRef.current,
-    ].filter(Boolean);
+  const scope = useRef(null);
 
-    // Configurar estado inicial
-    gsap.set(elements, {
-      opacity: 0,
-      y: 30,
-    });
+  useGSAP(
+    () => {
+      const elements = [textRef.current, listRef.current, worldRef.current].filter(
+        Boolean
+      );
 
-    // Crear IntersectionObserver
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Encontrar el índice del elemento para el stagger
-            const index = elements.indexOf(entry.target as HTMLDivElement);
+      // Estado inicial
+      gsap.set(elements, {
+        opacity: 0,
+        y: 30,
+      });
 
-            gsap.to(entry.target, {
-              opacity: 1,
-              y: 0,
-              duration: 1,
-              delay: (index + 1) * 0.8,
-              ease: "power2.out",
-            });
-
-            // Dejar de observar después de la animación
-            observer.unobserve(entry.target);
-          }
+      // Animación individual por scroll
+      elements.forEach((el, index) => {
+        gsap.to(el, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.out",
+          delay: index * 0.4, // stagger manual
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            once: true,
+          },
         });
-      },
-      {
-        threshold: 0.2,
-      }
-    );
-
-    // Observar todos los elementos
-    elements.forEach((element) => {
-      if (element) observer.observe(element);
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
+      });
+    },
+    { scope }
+  );
 
   const globeConfig = {
     pointSize: 4,
@@ -448,31 +434,12 @@ const WorldPage: React.FC = () => {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    gsap.to(containerRef.current, {
-      x: 100,
-      y: 100,
-      opacity: 0,
-      ease: "none",
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
-  }, []);
 
   return (
     <div
       id="world"
-      className="relative h-max w-full flex flex-row items-start justify-between z-3 top-43 py-32"
+      ref={scope}
+      className="relative h-max w-full flex flex-row items-start justify-between z-3 top-43 py-16 sm:py-24 lg:py-32 pb-40 sm:pb-48 lg:pb-56"
     >
       {/* BACKGROUND */}
       <div
@@ -484,20 +451,21 @@ const WorldPage: React.FC = () => {
 
       <div
         ref={containerRef}
-        className="relative w-full px-12 sm:px-28 pb-0 gap-30 flex flex-row z-2"
+        className="relative w-full px-6 sm:px-12 lg:px-28 pb-0 gap-12 sm:gap-20 lg:gap-30 flex flex-col lg:flex-row z-2"
       >
-        <div className="flex flex-col gap-8">
-          <div className="flex flex-col gap-4 relative z-2 max-w-full sm:max-w-[340px]">
-            <Heading
-              titleSize="max-w-3xs sm:max-w-md text-5xl"
-              title="Alianzas y       expansión       internacional"
-              description="Zafnat Group establece alianzas estratégicas con instituciones académicas, gobiernos y empresas internacionales para expandir la agricultura inteligente."
-            />
+        <div className="flex flex-col gap-6 sm:gap-8">
+          <div className="flex flex-col gap-3 sm:gap-4 relative z-2 max-w-full sm:max-w-[340px] lg:max-w-[400px]">
+            <h2 className="text-white mb-0 sm:mb-4 lg:mb-8 font-bold max-w-3xs sm:max-w-md text-3xl sm:text-4xl lg:text-5xl leading-tight">
+              Alianzas y<br />expansión<br />internacional
+            </h2>
+            <p className="text-gray-200 font-medium text-sm sm:text-base lg:text-lg">
+              Zafnat Group establece alianzas estratégicas con instituciones académicas, gobiernos y empresas internacionales para expandir la agricultura inteligente.
+            </p>
           </div>
 
           <p
             ref={textRef}
-            className="text-gray-300/80 w-full sm:w-sm text-sm p-6 border border-white/80 rounded-2xl leading-6"
+            className="text-gray-300/80 w-full sm:w-sm text-xs sm:text-sm p-4 sm:p-6 border border-white/80 rounded-xl sm:rounded-2xl leading-5 sm:leading-6"
           >
             Estamos construyendo puentes tecnológicos y humanos para una
             agroindustria global más eficiente, justa y sostenible.
@@ -505,17 +473,17 @@ const WorldPage: React.FC = () => {
         </div>
 
         <div ref={listRef} className="relative">
-          <ul className="flex flex-col gap-4">
-            <li className="text-white">🇬🇹 Guatemala (S.A.)</li>
-            <li className="text-white">🇩🇴 República Dominicana (SRL)</li>
-            <li className="text-white">🇺🇸 Estados Unidos (LLC / C-Corp)</li>
-            <li className="text-white">🇮🇹 Italia (SRL)</li>
+          <ul className="flex flex-col gap-3 sm:gap-4">
+            <li className="text-white text-sm sm:text-base">🇬🇹 Guatemala (S.A.)</li>
+            <li className="text-white text-sm sm:text-base">🇩🇴 República Dominicana (SRL)</li>
+            <li className="text-white text-sm sm:text-base">🇺🇸 Estados Unidos (LLC / C-Corp)</li>
+            <li className="text-white text-sm sm:text-base">🇮🇹 Italia (SRL)</li>
           </ul>
         </div>
 
         <div
           ref={worldRef}
-          className="absolute -bottom-80 w-full h-[700px] z-1"
+          className="absolute -bottom-60 sm:-bottom-70 lg:-bottom-80 w-full h-[500px] sm:h-[600px] lg:h-[700px] z-1"
         >
           <World data={sampleArcs} globeConfig={globeConfig} />
         </div>

@@ -1,84 +1,136 @@
-import Heading from "@/layout/components/heading";
-import StructureItem from "./components/structure-item";
-import { useEffect, useRef } from "react";
-import { ScrollTrigger } from "gsap/all";
+"use client";
+
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
+import StructureItem from "./components/structure-item";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const StructurePage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const panelsRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!containerRef.current) return;
+  // ---------------------------------
+  // HEADER SCROLL ANIMATION
+  // ---------------------------------
+  useGSAP(
+    (context) => {
+      if (!containerRef.current) return;
 
-    gsap.to(containerRef.current, {
-      x: 100,
-      y: 100,
-      opacity: 0,
-      ease: "none",
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: 1,
-      },
+      context.add(() => {
+        gsap.to(containerRef.current, {
+          x: 80,
+          y: 100,
+          opacity: 0.25,
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      });
+    },
+    { scope: containerRef }
+  );
+
+  // ---------------------------------
+  // EXPANDING PANELS ON HOVER
+  // ---------------------------------
+  useGSAP(() => {
+    const panels = Array.from(panelsRef.current?.querySelectorAll(".panel") ?? []);
+    const hitAreas = Array.from(panelsRef.current?.querySelectorAll(".panel-hit") ?? []);
+
+    if (!panels.length || !hitAreas.length) return;
+
+    // Valores por defecto
+    panels.forEach((panel) => {
+      const content = panel.querySelector(".panel-content");
+      gsap.set(panel, { flexGrow: 1, flexBasis: 0 });
+      gsap.set(content, { opacity: 0, y: 20 });
     });
 
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
-  }, []);
+    hitAreas.forEach((hitArea, index) => {
+      const panel = panels[index];
+      const content = panel.querySelector(".panel-content");
+
+      hitArea.addEventListener("mouseenter", () => {
+        gsap.to(panels, {
+          flexGrow: 0.6,
+          duration: 0.5,
+          ease: "power3.out",
+        });
+
+        // Panel seleccionado se expande
+        gsap.to(panel, {
+          flexGrow: 2,
+          duration: 0.5,
+          ease: "power3.out",
+        });
+
+        // Mostrar contenido
+        gsap.to(content, {
+          opacity: 1,
+          y: 0,
+          duration: 0.45,
+          ease: "power3.out",
+        });
+      });
+
+      hitArea.addEventListener("mouseleave", () => {
+        gsap.to(panels, { flexGrow: 1, duration: 0.5 });
+        gsap.to(content, { opacity: 0, y: 20, duration: 0.4 });
+      });
+    });
+  });
 
   return (
-    <>
-      <div
-        id="structure"
-        className="relative h-max w-full flex flex-row items-start justify-between z-2 top-10"
-      >
-        {/* BACKGROUND */}
-        <div
-          className="absolute backdrop-saturate-100 top-0 left-0 w-full h-full scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"
-          style={{
-            boxShadow: "0 -50px 100px rgba(0,0,0,.3)",
-          }}
-        />
+    <div id="structure" className="relative w-full min-h-screen flex flex-col">
+      <div ref={containerRef} className="relative z-10 px-12 sm:px-28 pt-35 pb-16">
+        <h2 className="text-white font-bold text-4xl sm:text-6xl lg:text-7xl leading-tight mb-4">
+          Nuestra Estructura
+        </h2>
+        <p className="text-gray-200 font-medium text-lg">
+          Tres pilares, un mismo propósito.
+        </p>
+      </div>
 
-        <div
-          ref={containerRef}
-          className="relative z-1 w-full px-12 sm:px-28 pt-24 pb-0 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10"
-        >
-          <div className="flex flex-col gap-12 items-start">
-            <div className="flex flex-col gap-4 relative z-2 max-w-full sm:max-w-[390px]">
-              <Heading
-                titleSize="max-w-3xs sm:max-w-[710px] text-7xl"
-                title="Nuestra    Estructura"
-                delay={100}
-                description="Tres pilares, un mismo propósito."
-              />
-            </div>
-          </div>
+      {/* PANELS */}
+      <div
+        ref={panelsRef}
+        className="flex flex-row w-full h-[75vh] overflow-hidden relative "
+      >
+        <div className="panel relative flex items-center justify-center overflow-hidden  cursor-pointer">
+          <div className="panel-hit absolute inset-0 z-50"></div>
+          <StructureItem
+            title="InnoVagro"
+            description="Soluciones tecnológicas aplicadas al agro: IA, sensores, automatización y sistemas de monitoreo."
+            imageSrc="/images/structure/innovagro.png"
+          />
+        </div>
+
+        <div className="panel relative flex items-center justify-center overflow-hidden cursor-pointer">
+          <div className="panel-hit absolute inset-0 z-50"></div>
+          <StructureItem
+            title="Panea"
+            description="Desarrollo de eventos académicos, congresos y simposios internacionales para fortalecer la formación de productores y empresas agrícolas."
+            imageSrc="/images/structure/hero_2.png"
+          />
+        </div>
+
+        <div className="panel relative flex items-center justify-center overflow-hidden cursor-pointer">
+          <div className="panel-hit absolute inset-0 z-50"></div>
+          <StructureItem
+            title="Goshen"
+            description="A través de Goshen, Zafnat promueve proyectos agrícolas e industriales que integran innovación, sostenibilidad y desarrollo humano."
+            imageSrc="/images/structure/goshen.png"
+          />
         </div>
       </div>
-
-      <div className="relative top-21 z-3">
-        <StructureItem
-          title="InnoVagro"
-          description="Agricultura de precisión y trazabilidad Digital. Plataforma que optimiza la comercialización agrícola usando inteligencia artificial."
-          imageSrc="/images/structure/hero_1.png"
-        />
-
-        <StructureItem
-          title="Panea"
-          description="Formación y cooperación científica internacional. Conectamos expertos, universidades y productores para promover el conocimiento agroindustrial."
-          imageSrc="/images/structure/hero_2.png"
-        />
-
-        <StructureItem
-          title="Goshen"
-          description=" Infraestructura y bienes raíces a groindustriales. Creamos espacios sostenibles y productivos que impulsan el desarrollo rural y humano."
-          imageSrc="/images/structure/hero_3.png"
-        />
-      </div>
-    </>
+    </div>
   );
 };
 

@@ -2,9 +2,8 @@ const Footer = () => {
   return (
     <div
       id="footer"
-      className="relative h-max w-full px-12 sm:px-28 flex flex-col items-center justify-center z-5 top-50 pt-32"
+      className="relative h-max w-full px-6 sm:px-12 lg:px-28 flex flex-col items-center justify-center z-5 top-50 pt-20 sm:pt-28 lg:pt-32 pb-6 sm:pb-8"
     >
-      {/* BACKGROUND */}
       <div
         className="absolute top-0 bg-[#020609] left-0 w-full h-full scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"
         style={{
@@ -14,59 +13,85 @@ const Footer = () => {
 
       <div className="absolute bg-[#020609] left-0 w-full h-full z-0 pointer-events-none top-30" />
 
-      {/* CONTENT */}
-      <div className="relative z-10 w-full max-w-6xl flex flex-col gap-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-          {/* Logo and Description */}
-          <div className="col-span-1 md:col-span-1 flex flex-col items-start gap-4">
+      <div className="relative z-10 w-full max-w-7xl flex flex-col gap-8 sm:gap-10 lg:gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 mb-6 sm:mb-8">
+          <div className="flex flex-col items-start gap-3 sm:gap-4">
             <img
               src="/images/logo.png"
               alt="ZAFNAT Logo"
-              className="w-32 h-auto"
+              className="w-32 sm:w-36 lg:w-40 h-auto mb-1 sm:mb-2"
             />
-            <p className="text-gray-400 text-sm leading-relaxed">
-              Innovación agrícola para un futuro sostenible
+            <p className="text-gray-400 text-xs sm:text-sm leading-relaxed max-w-xs">
+              Transformando la agricultura con tecnología, innovación y cooperación internacional para un futuro sostenible.
             </p>
           </div>
 
-          {/* Quick Links */}
-          <div className="col-span-1 md:col-span-1 flex flex-col items-start md:items-center gap-4">
-            <h3 className="text-sm font-light text-white">Contenido</h3>
-            <nav className="flex flex-col gap-3">
+          <div className="flex flex-col items-start gap-3 sm:gap-4">
+            <h3 className="text-sm sm:text-base font-semibold text-white mb-1 sm:mb-2">Divisiones</h3>
+            <nav className="flex flex-col gap-2 sm:gap-3">
               <a
-                href="#about"
-                className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
+                href="#modules"
+                className="text-gray-400 hover:text-emerald-400 transition-colors duration-300 text-xs sm:text-sm"
               >
-                Nosotros
+                InnovAgro - Agricultura Digital
               </a>
               <a
                 href="#structure"
-                className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
+                className="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-xs sm:text-sm"
               >
-                Estructura
+                Panea - Educación y Eventos
               </a>
               <a
-                href="#modules"
-                className="text-gray-400 hover:text-white transition-colors duration-300 text-sm"
+                href="#structure"
+                className="text-gray-400 hover:text-amber-400 transition-colors duration-300 text-xs sm:text-sm"
               >
-                InnoVAgro
+                Goshen - Producción e Infraestructura
               </a>
             </nav>
           </div>
 
-          {/* Social Media */}
-          <div className="col-span-1 md:col-span-1 flex flex-col items-start md:items-end gap-4">
-            <h3 className="text-sm font-light text-white">Síguenos</h3>
-            <div className="flex relative left-2">
+          <div className="flex flex-col items-start gap-3 sm:gap-4">
+            <h3 className="text-sm sm:text-base font-semibold text-white mb-1 sm:mb-2">Servicios</h3>
+            <nav className="flex flex-col gap-2 sm:gap-3">
+              <a
+                href="#producers"
+                className="text-gray-400 hover:text-green-400 transition-colors duration-300 text-sm"
+              >
+                Productores
+              </a>
+              <a
+                href="#cooperation"
+                className="text-gray-400 hover:text-indigo-400 transition-colors duration-300 text-sm"
+              >
+                Cooperación Internacional
+              </a>
+              <a
+                href="#fitotecnia"
+                className="text-gray-400 hover:text-lime-400 transition-colors duration-300 text-sm"
+              >
+                Fitotecnia
+              </a>
+              <a
+                href="#zootecnia"
+                className="text-gray-400 hover:text-purple-400 transition-colors duration-300 text-sm"
+              >
+                Zootecnia
+              </a>
+            </nav>
+          </div>
+
+          <div className="flex flex-col items-start gap-3 sm:gap-4">
+            <h3 className="text-sm sm:text-base font-semibold text-white mb-1 sm:mb-2">Síguenos</h3>
+            <div className="flex gap-2 sm:gap-3">
               <a
                 href="https://www.facebook.com/myzafnat?mibextid=wwXIfr&rdid=NBbFIDXpJpINxFfd&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F17PCrNPC53%2F%3Fmibextid%3DwwXIfr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300"
+                className="bg-white/5 hover:bg-blue-500/20 w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 border border-white/10 hover:border-blue-400/50"
                 aria-label="Facebook"
               >
                 <svg
-                  className="w-5 h-5 text-white"
+                  className="w-4 h-4 sm:w-5 sm:h-5 text-white"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -77,11 +102,11 @@ const Footer = () => {
                 href="https://www.instagram.com/myzafnat/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300"
+                className="bg-white/5 hover:bg-pink-500/20 w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 border border-white/10 hover:border-pink-400/50"
                 aria-label="Instagram"
               >
                 <svg
-                  className="w-5 h-5 text-white"
+                  className="w-4 h-4 sm:w-5 sm:h-5 text-white"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -89,16 +114,60 @@ const Footer = () => {
                 </svg>
               </a>
             </div>
+            <p className="text-gray-400 text-[10px] sm:text-xs mt-1 sm:mt-2">
+              contacto@zafnat.com
+            </p>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="w-full h-px bg-linear-to-r from-transparent via-gray-700 to-transparent"></div>
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
 
-        {/* Copyright */}
-        <div className="text-center text-gray-500 text-sm">
-          <p>
-            © {new Date().getFullYear()} ZAFNAT. Todos los derechos reservados.
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="flex flex-col gap-3">
+            <h4 className="text-white font-semibold text-sm mb-2">Documentación Institucional</h4>
+            <div className="flex flex-wrap gap-3">
+              <a href="#" className="text-xs text-gray-400 hover:text-white transition-colors">
+                Políticas de Privacidad
+              </a>
+              <span className="text-gray-600">•</span>
+              <a href="#" className="text-xs text-gray-400 hover:text-white transition-colors">
+                Términos de Uso
+              </a>
+              <span className="text-gray-600">•</span>
+              <a href="#" className="text-xs text-gray-400 hover:text-white transition-colors">
+                Política Anticorrupción
+              </a>
+              <span className="text-gray-600">•</span>
+              <a href="#" className="text-xs text-gray-400 hover:text-white transition-colors">
+                Transparencia
+              </a>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <h4 className="text-white font-semibold text-sm mb-2">Certificaciones</h4>
+            <div className="flex gap-4">
+              <div className="bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/10">
+                <span className="text-xs text-gray-300">ISO 9001</span>
+              </div>
+              <div className="bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/10">
+                <span className="text-xs text-gray-300">Global GAP</span>
+              </div>
+              <div className="bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/10">
+                <span className="text-xs text-gray-300">Organic</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
+
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-gray-500 text-xs">
+            © {new Date().getFullYear()} ZAFNAT Group International. Todos los derechos reservados.
+          </p>
+          <p className="text-gray-600 text-xs">
+            Innovación agrícola • Tecnología sostenible • Cooperación global
           </p>
         </div>
       </div>

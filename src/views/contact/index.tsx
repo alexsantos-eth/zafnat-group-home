@@ -97,35 +97,32 @@ const ContactPage: React.FC = () => {
   return (
     <div
       id="contact"
-      className="relative h-max w-full px-12 sm:px-28 flex flex-row items-start justify-between z-3 top-60 py-32"
+      className="relative w-full flex flex-col lg:flex-row items-start justify-between z-3 pt-100 sm:pt-100 lg:pt-100 px-4 sm:px-8 md:px-12 lg:px-20 xl:px-28"
     >
       {/* BACKGROUND */}
       <div
-        className="absolute top-0 backdrop-brightness-60 left-0 w-full h-full scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"
-        style={{
-          boxShadow: "0 -50px 100px rgba(0,0,0,.3)",
-        }}
+        className="absolute top-0 sm:top-0 lg:top-0 backdrop-brightness- left-0 w-full scale-120 sm:scale-110 -skew-0 z-0 pointer-events-none"
       />
 
       <div
-        className="relative w-full gap-36 flex flex-row z-2"
+        className="relative w-full flex flex-col lg:flex-row gap-10 sm:gap-12 md:gap-14 lg:gap-16 z-2"
         ref={containerRef}
       >
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-6 sm:gap-8 w-full max-w-xl">
           <div className="flex flex-col gap-4 relative z-2 max-w-full sm:max-w-[400px]">
             <Heading
-              titleSize="max-w-3xs sm:max-w-md text-5xl"
+              titleSize="max-w-3xs sm:max-w-md text-3xl sm:text-4xl lg:text-5xl"
               title="Contacto"
               delay={100}
               description="¿Listo para digitalizar tu finca y mejorar tu producción? Nuestro equipo te ayudará a implementar InnoVAgro paso a paso."
             />
           </div>
 
-          <div ref={imageRef}>
+          <div ref={imageRef} className="w-full flex">
             <img
               src="/images/contact/hero.png"
               alt="Contacto"
-              className="w-[400px]"
+              className="w-full max-w-[260px] sm:max-w-[320px] md:max-w-[360px] h-auto"
             />
           </div>
         </div>
@@ -133,7 +130,7 @@ const ContactPage: React.FC = () => {
         <form
           onSubmit={onSubmit}
           ref={formRef}
-          className="flex flex-col gap-8 w-xs"
+          className="flex flex-col gap-6 sm:gap-8 w-full max-w-xl"
         >
           <div className="flex flex-col gap-4">
             <label htmlFor="name" className="text-white font-medium text-md">

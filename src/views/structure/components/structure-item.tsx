@@ -1,8 +1,4 @@
-import { CometCard } from "@/components/ui/comet-card";
 import Heading from "@/layout/components/heading";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/all";
-import { useEffect, useRef } from "react";
 
 interface StructureItemProps {
   title?: string;
@@ -10,81 +6,42 @@ interface StructureItemProps {
   imageSrc?: string;
 }
 
-gsap.registerPlugin(ScrollTrigger);
-const StructureItem: React.FC<StructureItemProps> = ({
-  title,
-  description,
-  imageSrc,
-}) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    gsap.to(containerRef.current, {
-      x: 100,
-      y: 100,
-      opacity: 0,
-      ease: "none",
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
-  }, []);
-
+const StructureItem: React.FC<StructureItemProps> = ({ title, description, imageSrc }) => {
   return (
-    <div
-      ref={containerRef}
-      className="relative h-[90vh] w-full flex flex-row items-center justify-between"
-    >
+    <div className="relative w-full h-full overflow-hidden flex items-center justify-center">
+
       {/* BACKGROUND */}
       <div
-        className="absolute top-0 left-0 w-full h-full scale-120 sm:scale-110 -skew-6 z-2 overflow-hidden"
+        className="absolute inset-0 scale-110 overflow-hidden z-0"
         style={{
-          boxShadow:
-            "0 -50px 100px rgba(0,0,0,.3), inset 0 100px 100px rgba(0,0,0,0.1)",
+          boxShadow: "0 -50px 100px rgba(0,0,0,.3), inset 0 100px 100px rgba(0,0,0,0.15)",
         }}
       >
-        <CometCard
-          rotateDepth={10}
-          translateDepth={0}
-          className="skew-6 relative -top-20"
-        >
-          <img
-            alt={title}
-            src={imageSrc}
-            className="w-screen h-screen object-cover rounded-xl"
-          />
-        </CometCard>
+        <div className=" relative -top-20 rounded-2xl overflow-hidden w-full h-full">
+          <img src={imageSrc} alt={title} className="w-full h-full object-cover rounded-xl" />
+        </div>
 
         <div
-          className="absolute w-full h-full pointer-events-none top-0 z-3 left-0 bg-black/40"
-          style={{
-            boxShadow:
-              "inset 0 100px 100px rgba(0,0,0,0.6), inset 300px 0px 100px rgba(0,0,0,0.5)",
-          }}
+          className="absolute inset-0 bg-black/40 pointer-events-none"
+          style={{ boxShadow: "inset 0 100px 100px rgba(0,0,0,0.6), inset 300px 0px 100px rgba(0,0,0,0.5)" }}
         />
       </div>
 
-      <div className="relative z-2 w-full px-12 sm:px-28 pointer-events-none flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10">
-        <div className="flex flex-col gap-12 items-start">
-          <div className="flex flex-col gap-4 relative z-2 max-w-full sm:max-w-md min-w-2xs sm:min-w-md">
-            <Heading
-              titleSize="max-w-xs sm:max-w-md text-5xl"
-              title={title}
-              textShadow="0 4px 20px rgba(0,0,0,1)"
-              delay={100}
-              description={description}
-            />
-          </div>
-        </div>
+      {/* STATIC TITLE (always visible) */}
+      <div className="absolute top-10 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+        <h3 className="text-white text-2xl sm:text-3xl lg:text-4xl font-semibold drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)] text-center">
+          {title}
+        </h3>
+      </div>
+
+      {/* CONTENT (only visible on hover) */}
+      <div className="panel-content relative z-20 opacity-0 translate-y-3 px-10 max-w-lg">
+        <Heading
+          titleSize="max-w-xs sm:max-w-md text-3xl sm:text-4xl lg:text-5xl"
+          title={title}
+          textShadow="0 4px 20px rgba(0,0,0,1)"
+          description={description}
+        />
       </div>
     </div>
   );

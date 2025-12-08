@@ -133,7 +133,7 @@ const MetaBalls: React.FC<MetaBallsProps> = ({
     const container = containerRef.current;
     if (!container) return;
 
-    const dpr = 1;
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     const renderer = new Renderer({
       dpr,
       alpha: true,
@@ -206,11 +206,11 @@ const MetaBalls: React.FC<MetaBallsProps> = ({
 
     function resize() {
       if (!container) return;
-      const width = container.clientWidth;
-      const height = container.clientHeight;
+      const width = container.clientWidth || window.innerWidth;
+      const height = Math.min(container.clientHeight || window.innerHeight, window.innerHeight);
       renderer.setSize(width * dpr, height * dpr);
       gl.canvas.style.width = `${width}px`;
-      gl.canvas.style.height = `${height}px`;
+      gl.canvas.style.height = `${Math.min(height, window.innerHeight)}px`;
       program.uniforms.iResolution.value.set(gl.canvas.width, gl.canvas.height, 0);
     }
     window.addEventListener('resize', resize);
@@ -237,9 +237,29 @@ const MetaBalls: React.FC<MetaBallsProps> = ({
     container.addEventListener('pointerleave', onPointerLeave);
 
     const startTime = performance.now();
-    let animationFrameId: number;
+    let animationFrameId: number | null = null;
+    let isVisible = true;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          isVisible = true;
+          if (!animationFrameId) animationFrameId = requestAnimationFrame(update);
+        } else {
+          isVisible = false;
+          if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+          }
+        }
+      },
+      { threshold: 0.01 }
+    );
+    observer.observe(container);
+
     function update(t: number) {
       animationFrameId = requestAnimationFrame(update);
+      if (!isVisible) return;
       const elapsed = (t - startTime) * 0.001;
       program.uniforms.iTime.value = elapsed;
 
@@ -275,7 +295,8 @@ const MetaBalls: React.FC<MetaBallsProps> = ({
     animationFrameId = requestAnimationFrame(update);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      observer.disconnect();
       window.removeEventListener('resize', resize);
       container.removeEventListener('pointermove', onPointerMove);
       container.removeEventListener('pointerenter', onPointerEnter);

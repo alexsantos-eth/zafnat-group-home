@@ -120,7 +120,8 @@ const Particles: React.FC<ParticlesProps> = ({
     const container = containerRef.current;
     if (!container) return;
 
-    const renderer = new Renderer({ depth: false, alpha: true });
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    const renderer = new Renderer({ depth: false, alpha: true, dpr });
     const gl = renderer.gl;
     container.appendChild(gl.canvas);
     gl.clearColor(0, 0, 0, 0);
@@ -129,9 +130,13 @@ const Particles: React.FC<ParticlesProps> = ({
     camera.position.set(0, 0, cameraDistance);
 
     const resize = () => {
-      const width = container.clientWidth;
-      const height = container.clientHeight;
+      const width = container.clientWidth || window.innerWidth;
+      // Cap canvas height to viewport height to avoid extremely large canvases
+      const height = Math.min(container.clientHeight || window.innerHeight, window.innerHeight);
       renderer.setSize(width, height);
+      // Ensure CSS size matches applied pixel size
+      gl.canvas.style.width = `${width}px`;
+      gl.canvas.style.height = `${Math.min(height, window.innerHeight)}px`;
       camera.perspective({ aspect: gl.canvas.width / gl.canvas.height });
     };
     window.addEventListener("resize", resize, false);
@@ -197,12 +202,32 @@ const Particles: React.FC<ParticlesProps> = ({
 
     const particles = new Mesh(gl, { mode: gl.POINTS, geometry, program });
 
-    let animationFrameId: number;
+    let animationFrameId: number | null = null;
     let lastTime = performance.now();
     let elapsed = 0;
+    let isVisible = true;
+
+    // Pause rendering when not in viewport
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          isVisible = true;
+          if (!animationFrameId) animationFrameId = requestAnimationFrame(update);
+        } else {
+          isVisible = false;
+          if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+          }
+        }
+      },
+      { threshold: 0.01 }
+    );
+    observer.observe(container);
 
     const update = (t: number) => {
       animationFrameId = requestAnimationFrame(update);
+      if (!isVisible) return;
       const delta = t - lastTime;
       lastTime = t;
       elapsed += delta * speed;
@@ -233,7 +258,8 @@ const Particles: React.FC<ParticlesProps> = ({
       if (moveParticlesOnHover) {
         window.removeEventListener("mousemove", handleMouseMove);
       }
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      observer.disconnect();
       if (container.contains(gl.canvas)) {
         container.removeChild(gl.canvas);
       }
