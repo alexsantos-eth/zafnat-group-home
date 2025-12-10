@@ -2,7 +2,7 @@ import ShapeBlur from "../../components/ShapeBlur";
 
 const AboutPage = () => {
   return (
-    <div className="h-[150dvh] w-full relative snap-center">
+    <div className="h-[150dvh] w-full relative">
       <div className="bg-about absolute w-full h-full pointer-events-none -rotate-5 sm:-rotate-10 scale-130" />
 
       <div className="flex flex-col gap-4 items-start w-full z-1 px-8 absolute top-[50%] translate-y-[-75dvh] sm:-translate-y-full left-0">

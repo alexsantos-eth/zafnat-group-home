@@ -391,8 +391,8 @@ const WorldPage: React.FC = () => {
   ];
 
   return (
-    <div className="h-dvh w-full relative snap-center top-20">
-      <div className="bg-blue absolute w-full h-full pointer-events-none -rotate-5 sm:-rotate-10 scale-130" />
+    <div className="h-dvh w-full relative top-20">
+      <div className="absolute w-full h-full pointer-events-none -rotate-5 sm:-rotate-10 scale-130" />
 
       <div className="relative flex flex-row px-8 top-30 gap-8">
         <div className="flex flex-col gap-4 w-full z-1 relative max-w-2xl">

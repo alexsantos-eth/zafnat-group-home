@@ -1,6 +1,6 @@
 const ImpactPage = () => {
   return (
-    <div className="h-dvh w-full relative snap-center top-40">
+    <div className="h-dvh w-full relative top-40">
       <div className="bg-about absolute w-full h-full pointer-events-none -rotate-5 sm:-rotate-10 scale-130" />
 
       <div className="relative flex flex-row px-8 top-30 gap-8">

@@ -2,7 +2,7 @@ const Footer = () => {
   return (
     <div
       id="footer"
-      className="relative h-max w-full px-6 sm:px-12 lg:px-28 flex flex-col items-center justify-center z-5 top-50 pt-20 sm:pt-28 lg:pt-32 pb-6 sm:pb-8"
+      className="relative h-max w-full px-12 sm:px-16 lg:px-28 flex flex-col items-center justify-center z-5 top-50 pt-20 sm:pt-28 lg:pt-32 pb-6 sm:pb-8"
     >
       <div
         className="absolute top-0 bg-[#020609] left-0 w-full h-full scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"

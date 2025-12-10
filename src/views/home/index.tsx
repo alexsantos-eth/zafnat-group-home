@@ -35,7 +35,7 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-home h-[130dvh] w-full relative snap-center">
+    <div className="bg-home h-[130dvh] w-full relative">
       <div className="absolute top-0 left-0 w-full h-full z-1 flex flex-row items-center justify-center">
         <div className="absolute top-[50%] left-[50%] md:transform-[translate(-50%,-20%)]">
           <img

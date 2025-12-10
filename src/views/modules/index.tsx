@@ -2,7 +2,7 @@ import { Timeline } from "@/components/ui/timeline";
 
 const ModulesPage = () => {
   return (
-    <div className="h-max w-full relative snap-center">
+    <div className="h-max w-full relative">
       <div className="bg-home absolute w-full h-full pointer-events-none -rotate-5 sm:-rotate-5 scale-130" />
 
       <div className="flex flex-row relative -top-40">

@@ -26,48 +26,6 @@
   margin: 0;
 }
 
-.bg-home {
-  background-color: #020a07;
-
-  background-image: radial-gradient(
-      ellipse 70% 70% at 100% 0%,
-      #12632c 0%,
-      transparent 100%
-    ),
-    radial-gradient(ellipse 50% 60% at 20% 40%, #031a18 0%, transparent 100%);
-
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
-
-.bg-about {
-  background-color: #0a0502;
-
-  background-image: radial-gradient(
-      ellipse 70% 70% at 100% 0%,
-      #63341a 0%,
-      transparent 100%
-    ),
-    radial-gradient(ellipse 50% 60% at 20% 40%, #1a0d03 0%, transparent 100%);
-
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
-
-.bg-blue {
-  background-color: #020609;
-
-  background-image: radial-gradient(
-      ellipse 70% 70% at 100% 0%,
-      #1a4563 0%,
-      transparent 100%
-    ),
-    radial-gradient(ellipse 50% 60% at 20% 40%, #031318 0%, transparent 100%);
-
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
-
 @theme {
   --default-font-family: "Sora", sans-serif;
 }
@@ -186,4 +144,97 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+html {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+.bg-transition {
+  background-color: #020b0a;
+  background-image: 
+    /* Sección 1: Verde oscuro (0-20%) - 3 luces */
+    radial-gradient(
+      circle at 90% 8%,
+      rgba(18, 99, 44, 0.7) 0%,
+      transparent 35%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 50% 12%,
+      rgba(10, 61, 28, 0.6) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 45% 35% at 15% 15%,
+      rgba(15, 82, 38, 0.5) 0%,
+      transparent 45%
+    ),
+    /* Sección 2: Verde-cyan (20-40%) - 3 luces */
+      radial-gradient(
+        ellipse 55% 45% at 20% 28%,
+        rgba(13, 77, 63, 0.65) 0%,
+        transparent 50%
+      ),
+    radial-gradient(
+      circle at 65% 32%,
+      rgba(16, 89, 79, 0.6) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      ellipse 48% 38% at 90% 35%,
+      rgba(19, 95, 85, 0.55) 0%,
+      transparent 45%
+    ),
+    /* Sección 3: Cyan-azul (40-60%) - 3 luces */
+      radial-gradient(
+        ellipse 60% 50% at 15% 48%,
+        rgba(14, 88, 105, 0.7) 0%,
+        transparent 55%
+      ),
+    radial-gradient(
+      circle at 55% 52%,
+      rgba(18, 102, 118, 0.65) 0%,
+      transparent 42%
+    ),
+    radial-gradient(
+      ellipse 52% 42% at 88% 55%,
+      rgba(22, 115, 130, 0.6) 0%,
+      transparent 48%
+    ),
+    /* Sección 4: Azul marino (60-80%) - 3 luces */
+      radial-gradient(
+        ellipse 58% 48% at 25% 68%,
+        rgba(15, 45, 82, 0.68) 0%,
+        transparent 52%
+      ),
+    radial-gradient(
+      circle at 62% 72%,
+      rgba(18, 55, 95, 0.63) 0%,
+      transparent 44%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 82% 75%,
+      rgba(20, 60, 102, 0.58) 0%,
+      transparent 46%
+    ),
+    /* Sección 5: Azul oscuro profundo (80-100%) - 3 luces */
+      radial-gradient(
+        ellipse 55% 45% at 18% 88%,
+        rgba(12, 35, 58, 0.65) 0%,
+        transparent 50%
+      ),
+    radial-gradient(
+      circle at 58% 92%,
+      rgba(15, 42, 66, 0.6) 0%,
+      transparent 43%
+    ),
+    radial-gradient(
+      ellipse 48% 38% at 85% 95%,
+      rgba(18, 48, 72, 0.55) 0%,
+      transparent 45%
+    );
+
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }

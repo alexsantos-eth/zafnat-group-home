@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import BlurText from "@/components/blurtext";
+import BlurText from "@/fx/blurtext";
 
 interface HeadingProps {
   title?: string;

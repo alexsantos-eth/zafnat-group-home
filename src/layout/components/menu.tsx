@@ -1,10 +1,6 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/utils";
-
-gsap.registerPlugin(ScrollToPlugin, useGSAP);
 
 interface MenuProps {
   open: boolean;
@@ -16,111 +12,109 @@ const Menu: React.FC<MenuProps> = ({ open, onDismiss }) => {
   const linksRef = useRef<HTMLDivElement>(null);
   const socialRef = useRef<HTMLDivElement>(null);
 
-  useGSAP(
-    (context) => {
-      const backdrop = backdropRef.current;
-      const links = linksRef.current?.querySelectorAll("a") || [];
-      const social = socialRef.current;
-
+  useEffect(() => {
+    if (backdropRef.current) {
       if (open) {
-        // BACKDROP
-        context.add(() => {
-          gsap.to(backdrop, {
-            backdropFilter: "blur(120px)",
-            duration: 1.2,
-            ease: "power3.out",
-          });
-        });
-
-        // LINKS
-        context.add(() => {
-          gsap.set(links, { opacity: 0, y: 30 });
-          gsap.to(links, {
-            opacity: 1,
-            y: 0,
-            stagger: 0.06,
-            duration: 0.5,
-            ease: "power2.out",
-          });
-        });
-
-        // SOCIAL
-        context.add(() => {
-          gsap.set(social, { opacity: 0, y: 30 });
-          gsap.to(social, {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            ease: "power3.out",
-            delay: 0.2,
-          });
+        gsap.to(backdropRef.current, {
+          backdropFilter: "blur(150px)",
+          duration: 2.3,
+          ease: "back.out",
         });
       } else {
-        // REVERSE
-        context.add(() => {
-          gsap.to(backdrop, {
-            backdropFilter: "blur(0px)",
-            duration: 0.4,
-            ease: "power2.in",
-          });
-        });
+        gsap.killTweensOf(backdropRef.current);
 
-        context.add(() => {
-          gsap.to(links, {
-            opacity: 0,
-            y: -20,
-            duration: 0.25,
-            stagger: 0.03,
-            ease: "power2.in",
-          });
-        });
-
-        context.add(() => {
-          gsap.to(social, {
-            opacity: 0,
-            y: -20,
-            duration: 0.25,
-            ease: "power2.in",
-          });
+        gsap.to(backdropRef.current, {
+          backdropFilter: "blur(0px)",
+          duration: 0.9,
+          ease: "power2.in",
         });
       }
-    },
-    { dependencies: [open] }
-  );
+    }
 
-  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const target = e.currentTarget.getAttribute("href")?.replace("#", "");
+    if (linksRef.current) {
+      const links = linksRef.current.querySelectorAll("a");
 
-    if (!target) return;
+      if (open) {
+        gsap.set(links, { opacity: 0, y: 30 });
 
-    const section = document.getElementById(target);
-    if (!section) return;
+        // Luego animar
+        gsap.to(links, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "power3.out",
+          delay: 0.2,
+        });
+      } else {
+        gsap.killTweensOf(links);
 
-    onDismiss();
+        gsap.to(links, {
+          opacity: 0,
+          y: -20,
+          duration: 0.4,
+          stagger: 0.05,
+          ease: "power2.in",
+        });
+      }
+    }
 
-    gsap.to(window, {
-      scrollTo: section,
-      duration: 1.2,
-      ease: "power3.inOut",
-    });
-  };
+    if (socialRef.current) {
+      if (open) {
+        gsap.set(socialRef.current, { opacity: 0, y: 30 });
+        gsap.to(socialRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          delay: 0.6,
+        });
+      } else {
+        gsap.killTweensOf(socialRef.current);
+        gsap.to(socialRef.current, {
+          opacity: 0,
+          y: -20,
+          duration: 0.4,
+          ease: "power2.in",
+        });
+      }
+    }
+  }, [open]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && open) {
+        onDismiss();
+      }
+    };
+
+    if (open) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open, onDismiss]);
 
   return (
     <div
       className={cn(
-        "w-full h-dvh fixed top-0 left-0 z-101 px-10 flex flex-col items-start justify-center gap-10 pt-20",
-        !open && "pointer-events-none"
+        "w-full h-dvh fixed top-0 left-0 z-101 px-24 sm:px-28 flex flex-col items-start justify-center gap-8 pt-16",
+        !open ? "pointer-events-none" : ""
       )}
     >
       <div
         ref={backdropRef}
-        className="w-full h-full absolute top-0 left-0"
+        className="w-full h-full transparent absolute top-0 z-1 left-0 pointer-events-none"
         style={{ backdropFilter: "blur(0px)" }}
       />
 
       {/* -------- LINKS -------- */}
-      <div ref={linksRef} className="relative z-10 grid grid-cols-2 gap-10">
+      <div
+        ref={linksRef}
+        className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-10"
+      >
         {[
           ["home", "Inicio"],
           ["about", "Nosotros"],
@@ -136,7 +130,6 @@ const Menu: React.FC<MenuProps> = ({ open, onDismiss }) => {
           <a
             key={id}
             href={`#${id}`}
-            onClick={handleSmoothScroll}
             className="group text-white text-3xl font-bold uppercase opacity-0 transition-all hover:text-emerald-400"
           >
             <span className="inline-block group-hover:translate-x-1 transition-transform">

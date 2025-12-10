@@ -1,38 +1,12 @@
-import Home from "./views/home";
-import SplashCursor from "./components/SplashCursor";
-import TorusKnotScene from "./components/bgscene";
-import Navbar from "./layout/navbar";
-import GradualBlurMemo from "./components/GradualBlur";
-import AboutPage from "./views/about";
-import StructurePage from "./views/structure";
-import ModulesPage from "./views/modules";
-import ImpactPage from "./views/impact";
+import Layout from "./layout";
+import Footer from "./layout/components/footer";
 import WorldPage from "./views/world";
-import Footer from "./layout/footer";
 
 export default function App() {
   return (
-    <div className="relative w-full overflow-hidden snap-y snap-mandatory">
-      <Navbar />
-      <TorusKnotScene />
-      <SplashCursor />
-      <Home />
-      <AboutPage />
-      <StructurePage />
-      <ModulesPage />
-      <ImpactPage />
+    <Layout>
       <WorldPage />
       <Footer />
-      <GradualBlurMemo
-        target="page"
-        position="bottom"
-        height="6rem"
-        strength={2}
-        divCount={5}
-        curve="bezier"
-        exponential={true}
-        opacity={1}
-      />
-    </div>
+    </Layout>
   );
 }

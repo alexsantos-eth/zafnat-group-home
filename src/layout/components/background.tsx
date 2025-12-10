@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/all";
 
 import { useGSAP } from "@gsap/react";
 
-const LazyParticleBackground = lazy(() => import("@/components/bgparticles"));
+const LazyParticleBackground = lazy(() => import("@/fx/particles"));
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -36,7 +36,7 @@ const ParticleBackground = () => {
               particleSpread={4}
               speed={0.06}
               particleBaseSize={100}
-              moveParticlesOnHover={false}
+              moveParticlesOnHover={true}
               alphaParticles={true}
               disableRotation={true}
               particleHoverFactor={1}

@@ -2,28 +2,18 @@
 
 import React from "react";
 
-import gsap from "gsap";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
+import ParticleBackground, {
+  GradientBackground,
+} from "./components/background";
 import Navbar from "./components/navbar";
-import SideNav from "./components/sidenav";
 
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-
-interface LayoutProps {
-  isLoading: boolean;
-}
-
-const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
-  isLoading,
-  children,
-}) => {
+const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <div className="overflow-x-hidden max-w-full">
+    <div>
       <Navbar />
-      <SideNav isReady={!isLoading} />
       {children}
+      <GradientBackground />
+      <ParticleBackground />
     </div>
   );
 };
