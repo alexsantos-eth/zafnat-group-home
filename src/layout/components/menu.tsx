@@ -37,13 +37,12 @@ const Menu: React.FC<MenuProps> = ({ open, onDismiss }) => {
       if (open) {
         gsap.set(links, { opacity: 0, y: 30 });
 
-        // Luego animar
         gsap.to(links, {
           opacity: 1,
           y: 0,
           duration: 0.8,
           stagger: 0.1,
-          ease: "power3.out",
+          ease: "back.out",
           delay: 0.2,
         });
       } else {
@@ -130,7 +129,7 @@ const Menu: React.FC<MenuProps> = ({ open, onDismiss }) => {
           <a
             key={id}
             href={`#${id}`}
-            className="group text-white text-3xl font-bold uppercase opacity-0 transition-all hover:text-emerald-400"
+            className="group text-white text-3xl font-bold uppercase hover:text-emerald-400"
           >
             <span className="inline-block group-hover:translate-x-1 transition-transform">
               {label}
