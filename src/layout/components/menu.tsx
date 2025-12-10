@@ -110,11 +110,10 @@ const Menu: React.FC<MenuProps> = ({ open, onDismiss }) => {
       />
 
       {/* -------- LINKS -------- */}
-
       <div className="flex justify-start w-full max-w-7xl flex-col gap-8">
         <div
           ref={linksRef}
-          className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-10 max-w-4xl"
+          className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-10 max-w-2xl"
         >
           {[
             ["home", "Inicio"],

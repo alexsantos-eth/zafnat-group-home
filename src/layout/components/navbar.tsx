@@ -17,7 +17,7 @@ const Navbar = () => {
       <Menu open={openMenu} onDismiss={handleMenuToggle(false)} />
       <div
         className={cn(
-          "fixed top-0 left-0 w-full z-101 h-24 flex justify-center",
+          "fixed top-0 left-0 w-full z-101 h-24 px-12 flex justify-center",
           "bg-black/30 backdrop-blur-md shadow-lg"
         )}
       >
@@ -31,7 +31,7 @@ const Navbar = () => {
           {!openMenu && (
             <button
               onClick={handleMenuToggle(true)}
-              className="group cursor-pointer h-20 w-16 flex items-center justify-start hover:scale-110 transition-transform duration-300"
+              className="group cursor-pointer h-20 w-10 sm:w-16 flex items-center justify-start hover:scale-110 transition-transform duration-300"
             >
               <MenuIcon className="text-white h-6 w-6 transition-colors" />
             </button>
@@ -40,7 +40,7 @@ const Navbar = () => {
           {openMenu && (
             <button
               onClick={handleMenuToggle(false)}
-              className="group cursor-pointer h-20 w-16 flex items-center justify-start hover:scale-110 transition-transform duration-300"
+              className="group cursor-pointer h-20 w-10 sm:w-16 flex items-center justify-start hover:scale-110 transition-transform duration-300"
             >
               <XIcon className="text-white h-6 w-6 transition-colors" />
             </button>
