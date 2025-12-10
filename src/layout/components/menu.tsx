@@ -129,7 +129,7 @@ const Menu: React.FC<MenuProps> = ({ open, onDismiss }) => {
           <a
             key={id}
             href={`#${id}`}
-            className="group text-white text-3xl font-bold uppercase hover:text-emerald-400"
+            className="group text-white text-3xl font-bold uppercase opacity-0 hover:text-emerald-400"
           >
             <span className="inline-block group-hover:translate-x-1 transition-transform">
               {label}
