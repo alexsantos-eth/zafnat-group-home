@@ -11,9 +11,9 @@ const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <div>
       <Navbar />
-      {children}
       <GradientBackground />
       <ParticleBackground />
+      {children}
     </div>
   );
 };

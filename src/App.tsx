@@ -1,11 +1,11 @@
 import Layout from "./layout";
 import Footer from "./layout/components/footer";
-import WorldPage from "./views/world";
+import HomeView from "./views/home";
 
 export default function App() {
   return (
     <Layout>
-      <WorldPage />
+      <HomeView />
       <Footer />
     </Layout>
   );

@@ -2,17 +2,8 @@ const Footer = () => {
   return (
     <div
       id="footer"
-      className="relative h-max w-full px-12 sm:px-16 lg:px-28 flex flex-col items-center justify-center z-5 top-50 pt-20 sm:pt-28 lg:pt-32 pb-6 sm:pb-8"
+      className="bg-black py-24 relative w-full px-12 sm:px-16 lg:px-28 flex flex-col items-center justify-center z-5"
     >
-      <div
-        className="absolute top-0 bg-[#020609] left-0 w-full h-full scale-120 sm:scale-110 -skew-6 z-0 pointer-events-none"
-        style={{
-          boxShadow: "0 -50px 100px rgba(0,0,0,.3)",
-        }}
-      />
-
-      <div className="absolute bg-[#020609] left-0 w-full h-full z-0 pointer-events-none top-30" />
-
       <div className="relative z-10 w-full max-w-7xl flex flex-col gap-8 sm:gap-10 lg:gap-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 mb-6 sm:mb-8">
           <div className="flex flex-col items-start gap-3 sm:gap-4">

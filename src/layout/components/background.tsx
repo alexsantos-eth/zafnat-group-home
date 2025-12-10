@@ -1,4 +1,4 @@
-import { lazy, Suspense, useRef } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
@@ -11,6 +11,11 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const ParticleBackground = () => {
   const particlesRef = useRef<HTMLDivElement>(null);
+  const [documentHeight, setDocumentHeight] = useState(0);
+
+  useEffect(() => {
+    setDocumentHeight(document.body.scrollHeight);
+  }, []);
 
   useGSAP(() => {
     if (particlesRef.current) {
@@ -27,7 +32,10 @@ const ParticleBackground = () => {
       {
         <div
           ref={particlesRef}
-          className="h-[820vh] absolute top-0 z-0 w-full opacity-0"
+          style={{
+            height: documentHeight + "px",
+          }}
+          className=" absolute top-0 z-0 w-full opacity-0"
         >
           <Suspense fallback={null}>
             <LazyParticleBackground
@@ -49,6 +57,7 @@ const ParticleBackground = () => {
 };
 
 export const GradientBackground = () => {
+  const [documentHeight, setDocumentHeight] = useState(0);
   const bgRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -66,10 +75,15 @@ export const GradientBackground = () => {
     });
   });
 
+  useEffect(() => {
+    setDocumentHeight(document.body.scrollHeight);
+  }, []);
+
   return (
     <div
       ref={bgRef}
-      className="h-[2000vh] fixed top-0 w-full z-0 pointer-events-none bg-transition"
+      style={{ height: documentHeight + "px" }}
+      className="fixed top-0 w-full z-0 pointer-events-none bg-transition"
     />
   );
 };
