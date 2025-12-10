@@ -42,7 +42,7 @@ const HomeView = () => {
             </div>
 
             <div>
-              <p className="text-white font-medium text-md md:text-xl lg:text-2xl opacity-80 text-shadow-lg">
+              <p className="text-white leading-7 sm:leading-8 md:leading-8 lg:leading-10 font-medium text-md md:text-xl lg:text-2xl opacity-80 text-shadow-lg">
                 Soluciones integrales que mejoran la vida de productores,
                 fortalecen comunidades rurales y conectan la agroindustria con
                 el futuro.
