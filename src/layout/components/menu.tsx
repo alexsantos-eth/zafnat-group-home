@@ -99,7 +99,7 @@ const Menu: React.FC<MenuProps> = ({ open, onDismiss }) => {
   return (
     <div
       className={cn(
-        "w-full h-dvh fixed top-0 left-0 z-101 px-24 sm:px-28 flex flex-col items-start justify-center gap-8 pt-16",
+        "w-full h-dvh fixed top-0 left-0 z-101 px-24 sm:px-28 flex flex-col items-center justify-center gap-8 pt-16",
         !open ? "pointer-events-none" : ""
       )}
     >
@@ -110,43 +110,52 @@ const Menu: React.FC<MenuProps> = ({ open, onDismiss }) => {
       />
 
       {/* -------- LINKS -------- */}
-      <div
-        ref={linksRef}
-        className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-10"
-      >
-        {[
-          ["home", "Inicio"],
-          ["about", "Nosotros"],
-          ["structure", "Estructura"],
-          ["modules", "InnovAgro"],
-          ["producers", "Productores"],
-          ["cooperation", "Cooperación"],
-          ["fitotecnia", "Fitotecnia"],
-          ["zootecnia", "Zootecnia"],
-          ["world", "Alianzas"],
-          ["contact", "Contacto"],
-        ].map(([id, label]) => (
-          <a
-            key={id}
-            href={`#${id}`}
-            className="group text-white text-3xl font-bold uppercase opacity-0 hover:text-emerald-400"
-          >
-            <span className="inline-block group-hover:translate-x-1 transition-transform">
-              {label}
-            </span>
-          </a>
-        ))}
-      </div>
 
-      {/* -------- SOCIAL -------- */}
-      <div ref={socialRef} className="relative z-10 flex gap-3 opacity-0">
-        <span className="text-white text-sm">ZAFNAT Group International</span>
-        <a href="https://facebook.com" className="text-white hover:opacity-70">
-          Facebook
-        </a>
-        <a href="https://instagram.com" className="text-white hover:opacity-70">
-          Instagram
-        </a>
+      <div className="flex justify-start w-full max-w-7xl flex-col gap-8">
+        <div
+          ref={linksRef}
+          className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-10 max-w-4xl"
+        >
+          {[
+            ["home", "Inicio"],
+            ["about", "Nosotros"],
+            ["structure", "Estructura"],
+            ["modules", "InnovAgro"],
+            ["producers", "Productores"],
+            ["cooperation", "Cooperación"],
+            ["fitotecnia", "Fitotecnia"],
+            ["zootecnia", "Zootecnia"],
+            ["world", "Alianzas"],
+            ["contact", "Contacto"],
+          ].map(([id, label]) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              className="group text-white text-3xl font-bold uppercase opacity-0 hover:text-emerald-400"
+            >
+              <span className="inline-block group-hover:translate-x-1 transition-transform">
+                {label}
+              </span>
+            </a>
+          ))}
+        </div>
+
+        {/* -------- SOCIAL -------- */}
+        <div ref={socialRef} className="relative z-10 flex gap-3 opacity-0">
+          <span className="text-white text-sm">ZAFNAT Group International</span>
+          <a
+            href="https://facebook.com"
+            className="text-white hover:opacity-70"
+          >
+            Facebook
+          </a>
+          <a
+            href="https://instagram.com"
+            className="text-white hover:opacity-70"
+          >
+            Instagram
+          </a>
+        </div>
       </div>
     </div>
   );
