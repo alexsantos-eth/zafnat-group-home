@@ -19,7 +19,7 @@ type BlurTextProps = {
   readyForAnimations?: boolean;
 };
 
-export default function BlurTextGSAP({
+export default function BlurText({
   text = "",
   delay = 200,
   className = "",
@@ -30,16 +30,15 @@ export default function BlurTextGSAP({
   rootMargin = "0px",
   onAnimationComplete,
   stepDuration = 0.25,
-  readyForAnimations = true
+  readyForAnimations = true,
 }: BlurTextProps) {
   const ref = useRef<HTMLParagraphElement>(null);
-  const triggered = useRef(false); // Para evitar animar más de una vez
+  const triggered = useRef(false);
 
-  // Intersection + GSAP
   useGSAP(
     () => {
       if (!ref.current) return;
-      if (!readyForAnimations) return; // ⬅️ aquí respetamos tu overlay
+      if (!readyForAnimations) return;
       if (triggered.current) return;
 
       const el = ref.current;
@@ -59,10 +58,9 @@ export default function BlurTextGSAP({
 
       return () => observer.disconnect();
     },
-    { dependencies: [readyForAnimations] } // Reintenta cuando cambia
+    { dependencies: [readyForAnimations] }
   );
 
-  /** 🔥 Animación GSAP real */
   const animateGSAP = () => {
     if (!ref.current) return;
 
@@ -70,8 +68,7 @@ export default function BlurTextGSAP({
       type: animateBy === "words" ? "words" : "chars",
     });
 
-    const targets =
-      animateBy === "words" ? split.words : split.chars;
+    const targets = animateBy === "words" ? split.words : split.chars;
 
     gsap.set(targets, {
       opacity: 0,
