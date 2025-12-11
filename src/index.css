@@ -171,7 +171,7 @@ html {
       transparent 45%
     ),
     /* Sección 2: Verde-cyan (20-40%) - 3 luces */
-      radial-gradient(
+    radial-gradient(
         ellipse 55% 45% at 20% 28%,
         rgba(13, 77, 63, 0.65) 0%,
         transparent 50%
@@ -187,7 +187,7 @@ html {
       transparent 45%
     ),
     /* Sección 3: Cyan-azul (40-60%) - 3 luces */
-      radial-gradient(
+    radial-gradient(
         ellipse 60% 50% at 15% 48%,
         rgba(14, 88, 105, 0.7) 0%,
         transparent 55%
@@ -203,7 +203,7 @@ html {
       transparent 48%
     ),
     /* Sección 4: Azul marino (60-80%) - 3 luces */
-      radial-gradient(
+    radial-gradient(
         ellipse 58% 48% at 25% 68%,
         rgba(15, 45, 82, 0.68) 0%,
         transparent 52%
@@ -219,7 +219,7 @@ html {
       transparent 46%
     ),
     /* Sección 5: Azul oscuro profundo (80-100%) - 3 luces */
-      radial-gradient(
+    radial-gradient(
         ellipse 55% 45% at 18% 88%,
         rgba(12, 35, 58, 0.65) 0%,
         transparent 50%
@@ -233,6 +233,53 @@ html {
       ellipse 48% 38% at 85% 95%,
       rgba(18, 48, 72, 0.55) 0%,
       transparent 45%
+    );
+
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.bg-green {
+  background-color: #020b0a;
+  background-image: 
+    /* Sección 1: Verde oscuro (0-20%) - 3 luces */
+    radial-gradient(
+      circle at 90% 8%,
+      rgba(18, 99, 44, 0.7) 0%,
+      transparent 35%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 50% 12%,
+      rgba(10, 61, 28, 0.6) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 45% 35% at 15% 15%,
+      rgba(15, 82, 38, 0.5) 0%,
+      transparent 45%
+    );
+
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.bg-blue {
+  background-color: #020b0a;
+  background-image:
+    radial-gradient(
+      ellipse 60% 50% at 15% 48%,
+      rgba(14, 88, 105, 0.7) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 55% 52%,
+      rgba(18, 102, 118, 0.65) 0%,
+      transparent 42%
+    ),
+    radial-gradient(
+      ellipse 52% 42% at 88% 55%,
+      rgba(22, 115, 130, 0.6) 0%,
+      transparent 48%
     );
 
   background-size: 100% 100%;

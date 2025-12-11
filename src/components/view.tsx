@@ -3,12 +3,17 @@ import { cn } from "@/lib/utils";
 
 interface ViewProps {
   children: React.ReactNode;
-  classNames?: string;
+  className?: string;
   style?: React.CSSProperties;
 }
-const View = ({ children, classNames, style }: ViewProps) => {
+
+export const ViewContent = ({ children, className }: ViewProps) => {
+  return <div className={cn("w-full max-w-7xl", className)}>{children}</div>;
+};
+
+const View = ({ children, className, style }: ViewProps) => {
   return (
-    <div className={cn(VIEW_CLASSNAME, classNames)} style={style}>
+    <div className={cn(VIEW_CLASSNAME, className)} style={style}>
       {children}
     </div>
   );
