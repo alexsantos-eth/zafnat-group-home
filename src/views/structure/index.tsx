@@ -9,6 +9,12 @@ const StructureView: React.FC = () => {
           <div className="w-1 bg-[#4079ff] rounded-full relative" />
 
           <div className="flex h-full flex-col gap-8 relative z-2">
+            <div className="w-full max-w-3xl flex flex-col gap-6">
+              <h1 className="text-white font-medium text-5xl sm:text-3xl">
+                Qué ofrecemos
+              </h1>
+            </div>
+
             <div className="w-full max-w-2xl flex flex-col gap-6">
               <h1 className="text-white font-bold text-5xl sm:text-6xl">
                 Nuestras divisiones{" "}
@@ -30,7 +36,7 @@ const StructureView: React.FC = () => {
             description="Agricultura de precisión e innovación agrícola"
             bgImageUrl="/images/structure/hero_1.png"
             backContent={
-              <div className="flex flex-col gap-6 p-6 overflow-scroll h-full">
+              <div className="flex flex-col gap-6 p-6 overflow-scroll hideScroll h-full">
                 <div className="flex flex-col gap-2">
                   <h3 className="text-white font-semibold text-sm">
                     App de Agricultura de Precisión
@@ -77,7 +83,7 @@ const StructureView: React.FC = () => {
             description="Capacitación continua y eventos científico personales"
             bgImageUrl="/images/structure/hero_2.png"
             backContent={
-              <div className="flex flex-col gap-6 p-6 overflow-scroll h-full">
+              <div className="flex flex-col gap-6 p-6 overflow-scroll hideScroll h-full">
                 <div className="flex flex-col gap-2">
                   <h3 className="text-white font-semibold text-sm">
                     Base de datos científicos
@@ -123,7 +129,7 @@ const StructureView: React.FC = () => {
             description="Bienes raíces, infraestructura y desarrollo internacional"
             bgImageUrl="/images/structure/hero_3.png"
             backContent={
-              <div className="flex flex-col gap-6 p-6 overflow-scroll h-full">
+              <div className="flex flex-col gap-6 p-6 overflow-scroll hideScroll h-full">
                 <div className="flex flex-col gap-2">
                   <h3 className="text-white font-semibold text-sm">
                     Excelencia en la producción
