@@ -2,7 +2,7 @@ import { VIEW_CLASSNAME } from "@/lib/styles";
 import { cn } from "@/lib/utils";
 
 interface ViewProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
 }

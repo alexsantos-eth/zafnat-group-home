@@ -1,5 +1,6 @@
 import View, { ViewContent } from "@/components/view";
 import { PinContainer } from "@/fx/3dpin";
+import { useParallax } from "@/hooks/useParallax";
 
 const TEAM_MEMBERS = [
   {
@@ -59,51 +60,71 @@ const TEAM_MEMBERS = [
   },
 ];
 const TeamView = () => {
+  const parallaxRef = useParallax({
+    speed: 0.2,
+    direction: "up",
+    scale: false,
+  });
+
   return (
-    <View className="py-40 bg-teal">
-      <ViewContent className="flex flex-col gap-20">
-        <div className="flex gap-6 relative">
-          <div className="w-1 bg-emerald-400 rounded-full relative" />
+    <>
+      <View className="py-40 bg-teal">
+        <ViewContent className="flex flex-col gap-20">
+          <div className="flex gap-6 relative">
+            <div className="w-1 bg-emerald-400 rounded-full relative" />
 
-          <div className="flex h-full flex-col gap-8 relative z-2">
-            <div className="w-full max-w-2xl flex flex-col gap-6">
-              <h1 className="text-white font-bold text-5xl sm:text-6xl">
-                Junta <span className="text-emerald-400">Directiva</span>
-              </h1>
+            <div className="flex h-full flex-col gap-8 relative z-2">
+              <div className="w-full max-w-2xl flex flex-col gap-6">
+                <h1 className="text-white font-bold text-5xl sm:text-6xl">
+                  Junta <span className="text-emerald-400">Directiva</span>
+                </h1>
 
-              <p className="text-gray-200 font-medium text-sm sm:text-base lg:text-lg">
-                Profesionales con amplia trayectoria que guían la visión,
-                integridad y crecimiento de Zafnat.
-              </p>
+                <p className="text-gray-200 font-medium text-sm sm:text-base lg:text-lg">
+                  Profesionales con amplia trayectoria que guían la visión,
+                  integridad y crecimiento de Zafnat.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {TEAM_MEMBERS.map((member) => (
-            <PinContainer
-              title={member.role}
-              className="w-full px-6"
-              containerClassName="h-[220px]"
-            >
-              <div className="flex flex-col gap-6 w-full items-center justify-center">
-                <p className="h-15 w-15 uppercase font-bold rounded-full text-white bg-gray-800 flex items-center justify-center">
-                  {member.name.charAt(0)}
-                  {member.name.charAt(1)}
-                </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {TEAM_MEMBERS.map((member) => (
+              <PinContainer
+                title={member.role}
+                className="w-full px-6"
+                containerClassName="h-[220px]"
+              >
+                <div className="flex flex-col gap-6 w-full items-center justify-center">
+                  <p className="h-15 w-15 uppercase font-bold rounded-full text-white bg-gray-800 flex items-center justify-center">
+                    {member.name.charAt(0)}
+                    {member.name.charAt(1)}
+                  </p>
 
-                <div className="w-full">
-                  <h3 className="max-w-xs !pb-2 !m-0 font-bold text-xs text-slate-100">
-                    {member.name}
-                  </h3>
-                  <p className="text-white text-xs opacity-70">{member.role}</p>
+                  <div className="w-full">
+                    <h3 className="max-w-xs !pb-2 !m-0 font-bold text-xs text-slate-100">
+                      {member.name}
+                    </h3>
+                    <p className="text-white text-xs opacity-70">
+                      {member.role}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </PinContainer>
-          ))}
-        </div>
-      </ViewContent>
-    </View>
+              </PinContainer>
+            ))}
+          </div>
+        </ViewContent>
+      </View>
+      <div className="relative h-[500px] overflow-hidden" ref={parallaxRef}>
+        <div
+          style={{
+            background: "url(/images/team/hero.png) no-repeat center center",
+            backgroundSize: "cover",
+            height: "800px",
+            width: "100%",
+          }}
+        />
+      </div>
+    </>
   );
 };
 
