@@ -28,7 +28,7 @@ const AboutView = () => {
                 className="text-white font-medium text-5xl sm:text-3xl"
                 ref={titleRef as React.RefObject<HTMLHeadingElement>}
               >
-                ¿Quiénes Somos?
+                Sobre nosotros
               </h1>
 
               <div
@@ -36,7 +36,7 @@ const AboutView = () => {
                 ref={paragraphRef as React.RefObject<HTMLDivElement>}
               >
                 <h1 className="text-white font-bold text-5xl sm:text-6xl">
-                  ¿Cómo <span className="text-green-500">vemos</span> el futuro?
+                  Cómo vemos el <span className="text-green-500">futuro</span>
                 </h1>
 
                 <p className="text-gray-200 font-medium text-sm sm:text-base lg:text-lg">
@@ -82,16 +82,17 @@ const AboutView = () => {
         <GridCarousel
           images={[
             "/images/pineapple.jpg",
-            "/images/pineapple_3.png",
+            "/images/pineapple_2.png",
+            "/images/pineapple_6.png",
             "/images/pineapple.jpg",
+            "/images/pineapple_2.png",
+            "/images/pineapple_5.png",
+
             "/images/pineapple_3.png",
-            "/images/pineapple.jpg",
+            "/images/pineapple_5.png",
+            "/images/pineapple_4.png",
             "/images/pineapple_3.png",
-            "/images/pineapple_2.png",
-            "/images/pineapple_4.png",
-            "/images/pineapple_2.png",
-            "/images/pineapple_4.png",
-            "/images/pineapple_2.png",
+            "/images/pineapple_5.png",
             "/images/pineapple_4.png",
           ]}
           className="h-full"

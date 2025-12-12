@@ -285,3 +285,26 @@ html {
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
+
+.bg-teal {
+  background-color: #020b0a;
+  background-image:
+    radial-gradient(
+      ellipse 58% 48% at 25% 68%,
+      rgba(15, 45, 82, 0.68) 0%,
+      transparent 52%
+    ),
+    radial-gradient(
+      circle at 62% 72%,
+      rgba(18, 55, 95, 0.63) 0%,
+      transparent 44%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 82% 75%,
+      rgba(20, 60, 102, 0.58) 0%,
+      transparent 46%
+    );
+
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}

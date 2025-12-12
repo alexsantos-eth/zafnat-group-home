@@ -17,7 +17,7 @@ const GridCarousel = ({ images, className }: GridCarouselProps) => {
 
     let animationId: number;
     let position = 0;
-    const itemWidth = carousel.scrollWidth - carousel.scrollWidth / 3;
+    const itemWidth = carousel.scrollWidth - carousel.scrollWidth / 2;
 
     const animate = () => {
       position -= 1;
